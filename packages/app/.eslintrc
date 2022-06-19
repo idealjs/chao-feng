@@ -1,8 +1,10 @@
 {
-  "extends": ["react-app", "react-app/jest"],
+  "extends": ["next/core-web-vitals"],
   "plugins": ["simple-import-sort"],
   "rules": {
     "quotes": "warn",
+    "eqeqeq": ["warn", "smart"],
+    "react/jsx-key": "warn",
     "simple-import-sort/imports": "warn",
     "simple-import-sort/exports": "warn",
     "react-hooks/exhaustive-deps": [
