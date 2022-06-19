@@ -56,33 +56,39 @@ type SubDecoration =
 
 export type Decoration = [string] | [string, SubDecoration[]];
 
-export interface IBaseBlock extends PartialOmitAnyId<Block> {}
-
-export interface IPermission extends PartialOmitAnyId<Permission> {}
-
-export interface IPageBlock extends IBaseBlock {
-  type: "page";
-  properties: {
-    title?: Decoration[];
-  };
+export interface IBlock extends PartialOmitAnyId<Block> {
   permissions: IPermission[];
-}
-
-export interface IDividerBlock extends IBaseBlock {
-  type: "divider";
-}
-
-export interface ICodeBlock extends IBaseBlock {
-  type: "code";
   properties: {
-    title?: Decoration[];
+    title?: Decoration;
     language?: Decoration[];
   };
 }
 
-export interface IBaseTextBlock extends IBaseBlock {
+export interface IPermission extends PartialOmitAnyId<Permission> {}
+
+export interface IPageBlock extends IBlock {
+  type: "page";
   properties: {
-    title?: Decoration[];
+    title?: Decoration;
+  };
+  permissions: IPermission[];
+}
+
+export interface IDividerBlock extends IBlock {
+  type: "divider";
+}
+
+export interface ICodeBlock extends IBlock {
+  type: "code";
+  properties: {
+    title?: Decoration;
+    language?: Decoration[];
+  };
+}
+
+export interface IBaseTextBlock extends IBlock {
+  properties: {
+    title?: Decoration;
   };
 }
 

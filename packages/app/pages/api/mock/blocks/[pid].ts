@@ -1,17 +1,28 @@
 import { customAlphabet } from "nanoid";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { IBaseBlock } from "../../../../lib/type";
+import { IBlock } from "../../../../lib/type";
 
 const nanoid = customAlphabet("1234567890abcdef", 32);
 
-const node1 = { id: nanoid() };
-const node2 = { id: nanoid() };
+const node2: Partial<IBlock> = {
+  id: nanoid(),
+  type: "text",
+  properties: {
+    title: ["hello"],
+  },
+};
+
+const node1: Partial<IBlock> = {
+  id: "abc",
+  type: "page",
+  content: [node2.id!],
+};
 
 const blocksHandler = (
   req: NextApiRequest,
   res: NextApiResponse<{
-    [key: string]: Partial<IBaseBlock>;
+    [key: string]: Partial<IBlock>;
   }>
 ) => {
   const { query, body, method } = req;
@@ -20,8 +31,8 @@ const blocksHandler = (
   switch (method) {
     case "GET":
       res.status(200).json({
-        [node1.id]: node1,
-        [node2.id]: node2,
+        [node1.id!]: node1,
+        [node2.id!]: node2,
       });
       break;
 

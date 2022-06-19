@@ -1,5 +1,5 @@
 {
-  "extends": ["next/core-web-vitals"],
+  "extends": ["next/core-web-vitals", "plugin:valtio/recommended"],
   "plugins": ["simple-import-sort"],
   "rules": {
     "quotes": "warn",
@@ -7,6 +7,8 @@
     "react/jsx-key": "warn",
     "simple-import-sort/imports": "warn",
     "simple-import-sort/exports": "warn",
+    "valtio/state-snapshot-rule": "warn",
+    "valtio/avoid-this-in-proxy": "warn",
     "react-hooks/exhaustive-deps": [
       1,
       {

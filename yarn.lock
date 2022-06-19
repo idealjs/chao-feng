@@ -2328,6 +2328,11 @@ eslint-plugin-simple-import-sort@^7.0.0:
   resolved "https://registry.npmmirror.com/eslint-plugin-simple-import-sort/-/eslint-plugin-simple-import-sort-7.0.0.tgz#a1dad262f46d2184a90095a60c66fef74727f0f8"
   integrity sha512-U3vEDB5zhYPNfxT5TYR7u01dboFZp+HNpnGhkDB2g/2E4wZ/g1Q9Ton8UwCLfRV9yAKyYqDh62oHOamvkFxsvw==
 
+eslint-plugin-valtio@^0.4.4:
+  version "0.4.4"
+  resolved "https://registry.npmmirror.com/eslint-plugin-valtio/-/eslint-plugin-valtio-0.4.4.tgz#80f75ff267801e71ff6e34997347eff495d43916"
+  integrity sha512-j1fl8RZ1faJLx4SQqDXw/ECr+IKn/ks6M8DBFKXCwqaY1OVGsUH+NVlGcF3or3YdPdQgPzTXLz9IW34w3rPqRA==
+
 eslint-scope@^7.1.1:
   version "7.1.1"
   resolved "https://registry.npmmirror.com/eslint-scope/-/eslint-scope-7.1.1.tgz#fff34894c2f65e5226d3041ac480b4513a163642"
