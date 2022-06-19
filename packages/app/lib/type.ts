@@ -1,3 +1,10 @@
+import type { Block, Permission } from "@prisma/client";
+
+type PartialOmit<T, K extends string> = Pick<T, Exclude<keyof T, K>> &
+  Partial<Pick<T, Extract<keyof T, K>>>;
+
+type PartialOmitAnyId<T> = PartialOmit<T, "id" | `${string | ""}Id`>;
+
 export enum COLOR {
   GARY = "GARY",
   BROWN = "BROWN",
@@ -49,51 +56,16 @@ type SubDecoration =
 
 export type Decoration = [string] | [string, SubDecoration[]];
 
-export interface IBaseBlock {
-  id: string;
-  type: string;
-  version: number;
-  created_time: number;
-  last_edited_time: number;
-  parent_id: string;
-  parent_table: string;
-  alive: boolean;
-  created_by: {
-    table: string;
-    id: string;
-  };
-  last_edited_by: {
-    table: string;
-    id: string;
-  };
-  space_id?: string;
-  content?: string[];
-}
+export interface IBaseBlock extends PartialOmitAnyId<Block> {}
 
-export interface IPermission {
-  role: string;
-  type: string;
-}
-
-export interface IPageFormat {
-  page_full_width?: boolean;
-  page_small_text?: boolean;
-  page_cover_position?: number;
-  block_locked?: boolean;
-  block_locked_by?: string;
-  page_cover?: string;
-  page_icon?: string;
-}
+export interface IPermission extends PartialOmitAnyId<Permission> {}
 
 export interface IPageBlock extends IBaseBlock {
   type: "page";
-  properties?: {
-    title: Decoration[];
+  properties: {
+    title?: Decoration[];
   };
-  content: string[];
-  format: IPageFormat;
   permissions: IPermission[];
-  file_ids?: string[];
 }
 
 export interface IDividerBlock extends IBaseBlock {
@@ -103,17 +75,14 @@ export interface IDividerBlock extends IBaseBlock {
 export interface ICodeBlock extends IBaseBlock {
   type: "code";
   properties: {
-    title: Decoration[];
-    language: Decoration[];
+    title?: Decoration[];
+    language?: Decoration[];
   };
 }
 
 export interface IBaseTextBlock extends IBaseBlock {
-  properties?: {
-    title: Decoration[];
-  };
-  format?: {
-    block_color: COLOR;
+  properties: {
+    title?: Decoration[];
   };
 }
 

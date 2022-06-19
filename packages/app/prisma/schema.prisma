@@ -6,3 +6,42 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
+model BlockRelation {
+  id              String  @id @default(cuid())
+  blockId         String
+  table           String
+  ParentRelation  Block[] @relation("ParentRelation")
+  CreatedRelation Block[] @relation("CreatedRelation")
+  UpdatedRelation Block[] @relation("UpdatedRelation")
+}
+
+model Permission {
+  id   String @id @default(cuid())
+  role String
+  type String
+
+  Block   Block?  @relation(fields: [blockId], references: [id])
+  blockId String?
+}
+
+model Block {
+  id          String       @id @default(cuid())
+  type        String
+  spaceId     String
+  content     String[]
+  permissions Permission[]
+
+  properties Json?
+
+  parent            BlockRelation @relation("ParentRelation", fields: [parentRelationId], references: [id])
+  parentRelationId  String
+  createdBy         BlockRelation @relation("CreatedRelation", fields: [createdRelationId], references: [id])
+  createdRelationId String
+  updatedBy         BlockRelation @relation("UpdatedRelation", fields: [updatedRelationId], references: [id])
+  updatedRelationId String
+
+  version   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
