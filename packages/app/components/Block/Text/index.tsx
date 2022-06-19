@@ -9,7 +9,7 @@ const Text = (props: IProps) => {
   const { blockId } = props;
   const block = useBlock(blockId);
 
-  return <div>{block?.properties.title?.[0]}</div>;
+  return <div contentEditable>{block?.properties.title?.[0]}</div>;
 };
 
 export default Text;

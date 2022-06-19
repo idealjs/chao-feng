@@ -1,20 +1,12 @@
-import { createEvent, createStore, useStoreMap } from "../lib/effector";
+import { createStore, useStoreSelector } from "../lib/react-rxjs";
 import { IBlock } from "../lib/type";
 
-export const $blocks = createStore<{
+export const blocksStore = createStore<{
   [key: string]: IBlock | undefined;
 }>({});
 
-export const $setBlocks = createEvent<{
-  [key: string]: IBlock | undefined;
-}>();
-
-$blocks.on($setBlocks, (_, payload) => {
-  return payload;
-});
-
 export const useBlock = (blockId?: string) => {
-  return useStoreMap($blocks, (blocks) => {
+  return useStoreSelector(blocksStore, (blocks) => {
     if (blockId == null) {
       return;
     }

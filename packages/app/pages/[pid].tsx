@@ -4,10 +4,10 @@ import { useEffect } from "react";
 import useSWR from "swr";
 
 import Block from "../components/Block";
-import { useEvent } from "../lib/effector";
 import fetcher from "../lib/fetcher";
+import { useStoreNext } from "../lib/react-rxjs";
 import { IBlock } from "../lib/type";
-import { $setBlocks } from "../store/blocks";
+import { blocksStore } from "../store/blocks";
 
 const Page: NextPage = () => {
   const router = useRouter();
@@ -17,7 +17,7 @@ const Page: NextPage = () => {
     fetcher
   );
 
-  const setBlocks = useEvent($setBlocks);
+  const setBlocks = useStoreNext(blocksStore);
 
   useEffect(() => {
     setBlocks(data ?? {});
