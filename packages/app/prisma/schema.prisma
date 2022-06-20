@@ -8,13 +8,17 @@ generator client {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String          @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?         @unique
   emailVerified DateTime?
   image         String?
   Account       Account[]
   Session       Session[]
+  tags          PermissionTag[]
+
+  Workspace   Workspace? @relation(fields: [workspaceId], references: [id])
+  workspaceId String?
 }
 
 model Account {
@@ -57,42 +61,55 @@ model verificationRequest {
   @@unique([identifier, token])
 }
 
-model BlockRelation {
-  id              String  @id @default(cuid())
-  blockId         String
-  table           String
-  ParentRelation  Block[] @relation("ParentRelation")
-  CreatedRelation Block[] @relation("CreatedRelation")
-  UpdatedRelation Block[] @relation("UpdatedRelation")
+model PermissionTag {
+  id   String @id @default(cuid())
+  name String
+
+  User      User?      @relation(fields: [userId], references: [id])
+  userId    String?
+  Block     Block?     @relation(fields: [blockId], references: [id])
+  blockId   String?
+  Page      Page?      @relation(fields: [pageId], references: [id])
+  pageId    String?
+  Workspace Workspace?
 }
 
-model Permission {
-  id   String @id @default(cuid())
-  role String
-  type String
+model Workspace {
+  id    String @id @default(cuid())
+  user  User[]
+  pages Page[]
 
-  Block   Block?  @relation(fields: [blockId], references: [id])
-  blockId String?
+  permissionTag   PermissionTag @relation(fields: [permissionTagId], references: [id])
+  permissionTagId String        @unique
+}
+
+model Page {
+  id String @id @default(cuid())
+
+  subpages Page[]  @relation("PagesRelation")
+  parentId String?
+  parent   Page?   @relation("PagesRelation", fields: [parentId], references: [id])
+
+  blocks      Block[]
+  permissions PermissionTag[]
+
+  Workspace   Workspace? @relation(fields: [workspaceId], references: [id])
+  workspaceId String?
 }
 
 model Block {
-  id          String @id @default(cuid())
-  type        String
-  workspaceId String
+  id   String @id @default(cuid())
+  type String
 
-  blocks         Block[] @relation("blocks")
-  blocksRelation Block[] @relation("blocks")
+  blocksRelation Block[] @relation("BlocksRelation")
+  blocks         Block[] @relation("BlocksRelation")
 
-  permissions Permission[]
+  permissions PermissionTag[]
+  properties  Json
 
-  properties Json
 
-  parent            BlockRelation? @relation("ParentRelation", fields: [parentRelationId], references: [id])
-  parentRelationId  String?
-  createdBy         BlockRelation? @relation("CreatedRelation", fields: [createdRelationId], references: [id])
-  createdRelationId String?
-  updatedBy         BlockRelation? @relation("UpdatedRelation", fields: [updatedRelationId], references: [id])
-  updatedRelationId String?
+  Page   Page?   @relation(fields: [pageId], references: [id])
+  pageId String?
 
   version   Int
   createdAt DateTime @default(now())
