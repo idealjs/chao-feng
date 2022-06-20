@@ -7,6 +7,56 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  Account       Account[]
+  Session       Session[]
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?
+  access_token       String?
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?
+  session_state      String?
+  oauth_token_secret String?
+  oauth_token        String?
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id])
+}
+
+model verificationRequest {
+  id         Int      @id @default(autoincrement())
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  createdAt  DateTime @default(now()) @map(name: "created_at")
+  updatedAt  DateTime @default(now()) @map(name: "updated_at")
+
+  @@unique([identifier, token])
+}
+
 model BlockRelation {
   id              String  @id @default(cuid())
   blockId         String
@@ -26,20 +76,23 @@ model Permission {
 }
 
 model Block {
-  id          String       @id @default(cuid())
+  id          String @id @default(cuid())
   type        String
-  spaceId     String
-  content     String[]
+  workspaceId String
+
+  blocks         Block[] @relation("blocks")
+  blocksRelation Block[] @relation("blocks")
+
   permissions Permission[]
 
-  properties Json?
+  properties Json
 
-  parent            BlockRelation @relation("ParentRelation", fields: [parentRelationId], references: [id])
-  parentRelationId  String
-  createdBy         BlockRelation @relation("CreatedRelation", fields: [createdRelationId], references: [id])
-  createdRelationId String
-  updatedBy         BlockRelation @relation("UpdatedRelation", fields: [updatedRelationId], references: [id])
-  updatedRelationId String
+  parent            BlockRelation? @relation("ParentRelation", fields: [parentRelationId], references: [id])
+  parentRelationId  String?
+  createdBy         BlockRelation? @relation("CreatedRelation", fields: [createdRelationId], references: [id])
+  createdRelationId String?
+  updatedBy         BlockRelation? @relation("UpdatedRelation", fields: [updatedRelationId], references: [id])
+  updatedRelationId String?
 
   version   Int
   createdAt DateTime @default(now())

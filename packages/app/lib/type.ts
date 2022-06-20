@@ -57,6 +57,8 @@ type SubDecoration =
 export type Decoration = [string] | [string, SubDecoration[]];
 
 export interface IBlock extends PartialOmitAnyId<Block> {
+  id: string;
+  blocks: IBlock[];
   permissions: IPermission[];
   properties: {
     title?: Decoration;

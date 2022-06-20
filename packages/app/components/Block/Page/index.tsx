@@ -14,8 +14,8 @@ const Page = (props: IProps) => {
 
   return (
     <Fragment>
-      {block?.content.map((id) => {
-        return <Block key={id} blockId={id} />;
+      {block?.blocks.map((block) => {
+        return <Block key={block.id} blockId={block.id} />;
       })}
     </Fragment>
   );

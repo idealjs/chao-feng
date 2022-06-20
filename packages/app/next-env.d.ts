@@ -3,3 +3,17 @@
 
 // NOTE: This file should not be edited
 // see https://nextjs.org/docs/basic-features/typescript for more information.
+
+import NextAuth from "next-auth";
+
+declare module "next-auth" {
+  interface Session {
+    user: {
+      email: string;
+      image: string | null;
+      name: string;
+      userId?: string;
+    };
+    expires: ISODateString;
+  }
+}

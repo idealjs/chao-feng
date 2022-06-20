@@ -16,7 +16,6 @@ const node2: Partial<IBlock> = {
 const node1: Partial<IBlock> = {
   id: "abc",
   type: "page",
-  content: [node2.id!],
 };
 
 const blocksHandler = (
