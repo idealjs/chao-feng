@@ -1,9 +1,7 @@
-import { customAlphabet } from "nanoid";
 import type { NextApiRequest, NextApiResponse } from "next";
 
+import nanoid from "../../../../lib/nanoid";
 import { IBlock } from "../../../../lib/type";
-
-const nanoid = customAlphabet("1234567890abcdef", 32);
 
 const node2: Partial<IBlock> = {
   id: nanoid(),

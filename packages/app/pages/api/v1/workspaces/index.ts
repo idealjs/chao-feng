@@ -1,24 +1,9 @@
-import { PrismaClient } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-const prisma = new PrismaClient();
-
-const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { query, body, method } = req;
-  const { pid } = query as { pid: string };
-
   switch (method) {
     case "GET": {
-      res.status(200).json(
-        await prisma.block.findUnique({
-          where: {
-            id: pid,
-          },
-          include: {
-            blocks: true,
-          },
-        })
-      );
       break;
     }
     case "POST": {
@@ -37,5 +22,4 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
   }
 };
-
-export default pagesHandler;
+export default workspacesHandler;

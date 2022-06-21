@@ -107,7 +107,6 @@ model Block {
   permissions PermissionTag[]
   properties  Json
 
-
   Page   Page?   @relation(fields: [pageId], references: [id])
   pageId String?
 

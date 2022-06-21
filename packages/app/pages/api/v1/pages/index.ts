@@ -1,17 +1,14 @@
 import { PrismaClient } from "@prisma/client";
-import { customAlphabet } from "nanoid";
 import type { NextApiRequest, NextApiResponse } from "next";
-
-const nanoid = customAlphabet("1234567890abcdef", 32);
 
 const prisma = new PrismaClient();
 
 const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { query, body, method } = req;
   const { pid } = query as { pid: string };
-  console.debug("[debug]");
+
   switch (method) {
-    case "GET":
+    case "GET": {
       res.status(200).json(
         await prisma.block.findUnique({
           where: {
@@ -23,6 +20,7 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         })
       );
       break;
+    }
     case "POST": {
       break;
     }
@@ -32,10 +30,11 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     case "DELETE": {
       break;
     }
-    default:
+    default: {
       res.setHeader("Allow", ["GET", "PUT", "PATCH", "DELETE"]);
       res.status(405).end(`Method ${method} Not Allowed`);
-      return;
+      break;
+    }
   }
 };
 
