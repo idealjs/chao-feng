@@ -1,4 +1,4 @@
-import type { Block, Permission } from "@prisma/client";
+import type { Block, PermissionTag } from "@prisma/client";
 
 type PartialOmit<T, K extends string> = Pick<T, Exclude<keyof T, K>> &
   Partial<Pick<T, Extract<keyof T, K>>>;
@@ -59,21 +59,21 @@ export type Decoration = [string] | [string, SubDecoration[]];
 export interface IBlock extends PartialOmitAnyId<Block> {
   id: string;
   blocks: IBlock[];
-  permissions: IPermission[];
+  permissions: IPermissionTag[];
   properties: {
     title?: Decoration;
     language?: Decoration[];
   };
 }
 
-export interface IPermission extends PartialOmitAnyId<Permission> {}
+export interface IPermissionTag extends PartialOmitAnyId<PermissionTag> {}
 
 export interface IPageBlock extends IBlock {
   type: "page";
   properties: {
     title?: Decoration;
   };
-  permissions: IPermission[];
+  permissions: IPermissionTag[];
 }
 
 export interface IDividerBlock extends IBlock {
