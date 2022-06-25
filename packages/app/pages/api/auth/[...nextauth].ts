@@ -8,6 +8,17 @@ import EmailProvider from "next-auth/providers/email";
 const prisma = new PrismaClient();
 
 const providers: Provider[] = [
+  EmailProvider({
+    server: {
+      host: process.env.EMAIL_SERVER_HOST,
+      port: process.env.EMAIL_SERVER_PORT,
+      auth: {
+        user: process.env.EMAIL_SERVER_USER,
+        pass: process.env.EMAIL_SERVER_PASSWORD,
+      },
+    },
+    from: process.env.EMAIL_FROM,
+  }),
   {
     id: "wechat",
     name: "wechat",
@@ -43,7 +54,7 @@ const mockProvider: Provider[] = [
     },
     from: process.env.EMAIL_FROM,
     sendVerificationRequest: (params) => {
-      console.log(params);
+      console.debug(params);
     },
   }),
 ];
@@ -53,6 +64,7 @@ export default NextAuth({
   session: {
     strategy: "jwt",
   },
+
   callbacks: {
     session: ({ session, token }) => {
       return {
@@ -66,5 +78,7 @@ export default NextAuth({
   },
   providers:
     process.env.NEXT_PUBLIC_NODE_ENV === "prod" ? providers : mockProvider,
-  pages: {},
+  pages: {
+    signIn: "/auth/signin",
+  },
 });
