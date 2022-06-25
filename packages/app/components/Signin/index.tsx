@@ -27,12 +27,12 @@ const Signin = () => {
           if (!checked) {
             const res = await checkAuth(emailRef.current?.value);
             if (res.allow) {
-              setChecked(true);
-              signIn("email", {
+              await signIn("email", {
                 email: emailRef.current?.value,
                 redirect: false,
-                callbackUrl: "/",
+                callbackUrl: "/onboarding",
               });
+              setChecked(true);
             }
           }
           if (checked) {
