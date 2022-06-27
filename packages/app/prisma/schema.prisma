@@ -46,6 +46,7 @@ model User {
   PermissionTag PermissionTag[]
   Workspace     Workspace?      @relation(fields: [workspaceId], references: [id])
   workspaceId   String?
+  Profile       Profile[]
 }
 
 model VerificationToken {
@@ -54,6 +55,12 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Profile {
+  user       User    @relation(fields: [userId], references: [id])
+  userId     String  @unique
+  lastActive String?
 }
 
 model PermissionTag {
