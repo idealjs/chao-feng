@@ -22,11 +22,14 @@ const profileHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       );
       break;
     }
+    case "POST": {
+      break;
+    }
     case "PATCH": {
       break;
     }
     default: {
-      res.setHeader("Allow", ["GET", "PATCH"]);
+      res.setHeader("Allow", ["GET", "POST", "PATCH"]);
       res.status(405).end(`Method ${method} Not Allowed`);
       break;
     }

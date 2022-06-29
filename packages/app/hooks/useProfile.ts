@@ -7,7 +7,7 @@ const useProfile = () => {
     lastActive: string | null;
     userId: string;
   }>("/api/v1/profile", fetcher);
-  return { data };
+  return { data, mutate };
 };
 
 export default useProfile;

@@ -33,9 +33,11 @@ const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       const transactionRes = await prisma.$transaction(async (prisma) => {
         const tag = await prisma.permissionTag.create({
           data: {
-            name,
+            name: `workspace:${name}`,
           },
         });
+
+        const page = await prisma.page.create({ data: {} });
 
         const user = await prisma.user.update({
           where: {
@@ -50,12 +52,31 @@ const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         });
 
-        return await prisma.workspace.create({
+        await prisma.profile.upsert({
+          where: {
+            userId: user.id,
+          },
+          create: {
+            userId: user.id,
+            lastActive: page.id,
+          },
+          update: {
+            userId: user.id,
+            lastActive: page.id,
+          },
+        });
+
+        const workspace = await prisma.workspace.create({
           data: {
             name: name,
             user: {
               connect: {
                 id: user.id,
+              },
+            },
+            pages: {
+              connect: {
+                id: page.id,
               },
             },
             permission: {
@@ -65,6 +86,8 @@ const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
             },
           },
         });
+
+        return workspace;
       });
 
       res.status(200).json(transactionRes);
