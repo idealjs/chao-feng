@@ -12,8 +12,8 @@ const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
-  const { workspaceName } = body as {
-    workspaceName: string;
+  const { name } = body as {
+    name: string;
   };
 
   switch (method) {
@@ -21,24 +21,53 @@ const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       break;
     }
     case "POST": {
-      if (workspaceName == null || token.sub == null) {
-        res.status(400).json({ error: "Missing workspaceName or userId" });
+      if (token.sub == null) {
+        res.status(400).json({ error: "Missing subject or userId" });
         return;
       }
-      prisma.workspace.create({
-        data: {
-          user: {
-            connect: {
-              id: token.sub,
+      if (name == null || token.sub == null) {
+        res.status(400).json({ error: "Missing name" });
+        return;
+      }
+
+      const transactionRes = await prisma.$transaction(async (prisma) => {
+        const tag = await prisma.permissionTag.create({
+          data: {
+            name,
+          },
+        });
+
+        const user = await prisma.user.update({
+          where: {
+            id: token.sub,
+          },
+          data: {
+            tags: {
+              connect: {
+                id: tag.id,
+              },
             },
           },
-          permissionTag: {
-            create: {
-              name: workspaceName,
+        });
+
+        return await prisma.workspace.create({
+          data: {
+            name: name,
+            user: {
+              connect: {
+                id: user.id,
+              },
+            },
+            permission: {
+              connect: {
+                id: tag.id,
+              },
             },
           },
-        },
+        });
       });
+
+      res.status(200).json(transactionRes);
       break;
     }
     case "PATCH": {

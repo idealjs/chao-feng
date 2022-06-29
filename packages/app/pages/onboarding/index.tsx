@@ -1,6 +1,1 @@
-const Onboarding = () => {
-  
-  return <div>Onboarding</div>;
-};
-
-export default Onboarding;
+export { default } from "../../components/Onboarding";
