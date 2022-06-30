@@ -13,7 +13,7 @@ const Editor = () => {
   const { data: workspace } = useWorkspace(page?.workspaceId);
 
   return (
-    <div className="h-screen w-screen flex">
+    <div className="h-screen w-screen flex divide-x">
       <div className="w-64">
         <div>{workspace && <Profile currentWorkspace={workspace} />}</div>
         <div>
@@ -30,7 +30,6 @@ const Editor = () => {
           signout
         </button>
       </div>
-      <div className="flex-none divide-x"></div>
       <Page pageId={pid} />
     </div>
   );
