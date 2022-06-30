@@ -9,7 +9,7 @@ function createStore<State>(
 
 function createStore<State>(
   initialState?: State
-): CommonStore<State, Subject<State>>;
+): CommonStore<State | undefined, Subject<State | undefined>>;
 
 function createStore<
   State,

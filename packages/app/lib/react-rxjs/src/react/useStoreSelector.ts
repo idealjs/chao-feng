@@ -1,4 +1,4 @@
-import { useSyncExternalStore } from "react";
+import { useSyncExternalStoreWithSelector } from "use-sync-external-store/with-selector";
 
 import CommonScope from "../classes/CommonScope";
 import CommonStore from "../classes/CommonStore";
@@ -11,10 +11,11 @@ const useStoreSelector = <State, Result>(
 ) => {
   const scopeStore = useScopeStore(store, _scope);
 
-  return useSyncExternalStore(
+  return useSyncExternalStoreWithSelector(
     scopeStore.subscribe,
-    () => selector(scopeStore.getState()),
-    () => selector(scopeStore.getState())
+    scopeStore.getState,
+    scopeStore.getState,
+    selector
   );
 };
 

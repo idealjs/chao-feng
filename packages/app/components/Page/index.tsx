@@ -1,7 +1,9 @@
 import { Fragment } from "react";
 
 import usePage from "../../hooks/usePage";
+import { useParsedBlocksOrder } from "../../store/blocksOrder";
 import Block from "../Block";
+import Empty from "./Empty";
 
 interface IProps {
   pageId: string;
@@ -10,6 +12,8 @@ interface IProps {
 const Page = (props: IProps) => {
   const { pageId } = props;
   const { data: page } = usePage(pageId);
+
+  const parsedBlockOrder = useParsedBlocksOrder();
 
   return (
     <Fragment>
@@ -23,9 +27,9 @@ const Page = (props: IProps) => {
           </div>
           <div className="flex flex-1 justify-center">
             <div className="px-24 w-3/5 pb-36 max-w-5xl">
-              {page?.blocks.length === 0 && <div>click create block</div>}
-              {page?.blocks.map((block) => {
-                return <Block key={block.id} blockId={block.id} />;
+              {parsedBlockOrder.length === 0 && <Empty pageId={pageId} />}
+              {parsedBlockOrder.map((blockId) => {
+                return <Block key={blockId} blockId={blockId} />;
               })}
             </div>
           </div>

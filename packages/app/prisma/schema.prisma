@@ -85,8 +85,10 @@ model Workspace {
 }
 
 model Page {
-  id       String  @id @default(cuid())
-  name     String?
+  id          String  @id @default(cuid())
+  name        String?
+  blocksOrder String?
+
   children Page[]  @relation("PagesRelation")
   parentId String?
   parent   Page?   @relation("PagesRelation", fields: [parentId], references: [id])
@@ -111,7 +113,6 @@ model Block {
   page   Page?   @relation(fields: [pageId], references: [id])
   pageId String?
 
-  version   Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
