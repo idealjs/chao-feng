@@ -1,26 +1,21 @@
 import { PrismaClient } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getToken } from "next-auth/jwt";
 
 const prisma = new PrismaClient();
 
-const profileHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+const blocksHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { query, body, method } = req;
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-  if (!token) {
-    res.status(401);
-    return;
-  }
+  const { id: blockId } = query as { id: string };
+
   switch (method) {
     case "GET": {
       res.status(200).json(
-        await prisma.profile.findUnique({
+        await prisma.block.findUnique({
           where: {
-            userId: token?.sub,
+            id: blockId,
           },
           include: {
-            workspaces: true,
-            tags: true,
+            blocks: true,
           },
         })
       );
@@ -32,11 +27,15 @@ const profileHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     case "PATCH": {
       break;
     }
+    case "DELETE": {
+      break;
+    }
     default: {
-      res.setHeader("Allow", ["GET", "POST", "PATCH"]);
+      res.setHeader("Allow", ["GET", "PUT", "PATCH", "DELETE"]);
       res.status(405).end(`Method ${method} Not Allowed`);
       break;
     }
   }
 };
-export default profileHandler;
+
+export default blocksHandler;

@@ -44,9 +44,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
-  tags      PermissionTag[]
-  workspace Workspace[]
-  profile   Profile?
+  profile Profile?
 }
 
 model VerificationToken {
@@ -59,33 +57,37 @@ model VerificationToken {
 
 model Profile {
   user       User    @relation(fields: [userId], references: [id])
-  userId     String  @unique
+  userId     String  @id
   lastActive String?
+
+  tags       PermissionTag[]
+  workspaces Workspace[]
 }
 
 model PermissionTag {
   id   String @id @default(cuid())
   name String
 
-  user      User[]
-  Block     Block[]
-  page      Page[]
-  Workspace Workspace[]
+  profiles   Profile[]
+  blocks     Block[]
+  pages      Page[]
+  workspaces Workspace[]
 }
 
 model Workspace {
-  id    String @id @default(cuid())
-  name  String
-  user  User[]
-  pages Page[]
+  id   String @id @default(cuid())
+  name String
 
-  permission PermissionTag[]
+  profiles Profile[]
+  pages    Page[]
+
+  permissions PermissionTag[]
 }
 
 model Page {
   id       String  @id @default(cuid())
   name     String?
-  subpages Page[]  @relation("PagesRelation")
+  children Page[]  @relation("PagesRelation")
   parentId String?
   parent   Page?   @relation("PagesRelation", fields: [parentId], references: [id])
 

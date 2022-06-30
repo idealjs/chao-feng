@@ -1,21 +1,24 @@
 import { PrismaClient } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { getToken } from "next-auth/jwt";
 
 const prisma = new PrismaClient();
 
-const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { query, body, method } = req;
-  const { pid } = query as { pid: string };
+  const { id: workspaceId } = query as { id: string };
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  if (!token) {
+    res.status(401);
+    return;
+  }
 
   switch (method) {
     case "GET": {
       res.status(200).json(
-        await prisma.block.findUnique({
+        await prisma.workspace.findUnique({
           where: {
-            id: pid,
-          },
-          include: {
-            blocks: true,
+            id: workspaceId,
           },
         })
       );
@@ -37,5 +40,4 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
   }
 };
-
-export default pagesHandler;
+export default workspacesHandler;

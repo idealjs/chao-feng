@@ -5,14 +5,14 @@ const prisma = new PrismaClient();
 
 const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { query, body, method } = req;
-  const { pid } = query as { pid: string };
+  const { id: pageId } = query as { id: string };
 
   switch (method) {
     case "GET": {
       res.status(200).json(
-        await prisma.block.findUnique({
+        await prisma.page.findUnique({
           where: {
-            id: pid,
+            id: pageId,
           },
           include: {
             blocks: true,

@@ -31,6 +31,9 @@ const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       const transactionRes = await prisma.$transaction(async (prisma) => {
+        if (token.sub == null) {
+          return;
+        }
         const tag = await prisma.permissionTag.create({
           data: {
             name: `workspace:${name}`,
@@ -39,49 +42,55 @@ const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const page = await prisma.page.create({ data: {} });
 
-        const user = await prisma.user.update({
-          where: {
-            id: token.sub,
-          },
-          data: {
-            tags: {
-              connect: {
-                id: tag.id,
-              },
-            },
-          },
-        });
-
-        await prisma.profile.upsert({
-          where: {
-            userId: user.id,
-          },
-          create: {
-            userId: user.id,
-            lastActive: page.id,
-          },
-          update: {
-            userId: user.id,
-            lastActive: page.id,
-          },
-        });
-
         const workspace = await prisma.workspace.create({
           data: {
             name: name,
-            user: {
-              connect: {
-                id: user.id,
-              },
-            },
             pages: {
               connect: {
                 id: page.id,
               },
             },
-            permission: {
+            permissions: {
               connect: {
                 id: tag.id,
+              },
+            },
+          },
+        });
+
+        await prisma.user.update({
+          where: {
+            id: token.sub,
+          },
+          data: {
+            profile: {
+              upsert: {
+                update: {
+                  lastActive: page.id,
+                  workspaces: {
+                    connect: {
+                      id: workspace.id,
+                    },
+                  },
+                  tags: {
+                    connect: {
+                      id: tag.id,
+                    },
+                  },
+                },
+                create: {
+                  lastActive: page.id,
+                  workspaces: {
+                    connect: {
+                      id: workspace.id,
+                    },
+                  },
+                  tags: {
+                    connect: {
+                      id: tag.id,
+                    },
+                  },
+                },
               },
             },
           },
