@@ -12,7 +12,7 @@ interface IProps {
 const Profile = (props: IProps) => {
   const { currentWorkspace } = props;
 
-  const { data: profile } = useProfile();
+  const profile = useProfile();
 
   return (
     <Menu as="div" className={"relative"}>

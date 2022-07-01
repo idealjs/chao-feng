@@ -8,7 +8,7 @@ const Home = () => {
   const router = useRouter();
 
   const { data: session, status } = useSession();
-  const { data: profile } = useProfile();
+  const profile = useProfile();
 
   if (status === "loading") {
     return null;

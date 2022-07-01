@@ -1,8 +1,7 @@
 import { Block } from "@prisma/client";
 
+import useBlock from "../../../hooks/useBlock";
 import { Decoration, ITextBlock } from "../../../lib/type";
-import { useBlock } from "../../../store/blocks";
-
 interface IProps {
   blockId: string;
 }

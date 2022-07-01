@@ -4,11 +4,12 @@ import useSWR from "swr";
 import fetcher from "../lib/fetcher";
 
 const useWorkspace = (workspaceId: string | null | undefined) => {
-  const { data, error, mutate, isValidating } = useSWR<Workspace>(
+  const { data } = useSWR<Workspace>(
     workspaceId != null ? `/api/v1/workspaces/${workspaceId}` : null,
     fetcher
   );
-  return { data, mutate };
+
+  return data;
 };
 
 export default useWorkspace;

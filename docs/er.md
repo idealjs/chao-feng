@@ -23,13 +23,13 @@ Workspace {
 Page {
   string id
   string name
-  string blocksOrder
+  string pageOrder
+  string blockOrder
 }
 
 Block {
   string id
   string type
-  string blocksOrder
   json properties
 }
 
@@ -42,5 +42,4 @@ Page ||--o{ Block : contains
 Page ||--o{ Page : contains
 Page ||--o{ PermissionTag : contains
 Block ||--o{ PermissionTag : contains
-Block ||--o{ Block : contains
 ```

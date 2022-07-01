@@ -1,5 +1,4 @@
 import useCreateBlock from "../../hooks/useCreateBlock";
-
 interface IProps {
   pageId: string;
 }

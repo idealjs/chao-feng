@@ -1,24 +1,16 @@
 import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
-import { useEffect } from "react";
 
 import usePage from "../../../hooks/usePage";
 import useWorkspace from "../../../hooks/useWorkspace";
-import { useSetBlocksOrder } from "../../../store/blocksOrder";
 import Page from "../../Page";
 import Profile from "./Profile";
 
 const Editor = () => {
   const router = useRouter();
-  const { pid } = router.query as { pid: string };
-  const { data: page } = usePage(pid);
-  const { data: workspace } = useWorkspace(page?.workspaceId);
-
-  const setBlocksOrder = useSetBlocksOrder();
-
-  useEffect(() => {
-    setBlocksOrder(page?.blocksOrder);
-  }, [page?.blocksOrder, setBlocksOrder]);
+  const { pid } = router.query as { pid: string | undefined };
+  const page = usePage(pid);
+  const workspace = useWorkspace(page?.workspaceId);
 
   return (
     <div className="h-screen w-screen flex divide-x">
@@ -38,7 +30,7 @@ const Editor = () => {
           signout
         </button>
       </div>
-      <Page pageId={pid} />
+      {pid && <Page pageId={pid} />}
     </div>
   );
 };

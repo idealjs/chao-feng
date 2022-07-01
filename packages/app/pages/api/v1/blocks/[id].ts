@@ -14,9 +14,6 @@ const blocksHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           where: {
             id: blockId,
           },
-          include: {
-            blocks: true,
-          },
         })
       );
       break;

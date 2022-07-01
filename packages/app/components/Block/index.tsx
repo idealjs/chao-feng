@@ -1,4 +1,4 @@
-import { useBlock } from "../../store/blocks";
+import useBlock from "../../hooks/useBlock";
 import BlockFactory from "./BlockFactory";
 
 interface IProps {

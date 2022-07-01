@@ -1,13 +1,16 @@
 import type { Prisma } from "@prisma/client";
 import { useCallback } from "react";
-
-import usePage from "./usePage";
+import { useSWRConfig } from "swr";
 
 const useCreateBlock = (pageId: string) => {
-  const { mutate } = usePage(pageId);
+  const { mutate } = useSWRConfig();
   return useCallback(
-    async (params: { type: string; properties: Prisma.InputJsonValue }) => {
-      const { type, properties } = params;
+    async (params: {
+      type: string;
+      properties: Prisma.InputJsonValue;
+      nextTo?: string;
+    }) => {
+      const { type, properties, nextTo } = params;
       const res = await fetch("/api/v1/blocks", {
         method: "POST",
         headers: {
@@ -17,9 +20,10 @@ const useCreateBlock = (pageId: string) => {
           pageId,
           type,
           properties,
+          nextTo: nextTo,
         }),
       });
-      mutate();
+      mutate(`/api/v1/pages/${pageId}`);
       return res.json();
     },
     [mutate, pageId]

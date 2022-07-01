@@ -1,9 +1,7 @@
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 
+import useBlockOrder from "../../hooks/useBlockOrder";
 import usePage from "../../hooks/usePage";
-import { IBlock } from "../../lib/type";
-import { useSetBlocks } from "../../store/blocks";
-import { useParsedBlocksOrder } from "../../store/blocksOrder";
 import Block from "../Block";
 import Empty from "./Empty";
 
@@ -13,14 +11,8 @@ interface IProps {
 
 const Page = (props: IProps) => {
   const { pageId } = props;
-  const { data: page } = usePage(pageId);
-
-  const parsedBlockOrder = useParsedBlocksOrder();
-  const setBlocks = useSetBlocks();
-
-  useEffect(() => {
-    setBlocks(page?.blocks as IBlock[]);
-  }, [page?.blocks, setBlocks]);
+  const page = usePage(pageId);
+  const blockOrder = useBlockOrder(pageId);
 
   return (
     <Fragment>
@@ -34,8 +26,10 @@ const Page = (props: IProps) => {
           </div>
           <div className="flex flex-1 justify-center">
             <div className="px-24 w-3/5 pb-36 max-w-5xl">
-              {parsedBlockOrder.length === 0 && <Empty pageId={pageId} />}
-              {parsedBlockOrder.map((blockId) => {
+              {(blockOrder == null || blockOrder?.length === 0) && (
+                <Empty pageId={pageId} />
+              )}
+              {blockOrder?.map((blockId) => {
                 return <Block key={blockId} blockId={blockId} />;
               })}
             </div>

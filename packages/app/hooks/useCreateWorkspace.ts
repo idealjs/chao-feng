@@ -1,9 +1,12 @@
 import { useCallback } from "react";
+import { useSWRConfig } from "swr";
 
 const useCreateWorkspace = () => {
-  return useCallback(async (name: string) => {
-    return (
-      await fetch("/api/v1/workspaces", {
+  const { mutate } = useSWRConfig();
+
+  return useCallback(
+    async (name: string) => {
+      const res = await fetch("/api/v1/workspaces", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -11,9 +14,14 @@ const useCreateWorkspace = () => {
         body: JSON.stringify({
           name,
         }),
-      })
-    ).json();
-  }, []);
+      });
+
+      mutate("/api/v1/profile/");
+
+      return res.json();
+    },
+    [mutate]
+  );
 };
 
 export default useCreateWorkspace;

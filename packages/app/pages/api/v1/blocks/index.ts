@@ -14,9 +14,6 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           where: {
             id: pid,
           },
-          include: {
-            blocks: true,
-          },
         })
       );
       break;
@@ -69,7 +66,7 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
               id: pageId,
             },
             data: {
-              blocksOrder: (block.page?.blocksOrder?.split(",") ?? [])
+              blockOrder: (block.page?.blockOrder?.split(",") ?? [])
                 .concat(block.id)
                 .join(","),
             },
@@ -82,7 +79,7 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
               id: pageId,
             },
             data: {
-              blocksOrder: (block.page?.blocksOrder?.split(",") ?? [])
+              blockOrder: (block.page?.blockOrder?.split(",") ?? [])
                 .flatMap((blockId) => {
                   if (blockId === nextTo) {
                     return [blockId, block.id];
