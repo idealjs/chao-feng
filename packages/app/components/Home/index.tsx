@@ -18,12 +18,12 @@ const Home = () => {
     return <SignIn />;
   }
 
-  if (session != null && profile?.lastActive == null) {
-    router.push("/onboarding");
-  }
-
   if (profile?.lastActive != null) {
     router.push(`/${profile.lastActive}`);
+  }
+
+  if (session != null && profile?.lastActive == null) {
+    router.push("/onboarding");
   }
 
   return null;
