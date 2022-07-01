@@ -17,7 +17,6 @@ export const useSetBlocksOrder = () => {
 
 export const useParsedBlocksOrder = () => {
   return useStoreSelector(blocksOrderStore, (order) => {
-    console.log("test test useStoreSelector");
     if (order == null) {
       return [];
     }

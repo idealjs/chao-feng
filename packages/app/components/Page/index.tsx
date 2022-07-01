@@ -1,6 +1,8 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 
 import usePage from "../../hooks/usePage";
+import { IBlock } from "../../lib/type";
+import { useSetBlocks } from "../../store/blocks";
 import { useParsedBlocksOrder } from "../../store/blocksOrder";
 import Block from "../Block";
 import Empty from "./Empty";
@@ -14,6 +16,11 @@ const Page = (props: IProps) => {
   const { data: page } = usePage(pageId);
 
   const parsedBlockOrder = useParsedBlocksOrder();
+  const setBlocks = useSetBlocks();
+
+  useEffect(() => {
+    setBlocks(page?.blocks as IBlock[]);
+  }, [page?.blocks, setBlocks]);
 
   return (
     <Fragment>

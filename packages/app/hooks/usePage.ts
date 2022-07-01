@@ -1,4 +1,4 @@
-import { Block, Page } from "@prisma/client";
+import { Block, Page, PermissionTag } from "@prisma/client";
 import useSWR from "swr";
 
 import fetcher from "../lib/fetcher";
