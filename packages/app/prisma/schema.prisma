@@ -78,10 +78,10 @@ model Workspace {
   id   String @id @default(cuid())
   name String
 
-  profiles Profile[]
-  pages    Page[]
-
+  pages       Page[]
   permissions PermissionTag[]
+
+  profiles Profile[]
 }
 
 model Page {
@@ -89,9 +89,9 @@ model Page {
   name        String?
   blocksOrder String?
 
-  children Page[]  @relation("PagesRelation")
+  children Page[]  @relation("PagesChildren")
   parentId String?
-  parent   Page?   @relation("PagesRelation", fields: [parentId], references: [id])
+  parent   Page?   @relation("PagesChildren", fields: [parentId], references: [id])
 
   blocks      Block[]
   permissions PermissionTag[]
@@ -104,8 +104,9 @@ model Block {
   id   String @id @default(cuid())
   type String
 
-  blocksRelation Block[] @relation("BlocksRelation")
-  blocks         Block[] @relation("BlocksRelation")
+  children Block[] @relation("BlockChildren")
+  parentId String?
+  parent   Block?  @relation("BlockChildren", fields: [parentId], references: [id])
 
   permissions PermissionTag[]
   properties  Json
