@@ -29,6 +29,7 @@ Page {
 Block {
   string id
   string type
+  string blocksOrder
   json properties
 }
 
