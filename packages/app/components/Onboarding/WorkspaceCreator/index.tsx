@@ -1,11 +1,14 @@
 import { useRouter } from "next/router";
 import { useRef } from "react";
+import { useSWRConfig } from "swr";
 
 import useCreateWorkspace from "../../../hooks/useCreateWorkspace";
 import useProfile from "../../../hooks/useProfile";
 
 const WorkspaceCreator = () => {
   const ref = useRef<HTMLInputElement>(null);
+  const { mutate } = useSWRConfig();
+
   const createWorkspace = useCreateWorkspace();
   const profile = useProfile();
   const router = useRouter();
@@ -21,6 +24,7 @@ const WorkspaceCreator = () => {
         onClick={async () => {
           if (ref.current?.value != null && ref.current?.value !== "") {
             await createWorkspace(ref.current.value);
+            mutate("/api/v1/profile");
           }
         }}
       >

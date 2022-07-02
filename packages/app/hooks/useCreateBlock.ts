@@ -1,9 +1,7 @@
 import type { Prisma } from "@prisma/client";
 import { useCallback } from "react";
-import { useSWRConfig } from "swr";
 
 const useCreateBlock = (pageId: string) => {
-  const { mutate } = useSWRConfig();
   return useCallback(
     async (params: {
       type: string;
@@ -23,10 +21,9 @@ const useCreateBlock = (pageId: string) => {
           nextTo: nextTo,
         }),
       });
-      mutate(`/api/v1/pages/${pageId}`);
       return res.json();
     },
-    [mutate, pageId]
+    [pageId]
   );
 };
 

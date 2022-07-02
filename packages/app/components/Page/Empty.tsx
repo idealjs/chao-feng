@@ -1,4 +1,7 @@
+import { useSWRConfig } from "swr";
+
 import useCreateBlock from "../../hooks/useCreateBlock";
+
 interface IProps {
   pageId: string;
 }
@@ -6,9 +9,15 @@ interface IProps {
 const Empty = (props: IProps) => {
   const { pageId } = props;
   const createBlock = useCreateBlock(pageId);
+  const { mutate } = useSWRConfig();
 
   return (
-    <div onClick={() => createBlock({ type: "", properties: {} })}>
+    <div
+      onClick={() => {
+        createBlock({ type: "", properties: {} });
+        mutate(`/api/v1/pages/${pageId}`);
+      }}
+    >
       click create block
     </div>
   );
