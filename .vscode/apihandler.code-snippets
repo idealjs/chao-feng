@@ -29,6 +29,26 @@
       "};",
       "export default ${name}Handler;"
     ],
-    "description": "Log output to console"
+    "description": "next api handler"
+  },
+  "Delete Hook": {
+    "scope": "typescript",
+    "prefix": "deleteh",
+    "body": [
+      "import { useCallback } from \"react\";",
+      "",
+      "const ${TM_FILENAME_BASE} = () => {",
+      "  return useCallback(async (params: { ${name}Id: string }) => {",
+      "    const { ${name}Id } = params;",
+      "    const res = await fetch(`/api/v1/${name}s/${${name}Id}`, {",
+      "      method: \"DELETE\",",
+      "    });",
+      "    return res.json();",
+      "  }, []);",
+      "};",
+      "",
+      "export default ${TM_FILENAME_BASE};"
+    ],
+    "description": "react delete hook"
   }
 }
