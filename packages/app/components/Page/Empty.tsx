@@ -14,7 +14,7 @@ const Empty = (props: IProps) => {
   return (
     <div
       onClick={() => {
-        createBlock({ type: "", properties: {} });
+        createBlock({ type: "text", properties: {} });
         mutate(`/api/v1/pages/${pageId}`);
       }}
     >

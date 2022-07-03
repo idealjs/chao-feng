@@ -11,12 +11,12 @@ const BlockFactory = (props: IProps) => {
   const { block } = props;
 
   if (isTextBlock(block)) {
-    return <Text blockId={block.id} />;
+    return <Text block={block} />;
   }
 
   return (
     <div className="group relative">
-      <Toolbox />
+      <Toolbox blockId={block.id} />
       unknown block {block.type}
     </div>
   );

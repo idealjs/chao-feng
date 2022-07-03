@@ -2,18 +2,20 @@ import { Block } from "@prisma/client";
 
 import useBlock from "../../../hooks/useBlock";
 import { Decoration, ITextBlock } from "../../../lib/type";
+import Toolbox from "../Toolbox";
 interface IProps {
-  blockId: string;
+  block: ITextBlock;
 }
 
 const Text = (props: IProps) => {
-  const { blockId } = props;
-  const block = useBlock<{
-    title?: Decoration;
-    language?: Decoration[];
-  }>(blockId);
+  const { block } = props;
 
-  return <div contentEditable>{block?.properties.title?.[0]}</div>;
+  return (
+    <div className="group relative">
+      <Toolbox blockId={block.id} />
+      {block.properties.title?.[0] ?? "type markdown"}
+    </div>
+  );
 };
 
 export default Text;

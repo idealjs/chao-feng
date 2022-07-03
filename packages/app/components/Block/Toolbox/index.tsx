@@ -8,16 +8,17 @@ import useCreateBlock from "../../../hooks/useCreateBlock";
 const toolbox = clsx(
   "z-50 h-full",
   "flex items-center",
-  "invisible group-hover:visible",
+  "opacity-0 group-hover:opacity-100",
   "whitespace-nowrap absolute right-full"
 );
 
 interface IProps {
+  blockId: string;
   className?: string;
 }
 
 const Toolbox = (props: IProps) => {
-  const { className } = props;
+  const { className, blockId } = props;
   const { mutate } = useSWRConfig();
   const router = useRouter();
   const { pid } = router.query as { pid: string | undefined };
@@ -28,7 +29,7 @@ const Toolbox = (props: IProps) => {
       <button
         className="h-5 w-5 mr-2"
         onClick={async () => {
-          await createBlock({ type: "", properties: {} });
+          await createBlock({ type: "text", properties: {}, nextTo: blockId });
           mutate(`/api/v1/pages/${pid}`);
         }}
       >
