@@ -5,7 +5,7 @@ const useCreateProfile = () => {
     const res = await fetch("/api/v1/profile", {
       method: "POST",
     });
-    return res.json();
+    return await res.json();
   }, []);
 };
 

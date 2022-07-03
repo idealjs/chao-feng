@@ -6,7 +6,7 @@ const useDeletePage = () => {
     const res = await fetch(`/api/v1/pages/${pageId}`, {
       method: "DELETE",
     });
-    return res.json();
+    return await res.json();
   }, []);
 };
 

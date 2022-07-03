@@ -6,7 +6,7 @@ const useDeleteBlock = () => {
     const res = await fetch(`/api/v1/blocks/${blockId}`, {
       method: "DELETE",
     });
-    return res.json();
+    return await res.json();
   }, []);
 };
 

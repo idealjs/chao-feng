@@ -21,7 +21,7 @@ const useCreateBlock = (pageId: string) => {
           nextTo: nextTo,
         }),
       });
-      return res.json();
+      return await res.json();
     },
     [pageId]
   );
