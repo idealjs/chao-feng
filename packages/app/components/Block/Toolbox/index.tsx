@@ -24,14 +24,14 @@ const Toolbox = (props: IProps) => {
   const createBlock = useCreateBlock(pid!);
 
   return (
-    <div
-      className={clsx(toolbox, className)}
-      onClick={async () => {
-        const block = await createBlock({ type: "", properties: {} });
-        mutate(`/api/v1/pages/${pid}`);
-      }}
-    >
-      <button className="h-5 w-5 mr-2">
+    <div className={clsx(toolbox, className)}>
+      <button
+        className="h-5 w-5 mr-2"
+        onClick={async () => {
+          const block = await createBlock({ type: "", properties: {} });
+          mutate(`/api/v1/pages/${pid}`);
+        }}
+      >
         <PlusIcon />
       </button>
       <button className="h-5 w-5 mr-2">
