@@ -28,7 +28,7 @@ const Toolbox = (props: IProps) => {
       <button
         className="h-5 w-5 mr-2"
         onClick={async () => {
-          const block = await createBlock({ type: "", properties: {} });
+          await createBlock({ type: "", properties: {} });
           mutate(`/api/v1/pages/${pid}`);
         }}
       >
