@@ -10,12 +10,7 @@ interface IProps {
 const Text = (props: IProps) => {
   const { block } = props;
 
-  return (
-    <div className="group relative">
-      <Toolbox blockId={block.id} />
-      {block.properties.title?.[0] ?? "type markdown"}
-    </div>
-  );
+  return <div>{block.properties.title?.[0] ?? "type markdown"}</div>;
 };
 
 export default Text;
