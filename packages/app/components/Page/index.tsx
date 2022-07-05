@@ -1,11 +1,10 @@
 import { animated, useSprings } from "@react-spring/web";
-import { useDrag } from "@use-gesture/react";
-import { Fragment, RefObject } from "react";
+import { Fragment } from "react";
 
 import useBlockOrder from "../../hooks/useBlockOrder";
 import usePage from "../../hooks/usePage";
-import useStateRef from "../../lib/useStateRef";
 import Block from "../Block";
+import SpringApiProvider from "../Block/Toolbox/SpringApiProvider";
 import Empty from "./Empty";
 
 interface IProps {
@@ -16,25 +15,10 @@ const Page = (props: IProps) => {
   const { pageId } = props;
   const page = usePage(pageId);
   const blockOrder = useBlockOrder(pageId);
-  const blockOrderRef = useStateRef(blockOrder);
 
   const [springs, api] = useSprings(blockOrder?.length ?? 0, (index) => {
     return { y: 0 };
   });
-
-  const bind = useDrag(
-    ({ active, args: [blockId, blockRef], movement: [mx, my], swipe }) => {
-      api.start((index) => {
-        const blockIndex = blockOrderRef.current?.indexOf(blockId);
-        if (index === blockIndex) {
-          return { y: active ? my : 0, immediate: active };
-        }
-        return {
-          y: 0,
-        };
-      });
-    }
-  );
 
   return (
     <Fragment>
@@ -51,15 +35,20 @@ const Page = (props: IProps) => {
               {(blockOrder == null || blockOrder?.length === 0) && (
                 <Empty pageId={pageId} />
               )}
-              {springs?.map(({ y }, index) => {
-                return (
-                  <animated.div key={index} style={{ y }}>
-                    {blockOrder?.[index] && (
-                      <Block blockId={blockOrder?.[index]} bind={bind} />
-                    )}
-                  </animated.div>
-                );
-              })}
+              <SpringApiProvider api={api}>
+                {springs?.map(({ y }, index) => {
+                  return (
+                    <animated.div
+                      key={index}
+                      style={{ y, touchAction: "none" }}
+                    >
+                      {blockOrder?.[index] && (
+                        <Block blockId={blockOrder?.[index]} />
+                      )}
+                    </animated.div>
+                  );
+                })}
+              </SpringApiProvider>
             </div>
           </div>
         </div>
