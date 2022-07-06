@@ -1,4 +1,5 @@
-import { DndContext } from "@dnd-kit/core";
+import { DndContext, useSensors } from "@dnd-kit/core";
+import { closestCenter, useSensor } from "@dnd-kit/core";
 import { animated, useSprings } from "@react-spring/web";
 import { Fragment } from "react";
 
@@ -40,9 +41,9 @@ const Page = (props: IProps) => {
               )}
               <SpringApiProvider api={api}>
                 <DndContext
+                  collisionDetection={closestCenter}
                   onDragMove={(e) => {
                     api.start((index) => {
-                      console.log("test test", index);
                       const blockIndex = blockOrderRef.current?.indexOf(
                         e.active.id as string
                       );
