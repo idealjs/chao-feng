@@ -1,3 +1,4 @@
+import { useDraggable } from "@dnd-kit/core";
 import { MenuIcon, PlusIcon } from "@heroicons/react/outline";
 import clsx from "clsx";
 import { useRouter } from "next/router";
@@ -24,6 +25,11 @@ const Toolbox = (props: PropsWithChildren<IProps>) => {
   const { pid } = router.query as { pid: string | undefined };
   const createBlock = useCreateBlock(pid!);
 
+  const { setNodeRef, listeners } = useDraggable({
+    id: blockId,
+    data: {},
+  });
+
   return (
     <div className="group relative">
       <div className={toolbox}>
@@ -40,7 +46,7 @@ const Toolbox = (props: PropsWithChildren<IProps>) => {
         >
           <PlusIcon />
         </button>
-        <button className="h-5 w-5 mr-2" style={{ touchAction: "none" }}>
+        <button className="h-5 w-5 mr-2" ref={setNodeRef} {...listeners}>
           <MenuIcon />
         </button>
       </div>

@@ -1,8 +1,10 @@
+import { DndContext } from "@dnd-kit/core";
 import { animated, useSprings } from "@react-spring/web";
 import { Fragment } from "react";
 
 import useBlockOrder from "../../hooks/useBlockOrder";
 import usePage from "../../hooks/usePage";
+import useStateRef from "../../lib/useStateRef";
 import Block from "../Block";
 import SpringApiProvider from "../Block/Toolbox/SpringApiProvider";
 import Empty from "./Empty";
@@ -15,6 +17,7 @@ const Page = (props: IProps) => {
   const { pageId } = props;
   const page = usePage(pageId);
   const blockOrder = useBlockOrder(pageId);
+  const blockOrderRef = useStateRef(blockOrder);
 
   const [springs, api] = useSprings(blockOrder?.length ?? 0, (index) => {
     return { y: 0 };
@@ -36,18 +39,35 @@ const Page = (props: IProps) => {
                 <Empty pageId={pageId} />
               )}
               <SpringApiProvider api={api}>
-                {springs?.map(({ y }, index) => {
-                  return (
-                    <animated.div
-                      key={index}
-                      style={{ y, touchAction: "none" }}
-                    >
-                      {blockOrder?.[index] && (
-                        <Block blockId={blockOrder?.[index]} />
-                      )}
-                    </animated.div>
-                  );
-                })}
+                <DndContext
+                  onDragMove={(e) => {
+                    api.start((index) => {
+                      console.log("test test", index);
+                      const blockIndex = blockOrderRef.current?.indexOf(
+                        e.active.id as string
+                      );
+                      if (index === blockIndex) {
+                        return { y: e.delta.y };
+                      }
+                      return {
+                        y: 0,
+                      };
+                    });
+                  }}
+                >
+                  {springs?.map(({ y }, index) => {
+                    return (
+                      <animated.div
+                        key={index}
+                        style={{ y, touchAction: "none" }}
+                      >
+                        {blockOrder?.[index] && (
+                          <Block blockId={blockOrder?.[index]} />
+                        )}
+                      </animated.div>
+                    );
+                  })}
+                </DndContext>
               </SpringApiProvider>
             </div>
           </div>
