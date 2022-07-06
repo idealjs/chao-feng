@@ -1,5 +1,11 @@
-import { DndContext, useSensors } from "@dnd-kit/core";
+import {
+  DndContext,
+  PointerSensor,
+  useDroppable,
+  useSensors,
+} from "@dnd-kit/core";
 import { closestCenter, useSensor } from "@dnd-kit/core";
+import { rectSortingStrategy, SortableContext } from "@dnd-kit/sortable";
 import { animated, useSprings } from "@react-spring/web";
 import { Fragment } from "react";
 
@@ -18,11 +24,10 @@ const Page = (props: IProps) => {
   const { pageId } = props;
   const page = usePage(pageId);
   const blockOrder = useBlockOrder(pageId);
-  const blockOrderRef = useStateRef(blockOrder);
 
-  const [springs, api] = useSprings(blockOrder?.length ?? 0, (index) => {
-    return { y: 0 };
-  });
+  const sensor = useSensor(PointerSensor);
+
+  const { setNodeRef } = useDroppable({ id: "page" });
 
   return (
     <Fragment>
@@ -39,37 +44,21 @@ const Page = (props: IProps) => {
               {(blockOrder == null || blockOrder?.length === 0) && (
                 <Empty pageId={pageId} />
               )}
-              <SpringApiProvider api={api}>
-                <DndContext
-                  collisionDetection={closestCenter}
-                  onDragMove={(e) => {
-                    api.start((index) => {
-                      const blockIndex = blockOrderRef.current?.indexOf(
-                        e.active.id as string
-                      );
-                      if (index === blockIndex) {
-                        return { y: e.delta.y };
-                      }
-                      return {
-                        y: 0,
-                      };
-                    });
-                  }}
-                >
-                  {springs?.map(({ y }, index) => {
-                    return (
-                      <animated.div
-                        key={index}
-                        style={{ y, touchAction: "none" }}
-                      >
-                        {blockOrder?.[index] && (
-                          <Block blockId={blockOrder?.[index]} />
-                        )}
-                      </animated.div>
-                    );
-                  })}
+              {blockOrder && (
+                <DndContext sensors={[sensor]}>
+                  <SortableContext
+                    id={"page"}
+                    items={blockOrder}
+                    strategy={rectSortingStrategy}
+                  >
+                    <div ref={setNodeRef}>
+                      {blockOrder?.map((blockId) => {
+                        return <Block key={blockId} blockId={blockId} />;
+                      })}
+                    </div>
+                  </SortableContext>
                 </DndContext>
-              </SpringApiProvider>
+              )}
             </div>
           </div>
         </div>
