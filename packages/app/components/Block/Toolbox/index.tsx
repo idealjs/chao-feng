@@ -1,8 +1,8 @@
-import { useDraggable, useDroppable } from "@dnd-kit/core";
+import { useDndMonitor, useDraggable, useDroppable } from "@dnd-kit/core";
 import { MenuIcon, PlusIcon } from "@heroicons/react/outline";
 import clsx from "clsx";
 import { useRouter } from "next/router";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useState } from "react";
 import { useSWRConfig } from "swr";
 
 import useCreateBlock from "../../../hooks/useCreateBlock";
@@ -20,10 +20,22 @@ interface IProps {
 
 const Toolbox = (props: PropsWithChildren<IProps>) => {
   const { children, blockId } = props;
+
+  const [activeDrag, setActiveDrag] = useState<string | null>(null);
+
   const { mutate } = useSWRConfig();
   const router = useRouter();
   const { pid } = router.query as { pid: string | undefined };
   const createBlock = useCreateBlock(pid!);
+
+  useDndMonitor({
+    onDragStart: (e) => {
+      setActiveDrag(e.active.id as string);
+    },
+    onDragEnd: () => {
+      setActiveDrag(null);
+    },
+  });
 
   const { setNodeRef: setDragNodeRef, listeners } = useDraggable({
     id: blockId,
@@ -37,7 +49,18 @@ const Toolbox = (props: PropsWithChildren<IProps>) => {
 
   return (
     <div className="group relative" ref={setDropNodeRef}>
-      <div className={toolbox}>
+      <div
+        className={clsx(
+          "z-50 h-full",
+          "flex items-center",
+          "whitespace-nowrap absolute right-full",
+          {
+            "opacity-0": activeDrag !== blockId,
+            "group-hover:opacity-100":
+              activeDrag === blockId || activeDrag === null,
+          }
+        )}
+      >
         <button
           className="h-5 w-5 mr-2"
           onClick={async () => {
