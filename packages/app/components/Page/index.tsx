@@ -1,19 +1,11 @@
-import {
-  DndContext,
-  PointerSensor,
-  useDroppable,
-  useSensors,
-} from "@dnd-kit/core";
-import { closestCenter, useSensor } from "@dnd-kit/core";
+import { DndContext, PointerSensor, useDroppable } from "@dnd-kit/core";
+import { useSensor } from "@dnd-kit/core";
 import { rectSortingStrategy, SortableContext } from "@dnd-kit/sortable";
-import { animated, useSprings } from "@react-spring/web";
 import { Fragment } from "react";
 
 import useBlockOrder from "../../hooks/useBlockOrder";
 import usePage from "../../hooks/usePage";
-import useStateRef from "../../lib/useStateRef";
 import Block from "../Block";
-import SpringApiProvider from "../Block/Toolbox/SpringApiProvider";
 import Empty from "./Empty";
 
 interface IProps {
