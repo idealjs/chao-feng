@@ -1,4 +1,9 @@
-import { DndContext, PointerSensor, useDroppable } from "@dnd-kit/core";
+import {
+  DndContext,
+  MouseSensor,
+  useDroppable,
+  useSensors,
+} from "@dnd-kit/core";
 import { useSensor } from "@dnd-kit/core";
 import { rectSortingStrategy, SortableContext } from "@dnd-kit/sortable";
 import { Fragment } from "react";
@@ -17,7 +22,7 @@ const Page = (props: IProps) => {
   const page = usePage(pageId);
   const blockOrder = useBlockOrder(pageId);
 
-  const sensor = useSensor(PointerSensor);
+  const sensors = useSensors(useSensor(MouseSensor));
 
   const { setNodeRef } = useDroppable({ id: "page" });
 
@@ -37,7 +42,7 @@ const Page = (props: IProps) => {
                 <Empty pageId={pageId} />
               )}
               {blockOrder && (
-                <DndContext sensors={[sensor]}>
+                <DndContext sensors={sensors}>
                   <SortableContext
                     id={"page"}
                     items={blockOrder}

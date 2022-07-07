@@ -10,7 +10,7 @@ import useCreateBlock from "../../../hooks/useCreateBlock";
 
 const toolbox = clsx(
   "z-50 h-full",
-  "flex items-center",
+  "flex items-start pt-0.5",
   "opacity-0 group-hover:opacity-100",
   "whitespace-nowrap absolute right-full"
 );

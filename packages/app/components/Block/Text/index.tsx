@@ -10,7 +10,11 @@ interface IProps {
 const Text = (props: IProps) => {
   const { block } = props;
 
-  return <div>{block.properties.title?.[0] ?? "type markdown"}</div>;
+  return (
+    <div contentEditable={true}>
+      {block.properties.title?.[0] ?? "type markdown"}
+    </div>
+  );
 };
 
 export default Text;
