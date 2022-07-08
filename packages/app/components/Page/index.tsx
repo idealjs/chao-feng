@@ -1,15 +1,20 @@
 import {
+  closestCenter,
   DndContext,
   MouseSensor,
   useDroppable,
   useSensors,
 } from "@dnd-kit/core";
 import { useSensor } from "@dnd-kit/core";
-import { rectSortingStrategy, SortableContext } from "@dnd-kit/sortable";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { Fragment } from "react";
 
 import useBlockOrder from "../../hooks/useBlockOrder";
 import usePage from "../../hooks/usePage";
+import rectIntersection from "../../lib/rectIntersection";
 import Block from "../Block";
 import Empty from "./Empty";
 
@@ -42,13 +47,16 @@ const Page = (props: IProps) => {
                 <Empty pageId={pageId} />
               )}
               {blockOrder && (
-                <DndContext sensors={sensors}>
+                <DndContext
+                  sensors={sensors}
+                  collisionDetection={rectIntersection}
+                >
                   <SortableContext
                     id={"page"}
                     items={blockOrder}
-                    strategy={rectSortingStrategy}
+                    strategy={verticalListSortingStrategy}
                   >
-                    <div ref={setNodeRef}>
+                    <div ref={setNodeRef} style={{ background: "#e2dfdf" }}>
                       {blockOrder?.map((blockId) => {
                         return <Block key={blockId} blockId={blockId} />;
                       })}

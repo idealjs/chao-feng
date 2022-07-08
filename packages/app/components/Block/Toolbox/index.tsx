@@ -33,10 +33,17 @@ const Toolbox = (props: PropsWithChildren<IProps>) => {
 
   return (
     <div
-      className="group relative"
+      className="group relative my-1"
       ref={setNodeRef}
       style={{
-        transform: CSS.Transform.toString(transform),
+        transform: transform
+          ? CSS.Transform.toString({
+              x: transform.x,
+              y: transform.y,
+              scaleX: 1,
+              scaleY: 1,
+            })
+          : undefined,
       }}
     >
       <div className={toolbox}>
