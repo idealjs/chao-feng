@@ -7,6 +7,7 @@ import { PropsWithChildren, useState } from "react";
 import { useSWRConfig } from "swr";
 
 import useCreateBlock from "../../../hooks/useCreateBlock";
+import Menu from "./Menu";
 
 interface IProps {
   blockId: string;
@@ -14,7 +15,7 @@ interface IProps {
 
 const Toolbox = (props: PropsWithChildren<IProps>) => {
   const { children, blockId } = props;
-  const [hidden, setHidden] = useState(true);
+  const [open, setOpen] = useState(false);
   const { mutate } = useSWRConfig();
   const router = useRouter();
   const { pid } = router.query as { pid: string | undefined };
@@ -46,7 +47,7 @@ const Toolbox = (props: PropsWithChildren<IProps>) => {
           "opacity-0 group-hover:opacity-100",
           "whitespace-nowrap absolute right-full",
           {
-            "opacity-100": !hidden,
+            "opacity-100": open,
           }
         )}
       >
@@ -67,26 +68,12 @@ const Toolbox = (props: PropsWithChildren<IProps>) => {
           className="h-5 w-5 mr-2"
           {...listeners}
           onClick={() => {
-            setHidden((h) => !h);
+            setOpen((h) => !h);
           }}
         >
           <MenuIcon />
         </button>
-        <ul
-          className={clsx("menu bg-base-100 w-56 rounded-box", {
-            hidden,
-          })}
-        >
-          <li>
-            <a>Item 1</a>
-          </li>
-          <li className="bordered">
-            <a>I have border</a>
-          </li>
-          <li>
-            <a>Item 3</a>
-          </li>
-        </ul>
+        <Menu open={open} />
       </div>
       {children}
     </div>
