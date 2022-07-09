@@ -1,8 +1,7 @@
-import { Transition } from "@headlessui/react";
 import clsx from "clsx";
 import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
-import { Fragment, useRef } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 
 import useDefaultHidden from "../../../hooks/responsive/useDefaultHidden";
@@ -20,6 +19,7 @@ import Profile from "./Profile";
 export const sidebarHiddenStore = createStore<boolean | null>(null);
 
 const Editor = () => {
+  const [isClient, setIsClient] = useState(false);
   const router = useRouter();
   const { pid } = router.query as { pid: string | undefined };
   const page = usePage(pid);
@@ -36,6 +36,10 @@ const Editor = () => {
     setHidden(true);
   });
 
+  useLayoutEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
     <div className="h-screen w-screen flex relative">
       <div
@@ -43,8 +47,8 @@ const Editor = () => {
         className={clsx(
           "w-64 ease-in-out duration-300 h-full sm:border-r-2 sm:border-gray-300 bg-slate-400",
           {
-            absolute: !smBreakPoint,
-            hidden,
+            absolute: !smBreakPoint && isClient,
+            hidden: hidden && isClient,
           }
         )}
       >
