@@ -2,7 +2,7 @@ import { Workspace } from "@prisma/client";
 import { useRouter } from "next/router";
 import { Fragment } from "react";
 
-import useProfile from "../../../../hooks/useProfile";
+import useProfile from "../../hooks/useProfile";
 
 interface IProps {
   currentWorkspace: Workspace;

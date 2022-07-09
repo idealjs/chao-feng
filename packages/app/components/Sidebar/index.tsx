@@ -1,0 +1,40 @@
+import { useRouter } from "next/router";
+import { signOut } from "next-auth/react";
+
+import usePage from "../../hooks/usePage";
+import useWorkspace from "../../hooks/useWorkspace";
+import Profile from "../Profile";
+
+interface IProps {
+  workspaceId: string | undefined;
+}
+
+const SideDrawer = () => {
+  const router = useRouter();
+  const { pid } = router.query as { pid: string | undefined };
+  const page = usePage(pid);
+  const workspace = useWorkspace(page?.workspaceId);
+
+  return (
+    <div className="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content sm:border-r-2 sm:border-gray-300">
+      <div>{workspace && <Profile currentWorkspace={workspace} />}</div>
+      <ul>
+        <li>
+          <a>sidebar pid:{pid}</a>
+        </li>
+        <li>
+          <a>workspace name:{workspace?.name}</a>
+        </li>
+        <li
+          onClick={async () => {
+            await signOut({ callbackUrl: "/" });
+          }}
+        >
+          <a>sign out</a>
+        </li>
+      </ul>
+    </div>
+  );
+};
+
+export default SideDrawer;
