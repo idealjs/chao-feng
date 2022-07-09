@@ -3,7 +3,7 @@ import { signOut } from "next-auth/react";
 
 import usePage from "../../hooks/usePage";
 import useWorkspace from "../../hooks/useWorkspace";
-import Profile from "../Profile";
+import Profile from "./Profile";
 
 const SideDrawer = () => {
   const router = useRouter();
