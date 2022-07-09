@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 
 import { createStore } from "../../../lib/react-rxjs";
 import Page from "../../Page";
-import SideDrawer from "../../Sidebar";
+import SideDrawer from "../../SideDrawer";
 
 export const sidebarHiddenStore = createStore<boolean | null>(null);
 
