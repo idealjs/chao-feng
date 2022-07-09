@@ -39,7 +39,7 @@ const Editor = () => {
       <div className="drawer-side">
         <label htmlFor="chaofeng-drawer" className="drawer-overlay"></label>
 
-        <div className="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content">
+        <div className="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content sm:border-r-2 sm:border-gray-300">
           <div>{workspace && <Profile currentWorkspace={workspace} />}</div>
           <ul>
             <li>
