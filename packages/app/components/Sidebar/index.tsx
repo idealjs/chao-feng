@@ -5,10 +5,6 @@ import usePage from "../../hooks/usePage";
 import useWorkspace from "../../hooks/useWorkspace";
 import Profile from "../Profile";
 
-interface IProps {
-  workspaceId: string | undefined;
-}
-
 const SideDrawer = () => {
   const router = useRouter();
   const { pid } = router.query as { pid: string | undefined };
