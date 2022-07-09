@@ -11,9 +11,7 @@ const Text = (props: IProps) => {
   const { block } = props;
 
   return (
-    <div contentEditable={true}>
-      {block.properties.title?.[0] ?? "type markdown"}
-    </div>
+    <div contentEditable={true}>{block.properties.title?.[0] ?? block.id}</div>
   );
 };
 
