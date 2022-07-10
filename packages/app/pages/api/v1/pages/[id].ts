@@ -9,16 +9,19 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   switch (method) {
     case "GET": {
-      res.status(200).json(
-        await prisma.page.findUnique({
-          where: {
-            id: pageId,
-          },
-          include: {
-            blocks: true,
-          },
-        })
-      );
+      const page = await prisma.page.findUnique({
+        where: {
+          id: pageId,
+        },
+        include: {
+          blocks: true,
+        },
+      });
+      if (page == null) {
+        res.status(404).json({});
+        return;
+      }
+      res.status(200).json(page);
       break;
     }
     case "POST": {
