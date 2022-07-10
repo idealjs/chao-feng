@@ -22,6 +22,10 @@ Workspace {
   string name
 }
 
+WorkspacePreferences {
+  string id
+}
+
 Page {
   string id
   string name
@@ -40,6 +44,8 @@ Profile ||--o{ Workspace : contains
 Profile ||--o{ PermissionTag : contains
 Workspace ||--o{ PermissionTag : contains
 Workspace ||--o{ Page : contains
+Workspace ||--o| WorkspacePreferences: has
+WorkspacePreferences ||--o{ PermissionTag : contains
 Page ||--o{ Block : contains
 Page ||--o{ Page : contains
 Page ||--o{ PermissionTag : contains
