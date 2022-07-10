@@ -68,6 +68,10 @@ model PermissionTag {
   id   String @id @default(cuid())
   name String
   type String
+  crud Int
+
+  constrainedBy PermissionTag[] @relation("PermissionConstraint")
+  constrainedTo PermissionTag[] @relation("PermissionConstraint")
 
   profiles   Profile[]
   blocks     Block[]

@@ -13,6 +13,8 @@ Profile {
 PermissionTag {
   string id
   string name
+  string type
+  number crud
 }
 
 Workspace {
@@ -42,4 +44,5 @@ Page ||--o{ Block : contains
 Page ||--o{ Page : contains
 Page ||--o{ PermissionTag : contains
 Block ||--o{ PermissionTag : contains
+PermissionTag }o--o{ PermissionTag: constraint
 ```
