@@ -25,6 +25,11 @@ const blocksHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       break;
     }
     case "DELETE": {
+      res.status(200).json(await prisma.block.delete({
+        where: {
+          id: blockId,
+        },
+      })) ;
       break;
     }
     default: {
