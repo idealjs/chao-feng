@@ -22,11 +22,11 @@ const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
     case "POST": {
       if (token.sub == null) {
-        res.status(400).json({ error: "Missing subject or userId" });
+        res.status(422).json({ error: "Missing subject in token" });
         return;
       }
       if (name == null || token.sub == null) {
-        res.status(400).json({ error: "Missing name" });
+        res.status(422).json({ error: "Missing name" });
         return;
       }
 

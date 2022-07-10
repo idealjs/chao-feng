@@ -18,7 +18,7 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         name?: string;
       };
       if (workspaceId == null) {
-        res.status(400).json({ error: "Missing workspaceId" });
+        res.status(422).json({ error: "Missing workspaceId" });
         return;
       }
 
