@@ -115,4 +115,5 @@ const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
   }
 };
+
 export default workspacesHandler;
