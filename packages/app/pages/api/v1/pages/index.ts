@@ -12,6 +12,41 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       break;
     }
     case "POST": {
+      const { workspaceId, parentId, name } = body as {
+        workspaceId: string;
+        parentId?: string;
+        name?: string;
+      };
+      const workspace = await prisma.workspace.findUnique({
+        where: {
+          id: workspaceId,
+        },
+        include: {
+          permissions: true,
+        },
+      });
+
+      res.status(200).json(
+        await prisma.page.create({
+          data: {
+            workspace: {
+              connect: {
+                id: workspaceId,
+              },
+            },
+            name: name,
+            parent: {
+              connect: {
+                id: parentId,
+              },
+            },
+            permissions: {
+              connect: workspace?.permissions.map((p) => ({ id: p.id })),
+            },
+          },
+        })
+      );
+
       break;
     }
     case "PATCH": {

@@ -40,21 +40,21 @@ const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         });
 
-        const page = await prisma.page.create({ data: {} });
-
-        const workspace = await prisma.workspace.create({
+        const page = await prisma.page.create({
           data: {
-            name: name,
-            pages: {
-              connect: {
-                id: page.id,
+            workspace: {
+              create: {
+                name: name,
+                permissions: {
+                  connect: {
+                    id: tag.id,
+                  },
+                },
               },
             },
-            permissions: {
-              connect: {
-                id: tag.id,
-              },
-            },
+          },
+          include: {
+            workspace: true,
           },
         });
 
@@ -69,7 +69,7 @@ const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
                   lastActive: page.id,
                   workspaces: {
                     connect: {
-                      id: workspace.id,
+                      id: page.workspace!.id,
                     },
                   },
                   tags: {
@@ -82,7 +82,7 @@ const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
                   lastActive: page.id,
                   workspaces: {
                     connect: {
-                      id: workspace.id,
+                      id: page.workspace!.id,
                     },
                   },
                   tags: {
@@ -96,7 +96,7 @@ const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         });
 
-        return workspace;
+        return page.workspace;
       });
 
       res.status(200).json(transactionRes);

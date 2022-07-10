@@ -97,8 +97,8 @@ model Page {
   blocks      Block[]
   permissions PermissionTag[]
 
-  workspace   Workspace? @relation(fields: [workspaceId], references: [id])
-  workspaceId String?
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  workspaceId String
 }
 
 model Block {
