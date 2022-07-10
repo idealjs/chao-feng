@@ -5,6 +5,19 @@ type PartialOmit<T, K extends string> = Pick<T, Exclude<keyof T, K>> &
 
 type PartialOmitAnyId<T> = PartialOmit<T, "id" | `${string | ""}Id`>;
 
+export enum SCRUD {
+  D = 1 << 0,
+  U = 1 << 1,
+  R = 1 << 2,
+  C = 1 << 3,
+  S = 1 << 4,
+}
+
+export enum TAG_TYPE {
+  INCLUDE = "INCLUDE",
+  EXCLUDE = "EXCLUDE",
+}
+
 export enum COLOR {
   GARY = "GARY",
   BROWN = "BROWN",

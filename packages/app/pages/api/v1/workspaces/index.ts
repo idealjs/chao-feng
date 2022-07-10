@@ -2,6 +2,8 @@ import { PrismaClient } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
 
+import { SCRUD, TAG_TYPE } from "../../../../lib/type";
+
 const prisma = new PrismaClient();
 
 const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -37,6 +39,8 @@ const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         const tag = await prisma.permissionTag.create({
           data: {
             name: `workspace:${name}`,
+            scrud: SCRUD.S | SCRUD.C | SCRUD.R | SCRUD.U | SCRUD.D,
+            type: TAG_TYPE.INCLUDE,
           },
         });
 
