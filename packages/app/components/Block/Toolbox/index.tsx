@@ -15,7 +15,6 @@ interface IProps {
 
 const Toolbox = (props: PropsWithChildren<IProps>) => {
   const { children, blockId } = props;
-  const [open, setOpen] = useState(false);
   const { mutate } = useSWRConfig();
   const router = useRouter();
   const { pid } = router.query as { pid: string | undefined };
@@ -41,14 +40,12 @@ const Toolbox = (props: PropsWithChildren<IProps>) => {
       }}
     >
       <div
+        tabIndex={0}
         className={clsx(
           "z-50 h-full",
           "flex items-start pt-0.5",
-          "opacity-0 group-hover:opacity-100",
-          "whitespace-nowrap absolute right-full",
-          {
-            "opacity-100": open,
-          }
+          "opacity-0 group-hover:opacity-100 focus-within:opacity-100",
+          "whitespace-nowrap absolute right-full"
         )}
       >
         <button
@@ -65,15 +62,23 @@ const Toolbox = (props: PropsWithChildren<IProps>) => {
           <PlusIcon />
         </button>
         <button
-          className="h-5 w-5 mr-2"
+          tabIndex={0}
+          className="dropdown h-5 w-5 mr-2"
           {...listeners}
-          onClick={() => {
-            setOpen((h) => !h);
+          onClick={(e) => {
+            if (e.currentTarget.classList.contains("dropdown-open")) {
+              e.currentTarget.blur();
+            } else {
+              e.currentTarget.classList.add("dropdown-open");
+            }
+          }}
+          onBlur={(e) => {
+            e.currentTarget.classList.remove("dropdown-open");
           }}
         >
           <MenuIcon />
+          <Menu />
         </button>
-        <Menu open={open} />
       </div>
       {children}
     </div>
