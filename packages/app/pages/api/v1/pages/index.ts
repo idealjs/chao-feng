@@ -22,9 +22,9 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         return;
       }
 
-      const workspace = await prisma.workspace.findUnique({
+      const parent = await prisma.page.findUnique({
         where: {
-          id: workspaceId,
+          id: parentId,
         },
         include: {
           permissions: true,
@@ -46,7 +46,7 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
               },
             },
             permissions: {
-              connect: workspace?.permissions.map((p) => ({ id: p.id })),
+              connect: parent?.permissions.map((p) => ({ id: p.id })),
             },
           },
         })
