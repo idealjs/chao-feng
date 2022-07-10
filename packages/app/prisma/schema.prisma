@@ -65,10 +65,10 @@ model Profile {
 }
 
 model PermissionTag {
-  id   String @id @default(cuid())
-  name String
-  type String
-  crud Int
+  id    String @id @default(cuid())
+  name  String
+  type  String
+  scrud Int
 
   constrainedBy PermissionTag[] @relation("PermissionConstraint")
   constrainedTo PermissionTag[] @relation("PermissionConstraint")

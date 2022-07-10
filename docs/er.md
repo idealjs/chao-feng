@@ -14,7 +14,7 @@ PermissionTag {
   string id
   string name
   string type
-  number crud
+  number scrud
 }
 
 Workspace {
@@ -54,7 +54,7 @@ PermissionTag {
   string id
   string name
   string type
-  number crud
+  number scrud
 }
 
 PermissionTag }o--o{ PermissionTag: constraint
