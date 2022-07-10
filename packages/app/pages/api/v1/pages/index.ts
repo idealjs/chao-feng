@@ -17,6 +17,11 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         parentId?: string;
         name?: string;
       };
+      if (workspaceId == null) {
+        res.status(400).json({ error: "Missing workspaceId" });
+        return;
+      }
+
       const workspace = await prisma.workspace.findUnique({
         where: {
           id: workspaceId,
