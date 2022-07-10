@@ -85,10 +85,10 @@ model Workspace {
 }
 
 model Page {
-  id            String  @id @default(cuid())
-  name          String?
-  pageOrder String?
-  blockOrder   String?
+  id         String  @id @default(cuid())
+  name       String?
+  pageOrder  String?
+  blockOrder String?
 
   children Page[]  @relation("PagesChildren")
   parentId String?
@@ -102,8 +102,8 @@ model Page {
 }
 
 model Block {
-  id          String  @id @default(cuid())
-  type        String
+  id   String @id @default(cuid())
+  type String
 
   permissions PermissionTag[]
   properties  Json
