@@ -46,3 +46,16 @@ Page ||--o{ PermissionTag : contains
 Block ||--o{ PermissionTag : contains
 PermissionTag }o--o{ PermissionTag: constraint
 ```
+
+```mermaid
+erDiagram
+
+PermissionTag {
+  string id
+  string name
+  string type
+  number crud
+}
+
+PermissionTag }o--o{ PermissionTag: constraint
+```
