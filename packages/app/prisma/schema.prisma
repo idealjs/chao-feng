@@ -67,6 +67,7 @@ model Profile {
 model PermissionTag {
   id   String @id @default(cuid())
   name String
+  type String
 
   profiles   Profile[]
   blocks     Block[]
