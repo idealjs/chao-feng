@@ -92,7 +92,7 @@ model Workspace {
 model Page {
   id         String  @id @default(cuid())
   name       String?
-  pageOrder  String?
+  childOrder  String?
   blockOrder String?
 
   children Page[]  @relation("PagesChildren")
