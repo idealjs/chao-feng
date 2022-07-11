@@ -1,8 +1,10 @@
 import { Block } from "@prisma/client";
 
-import useBlock from "../../../hooks/useBlock";
-import { Decoration, ITextBlock } from "../../../lib/type";
-import Toolbox from "../Toolbox";
+import { IBaseTextBlock } from "../../../lib/type";
+
+export interface ITextBlock extends IBaseTextBlock {
+  type: "text";
+}
 interface IProps {
   block: ITextBlock;
 }
@@ -11,7 +13,9 @@ const Text = (props: IProps) => {
   const { block } = props;
 
   return (
-    <div contentEditable={true}>{block.properties.title?.[0] ?? block.id}</div>
+    <div contentEditable={true} suppressContentEditableWarning={true}>
+      {block.properties.title?.[0] ?? block.id}
+    </div>
   );
 };
 
