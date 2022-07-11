@@ -31,6 +31,7 @@ const Menu = (props: IProps) => {
             await createBlock({
               pageId: pageId,
               type: "text",
+              nextTo: blockId,
               properties: {},
             });
             mutate(`/api/v1/pages/${pageId}`);
@@ -40,7 +41,19 @@ const Menu = (props: IProps) => {
         </button>
       </li>
       <li>
-        <button>create sub page</button>
+        <button
+          onClick={async () => {
+            await createBlock({
+              pageId: pageId,
+              type: "link",
+              nextTo: blockId,
+              properties: {},
+            });
+            mutate(`/api/v1/pages/${pageId}`);
+          }}
+        >
+          create sub page
+        </button>
       </li>
       <li>
         <button
