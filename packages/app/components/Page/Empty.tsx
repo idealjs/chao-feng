@@ -8,13 +8,13 @@ interface IProps {
 
 const Empty = (props: IProps) => {
   const { pageId } = props;
-  const createBlock = useCreateBlock(pageId);
+  const createBlock = useCreateBlock();
   const { mutate } = useSWRConfig();
 
   return (
     <div
       onClick={async () => {
-        await createBlock({ type: "text", properties: {} });
+        await createBlock({ pageId, type: "text", properties: {} });
         mutate(`/api/v1/pages/${pageId}`);
       }}
     >

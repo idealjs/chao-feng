@@ -7,6 +7,7 @@ import { PropsWithChildren, useState } from "react";
 import { useSWRConfig } from "swr";
 
 import useCreateBlock from "../../../hooks/useCreateBlock";
+import usePageId from "../../../hooks/usePageId";
 import Menu from "./Menu";
 
 interface IProps {
@@ -16,9 +17,8 @@ interface IProps {
 const Toolbox = (props: PropsWithChildren<IProps>) => {
   const { children, blockId } = props;
   const { mutate } = useSWRConfig();
-  const router = useRouter();
-  const { pid } = router.query as { pid: string | undefined };
-  const createBlock = useCreateBlock(pid!);
+  const pageId = usePageId();
+  const createBlock = useCreateBlock();
 
   const { listeners, setNodeRef, transform } = useSortable({
     id: blockId,
@@ -48,22 +48,23 @@ const Toolbox = (props: PropsWithChildren<IProps>) => {
           "whitespace-nowrap absolute right-full"
         )}
       >
-        <button
-          className="h-5 w-5 mr-2"
+        <div
+          className="h-5 w-5 mr-2 cursor-pointer"
           onClick={async () => {
             await createBlock({
+              pageId,
               type: "text",
               properties: {},
               nextTo: blockId,
             });
-            mutate(`/api/v1/pages/${pid}`);
+            mutate(`/api/v1/pages/${pageId}`);
           }}
         >
           <PlusIcon />
-        </button>
-        <button
+        </div>
+        <div
           tabIndex={0}
-          className="dropdown h-5 w-5 mr-2"
+          className="dropdown h-5 w-5 mr-2 cursor-pointer"
           {...listeners}
           onClick={(e) => {
             if (e.currentTarget.classList.contains("dropdown-open")) {
@@ -77,8 +78,8 @@ const Toolbox = (props: PropsWithChildren<IProps>) => {
           }}
         >
           <MenuIcon />
-          <Menu />
-        </button>
+          <Menu blockId={blockId} />
+        </div>
       </div>
       {children}
     </div>

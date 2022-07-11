@@ -5,7 +5,10 @@ import usePage from "./usePage";
 const useBlockOrder = (pageId: string) => {
   const page = usePage(pageId);
 
-  return useMemo(() => page?.blockOrder?.split(","), [page?.blockOrder]);
+  return useMemo(
+    () => page?.blockOrder?.split(",").filter((o) => o !== ""),
+    [page?.blockOrder]
+  );
 };
 
 export default useBlockOrder;

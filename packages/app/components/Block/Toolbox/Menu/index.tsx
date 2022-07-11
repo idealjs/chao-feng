@@ -1,8 +1,21 @@
 import clsx from "clsx";
+import { useSWRConfig } from "swr";
 
-interface IProps {}
+import useCreateBlock from "../../../../hooks/useCreateBlock";
+import useDeleteBlock from "../../../../hooks/useDeleteBlock";
+import usePageId from "../../../../hooks/usePageId";
+
+interface IProps {
+  blockId: string;
+}
 
 const Menu = (props: IProps) => {
+  const { blockId } = props;
+  const pageId = usePageId();
+  const deleteBlock = useDeleteBlock();
+  const createBlock = useCreateBlock();
+  const { mutate } = useSWRConfig();
+
   return (
     <ul
       onClick={(e) => {
@@ -13,13 +26,33 @@ const Menu = (props: IProps) => {
       )}
     >
       <li>
-        <a>Item 1</a>
+        <button
+          onClick={async () => {
+            await createBlock({
+              pageId: pageId,
+              type: "text",
+              properties: {},
+            });
+            mutate(`/api/v1/pages/${pageId}`);
+          }}
+        >
+          create text
+        </button>
       </li>
       <li>
-        <a>Item 2</a>
+        <button>create sub page</button>
       </li>
       <li>
-        <a>Item 3</a>
+        <button
+          onClick={async () => {
+            await deleteBlock({
+              blockId,
+            });
+            mutate(`/api/v1/pages/${pageId}`);
+          }}
+        >
+          delete
+        </button>
       </li>
     </ul>
   );
