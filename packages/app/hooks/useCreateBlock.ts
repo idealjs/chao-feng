@@ -1,4 +1,4 @@
-import type { Prisma } from "@prisma/client";
+import type { Block, Prisma } from "@prisma/client";
 import { useCallback } from "react";
 
 const useCreateBlock = () => {
@@ -8,7 +8,7 @@ const useCreateBlock = () => {
       type: string;
       properties: Prisma.InputJsonValue;
       nextTo?: string;
-    }) => {
+    }): Promise<Block> => {
       const { pageId, type, properties, nextTo } = params;
       const res = await fetch("/api/v1/blocks", {
         method: "POST",

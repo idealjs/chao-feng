@@ -1,5 +1,6 @@
 import type { Block } from "@prisma/client";
 
+import Link, { isLinkBlock } from "./Link";
 import Text, { isTextBlock } from "./Text";
 import Toolbox from "./Toolbox";
 
@@ -14,6 +15,14 @@ const BlockFactory = (props: IProps) => {
     return (
       <Toolbox blockId={block.id}>
         <Text block={block} />
+      </Toolbox>
+    );
+  }
+
+  if (isLinkBlock(block)) {
+    return (
+      <Toolbox blockId={block.id}>
+        <Link block={block} />
       </Toolbox>
     );
   }

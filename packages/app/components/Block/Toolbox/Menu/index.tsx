@@ -1,9 +1,11 @@
 import clsx from "clsx";
+import { useRouter } from "next/router";
 import { useSWRConfig } from "swr";
 
 import useCreateBlock from "../../../../hooks/useCreateBlock";
 import useDeleteBlock from "../../../../hooks/useDeleteBlock";
 import usePageId from "../../../../hooks/usePageId";
+import { ILinkBlock } from "../../Link";
 
 interface IProps {
   blockId: string;
@@ -11,6 +13,8 @@ interface IProps {
 
 const Menu = (props: IProps) => {
   const { blockId } = props;
+  const router = useRouter();
+
   const pageId = usePageId();
   const deleteBlock = useDeleteBlock();
   const createBlock = useCreateBlock();
@@ -43,13 +47,13 @@ const Menu = (props: IProps) => {
       <li>
         <button
           onClick={async () => {
-            await createBlock({
+            const block = (await createBlock({
               pageId: pageId,
               type: "link",
               nextTo: blockId,
               properties: {},
-            });
-            mutate(`/api/v1/pages/${pageId}`);
+            })) as ILinkBlock;
+            router.push(block.properties.linkId);
           }}
         >
           create sub page

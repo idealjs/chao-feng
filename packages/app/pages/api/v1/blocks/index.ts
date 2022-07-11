@@ -22,7 +22,7 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       const { pageId, type, properties, nextTo } = body as {
         pageId: string;
         type: string;
-        properties: Prisma.InputJsonValue;
+        properties?: Prisma.InputJsonObject;
         nextTo: string;
       };
       if (pageId == null) {
@@ -45,6 +45,29 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       const transactionRes = await prisma.$transaction(async (prisma) => {
+        let linkPage;
+        if (type === "link") {
+          const page = await prisma.page.findUnique({
+            where: {
+              id: pageId,
+            },
+          });
+
+          linkPage = await prisma.page.create({
+            data: {
+              workspace: {
+                connect: {
+                  id: page?.workspaceId,
+                },
+              },
+              parent: {
+                connect: {
+                  id: pageId,
+                },
+              },
+            },
+          });
+        }
         const block = await prisma.block.create({
           data: {
             page: {
@@ -53,7 +76,10 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
               },
             },
             type,
-            properties,
+            properties: {
+              ...properties,
+              linkId: linkPage?.id,
+            },
           },
           include: {
             page: true,

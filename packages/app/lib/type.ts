@@ -94,10 +94,6 @@ export interface IBaseTextBlock extends IBlock {
   };
 }
 
-export interface ITextBlock extends IBaseTextBlock {
-  type: "text";
-}
-
 export interface IBulletedListBlock extends IBaseTextBlock {
   type: "bulleted_list";
 }
