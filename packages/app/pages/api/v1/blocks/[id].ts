@@ -25,11 +25,39 @@ const blocksHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       break;
     }
     case "DELETE": {
-      res.status(200).json(await prisma.block.delete({
-        where: {
-          id: blockId,
-        },
-      })) ;
+      const block = await prisma.$transaction(async (prisma) => {
+        const block = await prisma.block.findUnique({
+          where: {
+            id: blockId,
+          },
+          include: {
+            page: true,
+          },
+        });
+
+        const order = block?.page?.blockOrder
+          ?.split(",")
+          .filter((o) => o !== "")
+          .filter((o) => o !== blockId)
+          .join(",");
+
+        await prisma.page.update({
+          where: {
+            id: block?.page?.id,
+          },
+          data: {
+            blocks: {
+              delete: {
+                id: blockId,
+              },
+            },
+            blockOrder: order,
+          },
+        });
+        return block;
+      });
+
+      res.status(200).json(block);
       break;
     }
     default: {
