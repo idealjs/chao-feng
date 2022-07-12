@@ -42,7 +42,7 @@ const Toolbox = (props: PropsWithChildren<IProps>) => {
       <div
         tabIndex={0}
         className={clsx(
-          "z-50 h-full",
+          "h-full",
           "flex items-start pt-0.5",
           "opacity-0 group-hover:opacity-100 focus-within:opacity-100",
           "whitespace-nowrap absolute right-full"

@@ -26,7 +26,7 @@ const Menu = (props: IProps) => {
         e.stopPropagation();
       }}
       className={clsx(
-        "dropdown-content menu shadow bg-base-100 w-56 rounded-box p-2 index z-10"
+        "z-10 dropdown-content menu shadow bg-base-100 w-56 rounded-box p-2 index"
       )}
     >
       <li>
