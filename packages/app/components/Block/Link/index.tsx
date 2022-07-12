@@ -1,5 +1,8 @@
+import { BookOpenIcon } from "@heroicons/react/outline";
 import { Block } from "@prisma/client";
+import { useRouter } from "next/router";
 
+import usePage from "../../../hooks/usePage";
 import { Decoration, IBaseTextBlock } from "../../../lib/type";
 
 export interface ILinkBlock extends IBaseTextBlock {
@@ -16,7 +19,20 @@ interface IProps {
 
 const Link = (props: IProps) => {
   const { block } = props;
-  return <div>Link {block.properties.linkId}</div>;
+  const router = useRouter();
+  const page = usePage(block.properties.linkId);
+
+  return (
+    <div
+      className="cursor-pointer flex items-center"
+      onClick={() => {
+        router.push(block.properties.linkId);
+      }}
+    >
+      <BookOpenIcon className="h-5" />
+      <div>Link {page?.name ?? "untitled"}</div>
+    </div>
+  );
 };
 
 export default Link;

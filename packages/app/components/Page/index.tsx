@@ -53,7 +53,7 @@ const Page = (props: IProps) => {
       </div>
       <div className="flex-1 h-full">
         <div className="flex flex-1 justify-center">
-          <div className="pl-24 w-3/5">
+          <div className="lg:px-24 w-3/5 lg:pb-36">
             {page?.name != null ? page.name : "untitled"}
           </div>
         </div>
