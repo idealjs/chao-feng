@@ -7,14 +7,10 @@ import {
 } from "@dnd-kit/core";
 import { useSensor } from "@dnd-kit/core";
 import { rectSortingStrategy, SortableContext } from "@dnd-kit/sortable";
-import { Fragment } from "react";
 
-import useDefaultHidden from "../../hooks/responsive/useDefaultHidden";
 import useBlockOrder from "../../hooks/useBlockOrder";
 import usePage from "../../hooks/usePage";
-import { useStoreNext } from "../../lib/react-rxjs";
 import Block from "../Block";
-import { sidebarHiddenStore } from "../UserLand/Editor";
 import Empty from "./Empty";
 
 interface IProps {
@@ -34,23 +30,11 @@ const Page = (props: IProps) => {
   );
   const { setNodeRef } = useDroppable({ id: "page" });
 
-  const defaultHidden = useDefaultHidden();
-  const setHidden = useStoreNext(sidebarHiddenStore);
   return (
     <div className="h-full w-full">
-      <div
-        className="h-12"
-        onClick={() => {
-          setHidden((hidden) => {
-            if (hidden == null) {
-              return !defaultHidden;
-            }
-            return !hidden;
-          });
-        }}
-      >
-        head
-      </div>
+      <label htmlFor="chaofeng-drawer" className="lg:hidden">
+        Open drawer
+      </label>
       <div className="flex-1 h-full">
         <div className="flex flex-1 justify-center">
           <div className="lg:px-24 w-3/5 lg:pb-36">
