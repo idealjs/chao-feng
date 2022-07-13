@@ -5,7 +5,6 @@ const prisma = new PrismaClient();
 
 const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { query, body, method } = req;
-  const { pid } = query as { pid: string };
 
   switch (method) {
     case "GET": {
