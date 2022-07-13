@@ -12,6 +12,7 @@ import useBlockOrder from "../../hooks/useBlockOrder";
 import usePage from "../../hooks/usePage";
 import Block from "../Block";
 import Empty from "./Empty";
+import Head from "./Head";
 
 interface IProps {
   pageId: string;
@@ -32,17 +33,15 @@ const Page = (props: IProps) => {
 
   return (
     <div className="h-full w-full">
-      <label htmlFor="chaofeng-drawer" className="lg:hidden">
-        Open drawer
-      </label>
-      <div className="flex-1 h-full">
-        <div className="flex flex-1 justify-center">
-          <div className="lg:px-24 w-3/5 lg:pb-36">
+      <div className="h-full">
+        <Head />
+        <div className="flex justify-center">
+          <div className="lg:px-24 w-4/5 lg:w-3/5">
             {page?.name != null ? page.name : "untitled"}
           </div>
         </div>
-        <div className="flex flex-1 justify-center">
-          <div className="lg:px-24 w-3/5 lg:pb-36 max-w-5xl">
+        <div className="flex justify-center">
+          <div className="lg:px-24 w-4/5 lg:w-3/5 lg:pb-36 max-w-5xl">
             {(blockOrder == null || blockOrder?.length === 0) && (
               <Empty pageId={pageId} />
             )}
