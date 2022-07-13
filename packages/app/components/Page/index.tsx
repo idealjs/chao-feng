@@ -36,12 +36,12 @@ const Page = (props: IProps) => {
       <div className="h-full">
         <Head />
         <div className="flex justify-center">
-          <div className="w-4/5 xl:px-16 max-w-5xl">
+          <h1 className="w-4/5 xl:px-24 max-w-5xl">
             {page?.name != null ? page.name : "untitled"}
-          </div>
+          </h1>
         </div>
         <div className="flex justify-center">
-          <div className="w-4/5 xl:px-16 max-w-5xl lg:pb-36">
+          <div className="w-4/5 xl:px-24 max-w-5xl lg:pb-36">
             {(blockOrder == null || blockOrder?.length === 0) && (
               <Empty pageId={pageId} />
             )}
