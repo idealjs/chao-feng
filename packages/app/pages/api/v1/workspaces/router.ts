@@ -17,6 +17,7 @@ const routerHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           pages: {
             select: {
               id: true,
+              childOrder: true,
               parentId: true,
               workspaceId: true,
               name: true,
