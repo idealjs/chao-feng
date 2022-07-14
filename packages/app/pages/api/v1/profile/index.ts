@@ -7,8 +7,9 @@ const prisma = new PrismaClient();
 const profileHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { query, body, method } = req;
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-  if (!token) {
-    res.status(401);
+
+  if (token == null) {
+    res.status(401).json(null);
     return;
   }
   switch (method) {
