@@ -33,6 +33,8 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       res.status(200).json(
         await prisma.page.create({
           data: {
+            childOrder: [],
+            blockOrder: [],
             workspace: {
               connect: {
                 id: workspaceId,

@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 const prisma = new PrismaClient();
@@ -35,11 +35,9 @@ const blocksHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         });
 
-        const order = block?.page?.blockOrder
-          ?.split(",")
-          .filter((o) => o !== "")
-          .filter((o) => o !== blockId)
-          .join(",");
+        const order = (block?.page?.blockOrder as Prisma.JsonArray).filter(
+          (o) => o !== blockId
+        );
 
         await prisma.page.update({
           where: {

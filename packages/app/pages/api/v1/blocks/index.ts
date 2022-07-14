@@ -55,6 +55,8 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
           linkPage = await prisma.page.create({
             data: {
+              childOrder: [],
+              blockOrder: [],
               workspace: {
                 connect: {
                   id: page?.workspaceId,
@@ -86,36 +88,25 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         });
 
-        if (nextTo == null) {
-          await prisma.page.update({
-            where: {
-              id: pageId,
-            },
-            data: {
-              blockOrder: (block.page?.blockOrder?.split(",") ?? [])
-                .concat(block.id)
-                .join(","),
-            },
-          });
-        }
-
-        if (nextTo != null) {
-          await prisma.page.update({
-            where: {
-              id: pageId,
-            },
-            data: {
-              blockOrder: (block.page?.blockOrder?.split(",") ?? [])
-                .flatMap((blockId) => {
-                  if (blockId === nextTo) {
-                    return [blockId, block.id];
-                  }
-                  return [blockId];
-                })
-                .join(","),
-            },
-          });
-        }
+        await prisma.page.update({
+          where: {
+            id: pageId,
+          },
+          data: {
+            blockOrder: (
+              (block.page?.blockOrder ?? []) as Prisma.JsonArray
+            ).flatMap((blockId) => {
+              if (blockId === nextTo) {
+                return [blockId, block.id];
+              }
+              return [blockId];
+            }),
+            childOrder: [
+              linkPage?.id,
+              ...((block.page?.childOrder ?? []) as Prisma.JsonArray),
+            ].filter((id): id is string => id != null),
+          },
+        });
 
         return block;
       });

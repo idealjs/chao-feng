@@ -46,6 +46,8 @@ const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const page = await prisma.page.create({
           data: {
+            childOrder: [],
+            blockOrder: [],
             workspace: {
               create: {
                 name: name,
@@ -54,6 +56,7 @@ const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
                     id: tag.id,
                   },
                 },
+                pageOrder: [],
               },
             },
           },
