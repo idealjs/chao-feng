@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 
 import checkAuth from "./checkAuth";
 
-const Signin = () => {
+const SignIn = () => {
   const [checked, setChecked] = useState(false);
   const emailRef = useRef<HTMLInputElement>(null);
   const verCodeRef = useRef<HTMLInputElement>(null);
@@ -54,4 +54,4 @@ const Signin = () => {
   );
 };
 
-export default Signin;
+export default SignIn;

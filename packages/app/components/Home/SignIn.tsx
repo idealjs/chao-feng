@@ -1,6 +1,6 @@
 import { signIn } from "next-auth/react";
 
-const Intro = () => {
+const SignIn = () => {
   return (
     <div>
       <div>Not signed in</div>
@@ -9,4 +9,4 @@ const Intro = () => {
   );
 };
 
-export default Intro;
+export default SignIn;
