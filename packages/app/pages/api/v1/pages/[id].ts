@@ -13,9 +13,6 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         where: {
           id: pageId,
         },
-        include: {
-          blocks: true,
-        },
       });
       if (page == null) {
         res.status(404).json({});
