@@ -13,16 +13,8 @@ const routerHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         where: {
           id: workspaceId,
         },
-        select: {
-          pages: {
-            select: {
-              id: true,
-              childOrder: true,
-              parentId: true,
-              workspaceId: true,
-              name: true,
-            },
-          },
+        include: {
+          pages: true,
         },
       });
       res.status(200).json(workspace);

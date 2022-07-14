@@ -2,14 +2,14 @@ import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
 
 import usePage from "../../hooks/usePage";
-import useWorkspace from "../../hooks/useWorkspace";
+import useWorkspaceRouter from "../../hooks/useWorkspaceRouter";
 import Profile from "./Profile";
 
 const SideDrawer = () => {
   const router = useRouter();
   const { pid } = router.query as { pid: string | undefined };
   const page = usePage(pid);
-  const workspace = useWorkspace(page?.workspaceId);
+  const workspace = useWorkspaceRouter(page?.workspaceId);
 
   return (
     <div className="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content sm:border-r-2 sm:border-gray-300">

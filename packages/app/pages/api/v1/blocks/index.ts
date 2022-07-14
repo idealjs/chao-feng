@@ -23,7 +23,7 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         pageId: string;
         type: string;
         properties?: Prisma.InputJsonObject;
-        nextTo: string;
+        nextTo?: string;
       };
       if (pageId == null) {
         res.status(422).json({
@@ -93,14 +93,19 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
             id: pageId,
           },
           data: {
-            blockOrder: (
-              (block.page?.blockOrder ?? []) as Prisma.JsonArray
-            ).flatMap((blockId) => {
-              if (blockId === nextTo) {
-                return [blockId, block.id];
-              }
-              return [blockId];
-            }),
+            blockOrder:
+              nextTo == null
+                ? ((block.page?.blockOrder ?? []) as Prisma.JsonArray).concat(
+                    block.id
+                  )
+                : ((block.page?.blockOrder ?? []) as Prisma.JsonArray).flatMap(
+                    (blockId) => {
+                      if (blockId === nextTo) {
+                        return [blockId, block.id];
+                      }
+                      return [blockId];
+                    }
+                  ),
             childOrder: [
               linkPage?.id,
               ...((block.page?.childOrder ?? []) as Prisma.JsonArray),
