@@ -9,7 +9,7 @@ const routerHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   switch (method) {
     case "GET": {
-      prisma.workspace.findUnique({
+      const workspace = await prisma.workspace.findUnique({
         where: {
           id: workspaceId,
         },
@@ -25,6 +25,7 @@ const routerHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         },
       });
+      res.status(200).json(workspace);
       break;
     }
     case "POST": {
