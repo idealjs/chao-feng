@@ -1,0 +1,15 @@
+{
+  "name": "@idealjs/chao-feng-server",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@socket.io/redis-adapter": "^7.2.0",
+    "koa": "^2.13.4",
+    "redis": "^4.2.0",
+    "socket.io": "^4.5.1"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.4",
+    "typescript": "^4.7.4"
+  }
+}
