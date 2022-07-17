@@ -15,7 +15,8 @@ declare module "next-auth" {
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      NEXT_PUBLIC_NODE_ENV?: string;
+      NEXT_PUBLIC_NODE_ENV: string | undefined;
+      NEXT_PUBLIC_WEBSOCKET_URL: string | undefined;
     }
   }
 }
