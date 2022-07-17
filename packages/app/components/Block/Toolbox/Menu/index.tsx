@@ -32,6 +32,9 @@ const Menu = (props: IProps) => {
       <li>
         <button
           onClick={async () => {
+            if (pageId == null) {
+              return;
+            }
             await createBlock({
               pageId: pageId,
               type: "text",
@@ -47,6 +50,9 @@ const Menu = (props: IProps) => {
       <li>
         <button
           onClick={async () => {
+            if (pageId == null) {
+              return;
+            }
             const block = (await createBlock({
               pageId: pageId,
               type: "link",

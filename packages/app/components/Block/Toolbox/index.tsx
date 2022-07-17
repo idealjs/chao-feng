@@ -51,6 +51,9 @@ const Toolbox = (props: PropsWithChildren<IProps>) => {
         <div
           className="h-5 w-5 mr-2 cursor-pointer"
           onClick={async () => {
+            if (pageId == null) {
+              return;
+            }
             await createBlock({
               pageId,
               type: "text",
