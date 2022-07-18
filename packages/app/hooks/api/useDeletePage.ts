@@ -14,11 +14,11 @@ const useDeletePage = () => {
       const page = (await res.json()) as Page;
 
       if (page.parentId) {
-        socket?.send({
+        socket?.emit("updated", {
           updatedUrl: `/api/v1/pages/${page.parentId}`,
         });
       } else {
-        socket?.send({
+        socket?.emit("updated", {
           updatedUrl: `/api/v1/workspaces/${page.workspaceId}`,
         });
       }

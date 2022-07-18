@@ -26,7 +26,7 @@ const useCreateBlock = () => {
         }),
       });
       const block = (await res.json()) as Block;
-      socket?.send({
+      socket?.emit("updated", {
         updatedUrl: `/api/v1/pages/${pageId}`,
       });
       return block;
