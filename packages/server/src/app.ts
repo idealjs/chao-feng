@@ -32,14 +32,6 @@ io.on("connection", (socket) => {
     const { updatedUrl } = msg;
     socket.to(pageId).emit("updated", { updatedUrl });
   });
-  socket.on("created", (msg: { parentUrl: string | undefined }) => {
-    const { parentUrl } = msg;
-    socket.to(pageId).emit("created", { parentUrl });
-  });
-  socket.on("deleted", (msg: { parentUrl: string | undefined }) => {
-    const { parentUrl } = msg;
-    socket.to(pageId).emit("deleted", { parentUrl });
-  });
 });
 
 export default io;
