@@ -1,13 +1,31 @@
+import { Page } from "@prisma/client";
 import { useCallback } from "react";
 
+import { useSocket } from "../../components/SocketProvider";
+
 const useDeletePage = () => {
-  return useCallback(async (params: { pageId: string }) => {
-    const { pageId } = params;
-    const res = await fetch(`/api/v1/pages/${pageId}`, {
-      method: "DELETE",
-    });
-    return await res.json();
-  }, []);
+  const socket = useSocket();
+  return useCallback(
+    async (params: { pageId: string }) => {
+      const { pageId } = params;
+      const res = await fetch(`/api/v1/pages/${pageId}`, {
+        method: "DELETE",
+      });
+      const page = (await res.json()) as Page;
+
+      if (page.parentId) {
+        socket?.send({
+          updatedUrl: `/api/v1/pages/${page.parentId}`,
+        });
+      } else {
+        socket?.send({
+          updatedUrl: `/api/v1/workspaces/${page.workspaceId}`,
+        });
+      }
+      return page;
+    },
+    [socket]
+  );
 };
 
 export default useDeletePage;

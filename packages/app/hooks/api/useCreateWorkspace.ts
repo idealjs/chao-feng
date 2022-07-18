@@ -1,20 +1,30 @@
+import { Workspace } from "@prisma/client";
 import { useCallback } from "react";
-import { useSWRConfig } from "swr";
+
+import { useSocket } from "../../components/SocketProvider";
 
 const useCreateWorkspace = () => {
-  return useCallback(async (name: string) => {
-    const res = await fetch("/api/v1/workspaces", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-      }),
-    });
+  const socket = useSocket();
+  return useCallback(
+    async (name: string) => {
+      const res = await fetch("/api/v1/workspaces", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+        }),
+      });
 
-    return await res.json();
-  }, []);
+      const workspace = (await res.json()) as Workspace;
+      socket?.send({
+        updatedUrl: "/api/v1/profile",
+      });
+      return workspace;
+    },
+    [socket]
+  );
 };
 
 export default useCreateWorkspace;

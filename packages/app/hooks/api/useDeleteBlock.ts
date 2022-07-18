@@ -1,13 +1,24 @@
+import { Block } from "@prisma/client";
 import { useCallback } from "react";
 
+import { useSocket } from "../../components/SocketProvider";
+
 const useDeleteBlock = () => {
-  return useCallback(async (params: { blockId: string }) => {
-    const { blockId } = params;
-    const res = await fetch(`/api/v1/blocks/${blockId}`, {
-      method: "DELETE",
-    });
-    return await res.json();
-  }, []);
+  const socket = useSocket();
+
+  return useCallback(
+    async (params: { blockId: string }) => {
+      const { blockId } = params;
+      const res = await fetch(`/api/v1/blocks/${blockId}`, {
+        method: "DELETE",
+      });
+      const block = (await res.json()) as Block;
+      socket?.send({
+        updatedUrl: `/api/v1/pages/${block.pageId}`,
+      });
+    },
+    [socket]
+  );
 };
 
 export default useDeleteBlock;

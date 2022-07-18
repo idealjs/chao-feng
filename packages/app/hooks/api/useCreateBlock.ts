@@ -1,14 +1,17 @@
 import type { Block, Prisma } from "@prisma/client";
 import { useCallback } from "react";
 
+import { useSocket } from "../../components/SocketProvider";
+
 const useCreateBlock = () => {
+  const socket = useSocket();
   return useCallback(
     async (params: {
       pageId: string;
       type: string;
       properties: Prisma.InputJsonValue;
       nextTo?: string;
-    }): Promise<Block> => {
+    }) => {
       const { pageId, type, properties, nextTo } = params;
       const res = await fetch("/api/v1/blocks", {
         method: "POST",
@@ -22,9 +25,13 @@ const useCreateBlock = () => {
           nextTo: nextTo,
         }),
       });
-      return await res.json();
+      const block = (await res.json()) as Block;
+      socket?.send({
+        updatedUrl: `/api/v1/pages/${pageId}`,
+      });
+      return block;
     },
-    []
+    [socket]
   );
 };
 
