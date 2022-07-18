@@ -31,7 +31,8 @@ const Menu = (props: IProps) => {
     >
       <li>
         <button
-          onClick={async () => {
+          onClick={async (e) => {
+            const currentTarget = e.currentTarget;
             if (pageId == null) {
               return;
             }
@@ -42,6 +43,7 @@ const Menu = (props: IProps) => {
               properties: {},
             });
             mutate(`/api/v1/pages/${pageId}`);
+            currentTarget.blur();
           }}
         >
           create text
