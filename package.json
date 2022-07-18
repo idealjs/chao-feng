@@ -7,9 +7,14 @@
   "repository": "git@github.com:idealjs/chao-feng.git",
   "license": "MIT",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "dev": "concurrently \"yarn dev:app\" \"yarn dev:server\"",
+    "dev:app": "cd packages/app && yarn dev",
+    "dev:server": "cd packages/server && yarn dev",
+    "dev:deps": "docker-compose up"
   },
   "devDependencies": {
+    "concurrently": "^7.2.2",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "lerna": "^4.0.0"
   }
