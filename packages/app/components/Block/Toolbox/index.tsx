@@ -47,10 +47,13 @@ const Toolbox = (props: PropsWithChildren<IProps>) => {
           "opacity-0 group-hover:opacity-100 focus-within:opacity-100",
           "whitespace-nowrap absolute right-full"
         )}
+        onClick={(e) => {
+          e.currentTarget.blur();
+        }}
       >
         <div
           className="h-5 w-5 mr-2 cursor-pointer"
-          onClick={async () => {
+          onClick={async (e) => {
             if (pageId == null) {
               return;
             }
@@ -70,6 +73,7 @@ const Toolbox = (props: PropsWithChildren<IProps>) => {
           className="dropdown h-5 w-5 mr-2 cursor-pointer"
           {...listeners}
           onClick={(e) => {
+            e.stopPropagation();
             if (e.currentTarget.classList.contains("dropdown-open")) {
               e.currentTarget.blur();
             } else {
