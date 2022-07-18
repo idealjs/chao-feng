@@ -2,8 +2,8 @@ import clsx from "clsx";
 import { useRouter } from "next/router";
 import { useSWRConfig } from "swr";
 
-import useCreateBlock from "../../../../hooks/useCreateBlock";
-import useDeleteBlock from "../../../../hooks/useDeleteBlock";
+import useCreateBlock from "../../../../hooks/api/useCreateBlock";
+import useDeleteBlock from "../../../../hooks/api/useDeleteBlock";
 import usePageId from "../../../../hooks/usePageId";
 import { ILinkBlock } from "../../Link";
 

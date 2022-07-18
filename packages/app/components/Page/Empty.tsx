@@ -1,6 +1,6 @@
 import { useSWRConfig } from "swr";
 
-import useCreateBlock from "../../hooks/useCreateBlock";
+import useCreateBlock from "../../hooks/api/useCreateBlock";
 
 interface IProps {
   pageId: string;

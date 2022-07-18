@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { PropsWithChildren, useState } from "react";
 import { useSWRConfig } from "swr";
 
-import useCreateBlock from "../../../hooks/useCreateBlock";
+import useCreateBlock from "../../../hooks/api/useCreateBlock";
 import usePageId from "../../../hooks/usePageId";
 import Menu from "./Menu";
 

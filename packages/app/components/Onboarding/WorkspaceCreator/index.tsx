@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useRef } from "react";
 import { useSWRConfig } from "swr";
 
-import useCreateWorkspace from "../../../hooks/useCreateWorkspace";
+import useCreateWorkspace from "../../../hooks/api/useCreateWorkspace";
 import useProfile from "../../../hooks/useProfile";
 
 const WorkspaceCreator = () => {
