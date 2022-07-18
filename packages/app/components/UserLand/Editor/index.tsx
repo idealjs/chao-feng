@@ -1,11 +1,13 @@
 import { useRouter } from "next/router";
 
+import useSyncEdit from "../../../hooks/useSyncEdit";
 import Page from "../../Page";
 import SideDrawer from "../../SideDrawer";
 
 const Editor = () => {
   const router = useRouter();
   const { pid } = router.query as { pid: string | undefined };
+  useSyncEdit();
 
   return (
     <div className="drawer drawer-mobile">
