@@ -22,7 +22,11 @@ const SocketProvider = (props: PropsWithChildren<IProps>) => {
 
   useEffect(() => {
     let socket: Socket | null = null;
-    if (uri != null && pageId != null) {
+    if (
+      uri != null &&
+      pageId != null &&
+      process.env.NEXT_PUBLIC_SYNC_EDIT !== "disabled"
+    ) {
       socket = io(uri, { query: { pageId } });
       setSocket(socket);
     }
