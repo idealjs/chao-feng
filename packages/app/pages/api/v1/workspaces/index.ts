@@ -1,10 +1,8 @@
-import { PrismaClient } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
 
+import prisma from "../../../../lib/prisma";
 import { SCRUD, TAG_TYPE } from "../../../../lib/type";
-
-const prisma = new PrismaClient();
 
 const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { query, body, method } = req;

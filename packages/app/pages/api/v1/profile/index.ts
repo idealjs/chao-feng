@@ -1,8 +1,7 @@
-import { PrismaClient } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
 
-const prisma = new PrismaClient();
+import prisma from "../../../../lib/prisma";
 
 const profileHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { query, body, method } = req;
