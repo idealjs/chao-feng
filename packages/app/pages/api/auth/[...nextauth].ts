@@ -1,5 +1,5 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import { Provider } from "next-auth/providers";
 import EmailProvider from "next-auth/providers/email";
 
@@ -57,7 +57,7 @@ const mockProvider: Provider[] = [
   }),
 ];
 
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   callbacks: {
     session: ({ session, user, token }) => {
@@ -72,4 +72,6 @@ export default NextAuth({
   pages: {
     signIn: "/auth/signin",
   },
-});
+};
+
+export default NextAuth(authOptions);

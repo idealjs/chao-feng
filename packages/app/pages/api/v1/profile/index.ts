@@ -1,13 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { unstable_getServerSession } from "next-auth";
 import { getToken } from "next-auth/jwt";
 
 import prisma from "../../../../lib/prisma";
+import { authOptions } from "../../auth/[...nextauth]";
 
 const profileHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { query, body, method } = req;
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-
-  if (token == null) {
+  const session = await unstable_getServerSession(req, res, authOptions);
+  if (session == null) {
     res.status(401).json(null);
     return;
   }
@@ -16,7 +17,7 @@ const profileHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       res.status(200).json(
         await prisma.profile.findUnique({
           where: {
-            userId: token?.sub,
+            userId: session?.user.id,
           },
           include: {
             workspaces: true,

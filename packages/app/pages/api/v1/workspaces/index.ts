@@ -1,14 +1,16 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { unstable_getServerSession } from "next-auth";
 import { getToken } from "next-auth/jwt";
 
 import prisma from "../../../../lib/prisma";
 import { SCRUD, TAG_TYPE } from "../../../../lib/type";
+import { authOptions } from "../../auth/[...nextauth]";
 
 const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { query, body, method } = req;
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-  if (token == null) {
-    res.status(401);
+  const session = await unstable_getServerSession(req, res, authOptions);
+  if (session == null) {
+    res.status(401).json(null);
     return;
   }
 
@@ -21,17 +23,17 @@ const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       break;
     }
     case "POST": {
-      if (token.sub == null) {
+      if (session.user.id == null) {
         res.status(422).json({ error: "Missing subject in token" });
         return;
       }
-      if (name == null || token.sub == null) {
+      if (name == null || session.user == null) {
         res.status(422).json({ error: "Missing name" });
         return;
       }
 
       const transactionRes = await prisma.$transaction(async (prisma) => {
-        if (token.sub == null) {
+        if (session.user == null) {
           return;
         }
         const tag = await prisma.permissionTag.create({
@@ -65,7 +67,7 @@ const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         await prisma.user.update({
           where: {
-            id: token.sub,
+            id: session.user.id,
           },
           data: {
             profile: {
