@@ -59,18 +59,11 @@ const mockProvider: Provider[] = [
 
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
-  session: {
-    strategy: "jwt",
-  },
-
   callbacks: {
-    session: ({ session, token }) => {
+    session: ({ session, user, token }) => {
       return {
         ...session,
-        user: {
-          ...session.user,
-          userId: token.sub,
-        },
+        user: user,
       };
     },
   },
