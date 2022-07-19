@@ -70,6 +70,5 @@ export const closestCorners: CollisionDetection = ({
       });
     }
   }
-  console.log("test test", collisions);
   return collisions.sort(sortCollisionsAsc);
 };

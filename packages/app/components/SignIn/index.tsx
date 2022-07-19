@@ -30,7 +30,6 @@ const SignIn = () => {
               await signIn("email", {
                 email: emailRef.current?.value,
                 redirect: false,
-                callbackUrl: "/onboarding",
               });
               setChecked(true);
             }

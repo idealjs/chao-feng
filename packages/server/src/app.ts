@@ -32,7 +32,6 @@ io.on("connection", (socket) => {
   socket.join(pageId);
 
   socket.on("updated", (msg: { updatedUrl: string | undefined }) => {
-    console.log("test test updated", msg);
     const { updatedUrl } = msg;
     socket.to(pageId).emit("updated", { updatedUrl });
   });
