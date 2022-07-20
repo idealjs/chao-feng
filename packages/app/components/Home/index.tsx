@@ -9,8 +9,6 @@ const Home = () => {
   const { data: session, status } = useSession();
   const profile = useProfile();
 
-  console.log("test test", status, profile, session);
-
   if (status === "loading") {
     return null;
   }
