@@ -8,6 +8,7 @@ const SignIn = () => {
   const [checked, setChecked] = useState(false);
   const emailRef = useRef<HTMLInputElement>(null);
   const verCodeRef = useRef<HTMLInputElement>(null);
+  const callbackUrlRef = useRef<string | undefined>();
 
   const router = useRouter();
   return (
@@ -57,16 +58,18 @@ const SignIn = () => {
                   if (!checked) {
                     const res = await checkAuth(emailRef.current?.value);
                     if (res.allow) {
-                      await signIn("email", {
+                      const signInRes = await signIn("email", {
                         email: emailRef.current?.value,
+                        callbackUrl: "/",
                         redirect: false,
                       });
+                      callbackUrlRef.current = signInRes?.url ?? undefined;
                       setChecked(true);
                     }
                   }
                   if (checked) {
                     const params = new URLSearchParams({
-                      callbackUrl: `${router.query.callbackUrl}`,
+                      callbackUrl: callbackUrlRef.current ?? "",
                       token: verCodeRef.current?.value ?? "",
                       email: emailRef.current?.value ?? "",
                     });
