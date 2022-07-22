@@ -52,7 +52,7 @@ const mockProvider: Provider[] = [
     },
     from: process.env.EMAIL_FROM,
     sendVerificationRequest: (params) => {
-      console.debug(params);
+      console.debug("[debug]:mock sendVerificationRequest", params);
     },
   }),
 ];
