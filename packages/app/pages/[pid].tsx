@@ -1,1 +1,1 @@
-export { default } from "../components/UserLand";
+export { default } from "../features/UserLand";

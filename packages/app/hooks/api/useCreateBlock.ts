@@ -1,7 +1,7 @@
 import type { Block, Prisma } from "@prisma/client";
 import { useCallback } from "react";
 
-import { useSocket } from "../../components/SocketProvider";
+import { useSocket } from "../../features/SocketProvider";
 
 const useCreateBlock = () => {
   const socket = useSocket();
