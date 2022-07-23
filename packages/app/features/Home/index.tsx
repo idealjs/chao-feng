@@ -7,9 +7,9 @@ const Home = () => {
   const router = useRouter();
 
   const { data: session, status } = useSession();
-  const profile = useProfile();
+  const { profile, isValidating } = useProfile();
 
-  if (status === "loading") {
+  if (status === "loading" || isValidating) {
     return null;
   }
 

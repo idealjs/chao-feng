@@ -6,20 +6,17 @@ import HeroInput from "../../components/HeroInput";
 import checkAuth from "./checkAuth";
 
 const SignIn = () => {
-  const callbackUrlRef = useRef<string | undefined>();
-
   const router = useRouter();
   return (
     <HeroInput
       check={async (input) => {
         const res = await checkAuth(input);
         if (res.allow) {
-          const signInRes = await signIn("email", {
+          await signIn("email", {
             email: input,
             callbackUrl: "/",
             redirect: false,
           });
-          callbackUrlRef.current = signInRes?.url ?? undefined;
           return true;
         }
         return false;
@@ -28,12 +25,10 @@ const SignIn = () => {
         const params = new URLSearchParams({
           email: input ?? "",
           token: nextInput ?? "",
-          callbackUrl: callbackUrlRef.current ?? "",
+          callbackUrl: router.basePath,
         });
 
-        window.location.href = `${
-          router.basePath
-        }/api/auth/callback/email?${params.toString()}`;
+        router.push(`/api/auth/callback/email?${params.toString()}`);
       }}
     />
   );

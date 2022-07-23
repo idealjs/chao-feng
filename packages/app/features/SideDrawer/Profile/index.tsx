@@ -11,7 +11,7 @@ interface IProps {
 const Profile = (props: IProps) => {
   const { currentWorkspace } = props;
 
-  const profile = useProfile();
+  const { profile } = useProfile();
 
   return (
     <div></div>

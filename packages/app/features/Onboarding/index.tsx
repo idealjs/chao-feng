@@ -6,7 +6,7 @@ import useCreateWorkspace from "../../hooks/api/useCreateWorkspace";
 import useProfile from "../../hooks/useProfile";
 
 const Onboarding = () => {
-  const profile = useProfile();
+  const { profile } = useProfile();
   const router = useRouter();
   const ref = useRef<HTMLInputElement>(null);
   const { mutate } = useSWRConfig();
