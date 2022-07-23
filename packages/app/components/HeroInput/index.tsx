@@ -15,11 +15,11 @@ interface IProps {
     check?: string;
     next?: string;
   };
-  check?: (input: string | undefined) => Promise<boolean>;
+  check?: (input: string | undefined) => Promise<boolean> | boolean;
   next?: (
     input: string | undefined,
     nextInput: string | undefined
-  ) => Promise<void>;
+  ) => Promise<void> | void;
 }
 
 const HeroInput = (props: IProps) => {
