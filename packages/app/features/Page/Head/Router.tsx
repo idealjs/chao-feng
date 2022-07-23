@@ -1,9 +1,10 @@
 import usePageId from "../../../hooks/usePageId";
-import useParentIds from "../../../hooks/useParentIds";
+import useParents from "../../../hooks/useParents";
 
 const Router = () => {
   const pageId = usePageId();
-  const parentIds = useParentIds(pageId);
+  const parents = useParents(pageId);
+
   return <div className="invisible lg:visible">Router {pageId}</div>;
 };
 
