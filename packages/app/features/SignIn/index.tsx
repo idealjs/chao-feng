@@ -20,6 +20,10 @@ const SignIn = () => {
         label: "Security Code",
         placeholder: "security code",
       }}
+      button={{
+        next: "Login",
+        check: "Next",
+      }}
       check={async (input) => {
         const res = await checkAuth(input);
         if (res.allow) {

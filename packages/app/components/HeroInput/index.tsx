@@ -11,6 +11,10 @@ interface IProps {
     label: string;
     placeholder: string;
   };
+  button?: {
+    check?: string;
+    next?: string;
+  };
   check?: (input: string | undefined) => Promise<boolean>;
   next?: (
     input: string | undefined,
@@ -19,7 +23,7 @@ interface IProps {
 }
 
 const HeroInput = (props: IProps) => {
-  const { title, content, input, nextInput, check, next } = props;
+  const { title, content, input, nextInput, button, check, next } = props;
 
   const [checked, setChecked] = useState(check == null);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -78,7 +82,7 @@ const HeroInput = (props: IProps) => {
                   }
                 }}
               >
-                {checked ? "Login" : "Next"}
+                {checked ? button?.next : button?.check}
               </button>
             </div>
           </div>
