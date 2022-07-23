@@ -1,6 +1,16 @@
 import { useRef, useState } from "react";
 
 interface IProps {
+  title?: string;
+  content?: string;
+  input?: {
+    label: string;
+    placeholder: string;
+  };
+  nextInput?: {
+    label: string;
+    placeholder: string;
+  };
   check?: (input: string | undefined) => Promise<boolean>;
   next?: (
     input: string | undefined,
@@ -9,8 +19,9 @@ interface IProps {
 }
 
 const HeroInput = (props: IProps) => {
-  const { check, next } = props;
-  const [checked, setChecked] = useState(false);
+  const { title, content, input, nextInput, check, next } = props;
+
+  const [checked, setChecked] = useState(check == null);
   const emailRef = useRef<HTMLInputElement>(null);
   const verCodeRef = useRef<HTMLInputElement>(null);
 
@@ -18,23 +29,19 @@ const HeroInput = (props: IProps) => {
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div className="text-center lg:text-left">
-          <h1 className="text-5xl font-bold">Login now!</h1>
-          <p className="py-6">
-            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-            excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
-            a id nisi.
-          </p>
+          {title != null && <h1 className="text-5xl font-bold">{title}</h1>}
+          <p className="py-6">{content}</p>
         </div>
         <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
           <div className="card-body">
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Email</span>
+                <span className="label-text">{input?.label}</span>
               </label>
               <input
                 name="email"
                 type="text"
-                placeholder="email"
+                placeholder={input?.placeholder}
                 className="input input-bordered"
                 autoComplete={"on"}
                 ref={emailRef}
@@ -43,11 +50,11 @@ const HeroInput = (props: IProps) => {
             {checked && (
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Security Code</span>
+                  <span className="label-text">{nextInput?.label}</span>
                 </label>
                 <input
                   type="text"
-                  placeholder="security code"
+                  placeholder={nextInput?.placeholder}
                   className="input input-bordered"
                   ref={verCodeRef}
                 />
