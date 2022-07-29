@@ -8,7 +8,9 @@
   "dependencies": {
     "@socket.io/redis-adapter": "^7.2.0",
     "redis": "^4.2.0",
-    "socket.io": "^4.5.1"
+    "socket.io": "^4.5.1",
+    "y-prosemirror": "^1.1.2",
+    "yjs": "^13.5.41"
   },
   "devDependencies": {
     "@types/node": "^18.0.4",
