@@ -1,0 +1,8 @@
+{
+  "Props Interface": {
+    "scope": "typescriptreact",
+    "prefix": "ipp",
+    "body": ["interface IProps {", "", "}"],
+    "description": "props interface"
+  }
+}
