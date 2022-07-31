@@ -18,57 +18,6 @@ export enum TAG_TYPE {
   EXCLUDE = "EXCLUDE",
 }
 
-export enum COLOR {
-  GARY = "GARY",
-  BROWN = "BROWN",
-  ORANGE = "ORANGE",
-  YELLOW = "YELLOW",
-  TEAL = "TEAL",
-  BLUE = "BLUE",
-  PURPLE = "PURPLE",
-  PINK = "PINK",
-  RED = "RED",
-  GARY_BACKGROUND = "GARY_BACKGROUND",
-  BROWN_BACKGROUND = "BROWN_BACKGROUND",
-  ORANGE_BACKGROUND = "ORANGE_BACKGROUND",
-  YELLOW_BACKGROUND = "YELLOW_BACKGROUND",
-  TEAL_BACKGROUND = "TEAL_BACKGROUND",
-  BLUE_BACKGROUND = "BLUE_BACKGROUND",
-  PURPLE_BACKGROUND = "PURPLE_BACKGROUND",
-  PINK_BACKGROUND = "PINK_BACKGROUND",
-  RED_BACKGROUND = "RED_BACKGROUND",
-}
-
-export type BoldFormat = ["b"];
-export type ItalicFormat = ["i"];
-export type StrikeFormat = ["s"];
-export type CodeFormat = ["c"];
-export type LinkFormat = ["a", string];
-export type ColorFormat = ["h", COLOR];
-export type DateFormat = [
-  "d",
-  {
-    type: "date";
-    start_date: string;
-    date_format: string;
-  }
-];
-export type UserFormat = ["u", string];
-export type PageFormat = ["p", string];
-
-type SubDecoration =
-  | BoldFormat
-  | ItalicFormat
-  | StrikeFormat
-  | CodeFormat
-  | LinkFormat
-  | ColorFormat
-  | DateFormat
-  | UserFormat
-  | PageFormat;
-
-export type Decoration = [string] | [string, SubDecoration[]];
-
 export interface IBlock<O extends Prisma.JsonObject = {}> extends Block {
   id: string;
   properties: O;
@@ -82,16 +31,11 @@ export interface IDividerBlock extends IBlock {
 
 export interface ICodeBlock extends IBlock {
   type: "code";
-  properties: {
-    title?: Decoration;
-    language?: Decoration[];
-  };
+  properties: {};
 }
 
 export interface IBaseTextBlock extends IBlock {
-  properties: {
-    title?: Decoration;
-  };
+  properties: {};
 }
 
 export interface IBulletedListBlock extends IBaseTextBlock {
