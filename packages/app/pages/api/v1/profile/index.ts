@@ -1,8 +1,8 @@
+import { prisma } from "@idealjs/chao-feng-shared";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { unstable_getServerSession } from "next-auth";
 import { getToken } from "next-auth/jwt";
 
-import prisma from "../../../../lib/prisma";
 import { authOptions } from "../../auth/[...nextauth]";
 
 const profileHandler = async (req: NextApiRequest, res: NextApiResponse) => {

@@ -1,9 +1,8 @@
+import { prisma } from "@idealjs/chao-feng-shared";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import { Provider } from "next-auth/providers";
 import EmailProvider from "next-auth/providers/email";
-
-import prisma from "../../../lib/prisma";
 
 const providers: Provider[] = [
   EmailProvider({

@@ -1,7 +1,6 @@
+import { prisma } from "@idealjs/chao-feng-shared";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
-
-import prisma from "../../../../lib/prisma";
 
 const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { query, body, method } = req;

@@ -1,6 +1,5 @@
+import { prisma } from "@idealjs/chao-feng-shared";
 import type { NextApiRequest, NextApiResponse } from "next";
-
-import prisma from "../../../../lib/prisma";
 
 const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { query, body, method } = req;
