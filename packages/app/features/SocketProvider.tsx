@@ -5,7 +5,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { io, Socket } from "socket.io-client";
+import { io, ManagerOptions, Socket, SocketOptions } from "socket.io-client";
 
 import usePageId from "../hooks/usePageId";
 
@@ -13,24 +13,24 @@ const context = createContext<Socket | null>(null);
 
 interface IProps {
   uri: string | undefined;
+  opts?: Partial<ManagerOptions & SocketOptions>;
 }
 
 const SocketProvider = (props: PropsWithChildren<IProps>) => {
-  const { children, uri } = props;
+  const { children, uri, opts } = props;
   const [socket, setSocket] = useState<Socket | null>(null);
-  const pageId = usePageId();
 
   useEffect(() => {
     let socket: Socket | null = null;
-    if (uri != null && pageId != null) {
-      socket = io(uri, { query: { pageId } });
+    if (uri != null) {
+      socket = io(uri, opts);
       setSocket(socket);
     }
     return () => {
       socket?.close();
       setSocket(null);
     };
-  }, [pageId, uri]);
+  }, [opts, uri]);
 
   return <context.Provider value={socket}>{children}</context.Provider>;
 };

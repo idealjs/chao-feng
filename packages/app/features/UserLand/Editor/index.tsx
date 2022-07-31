@@ -17,7 +17,6 @@ const Editor = () => {
       <input id="chaofeng-drawer" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col items-center justify-center">
         {pid && <Page pageId={pid} />}
-        <MockEditor />
       </div>
       <div className="drawer-side">
         <label htmlFor="chaofeng-drawer" className="drawer-overlay"></label>
