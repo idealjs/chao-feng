@@ -3,12 +3,12 @@ import { Block } from "@prisma/client";
 import { useRouter } from "next/router";
 
 import usePage from "../../../hooks/usePage";
-import { Decoration, IBaseTextBlock } from "../../../lib/type";
+import { IBaseTextBlock } from "../../../lib/type";
 
 export interface ILinkBlock extends IBaseTextBlock {
   type: "text";
   properties: {
-    title?: Decoration | undefined;
+    title?: string | undefined;
     linkId: string;
   };
 }

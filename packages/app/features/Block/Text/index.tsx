@@ -14,7 +14,7 @@ const Text = (props: IProps) => {
 
   return (
     <div contentEditable={true} suppressContentEditableWarning={true}>
-      {block.properties.title?.[0] ?? block.id}
+      {block.id}
     </div>
   );
 };
