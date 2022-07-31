@@ -1,27 +1,14 @@
-import {
-  createContext,
-  PropsWithChildren,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, PropsWithChildren, useContext } from "react";
 import { Doc } from "yjs";
 
 const context = createContext<Doc | null>(null);
 
-interface IProps {}
+interface IProps {
+  yDoc: Doc | null;
+}
 
 const YDocProvider = (props: PropsWithChildren<IProps>) => {
-  const { children } = props;
-  const [yDoc, setYDoc] = useState<Doc | null>(null);
-  useEffect(() => {
-    const doc = new Doc();
-    setYDoc(doc);
-    return () => {
-      doc.destroy();
-      setYDoc(null);
-    };
-  }, []);
+  const { children, yDoc } = props;
 
   return <context.Provider value={yDoc}>{children}</context.Provider>;
 };
