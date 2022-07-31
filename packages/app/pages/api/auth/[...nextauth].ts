@@ -1,4 +1,4 @@
-import { prisma } from "@idealjs/chao-feng-shared";
+import prisma from "@idealjs/chao-feng-shared/lib/prisma";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import { Provider } from "next-auth/providers";

@@ -1,13 +1,15 @@
-import { prisma } from "@idealjs/chao-feng-shared";
+import prisma from "@idealjs/chao-feng-shared/lib/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getToken } from "next-auth/jwt";
+import { unstable_getServerSession } from "next-auth";
+
+import { authOptions } from "../../auth/[...nextauth]";
 
 const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { query, body, method } = req;
   const { id: workspaceId } = query as { id: string };
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-  if (!token) {
-    res.status(401);
+  const session = await unstable_getServerSession(req, res, authOptions);
+  if (session == null) {
+    res.status(401).json(null);
     return;
   }
 

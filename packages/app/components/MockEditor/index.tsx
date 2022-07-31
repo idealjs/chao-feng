@@ -1,4 +1,4 @@
-import { Node as PMNode, Schema } from "prosemirror-model";
+import { schema } from "@idealjs/chao-feng-shared/lib/prosemirror";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { useEffect, useRef, useState } from "react";
@@ -56,46 +56,3 @@ const MockEditor = () => {
 };
 
 export default MockEditor;
-
-export const schema = new Schema({
-  nodes: {
-    doc: {
-      content: "block+",
-    },
-    paragraph: {
-      content: "inline*",
-      group: "block",
-      selectable: false,
-      parseDOM: [{ tag: "p" }],
-      toDOM() {
-        return ["p", 0];
-      },
-    },
-    pmBlockquote: {
-      content: "paragraph+",
-      group: "block",
-      defining: true,
-      selectable: false,
-      attrs: {
-        class: { default: "pm-blockquote" },
-      },
-      parseDOM: [{ tag: "blockquote" }],
-      toDOM(node: PMNode) {
-        return ["blockquote", node.attrs, 0];
-      },
-    },
-    blockquote: {
-      content: "paragraph+",
-      group: "block",
-      defining: true,
-      selectable: false,
-      parseDOM: [{ tag: "blockquote" }],
-      toDOM() {
-        return ["blockquote", 0];
-      },
-    },
-    text: {
-      group: "inline",
-    },
-  },
-});

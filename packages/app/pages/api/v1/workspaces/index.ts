@@ -1,7 +1,6 @@
-import { prisma } from "@idealjs/chao-feng-shared";
+import prisma from "@idealjs/chao-feng-shared/lib/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { unstable_getServerSession } from "next-auth";
-import { getToken } from "next-auth/jwt";
 
 import { SCRUD, TAG_TYPE } from "../../../../lib/type";
 import { authOptions } from "../../auth/[...nextauth]";
