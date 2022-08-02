@@ -1,15 +1,15 @@
-import { createContext, PropsWithChildren, useContext } from "react";
+import { createContext, PropsWithChildren, useContext, useMemo } from "react";
 import { Doc } from "yjs";
 
 const context = createContext<Doc | null>(null);
 
 interface IProps {
-  yDoc: Doc | null;
+  initVector?: Uint8Array;
 }
 
 const YDocProvider = (props: PropsWithChildren<IProps>) => {
-  const { children, yDoc } = props;
-
+  const { children } = props;
+  const yDoc = useMemo(() => new Doc(), []);
   return <context.Provider value={yDoc}>{children}</context.Provider>;
 };
 
