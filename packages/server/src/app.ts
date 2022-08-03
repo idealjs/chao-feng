@@ -46,12 +46,12 @@ io.on("connection", async (socket) => {
   const doc = new Doc();
   doc
     .getArray("blockOrder")
-    .insert(0, (page?.blockOrder as string[] | undefined) ?? []);
+    .insert(0, (page?.blockOrder as string[] | undefined) ?? ["a", "b", "c"]);
   const update = encodeStateAsUpdate(doc);
 
   socket.emit("PAGE_DOC_INIT", {
     pageId,
-    update,
+    update: update,
   });
 });
 
