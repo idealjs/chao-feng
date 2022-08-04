@@ -8,12 +8,14 @@ const Editor = () => {
 
   return (
     <YDocProvider>
-      <SocketProvider
-        uri={process.env.NEXT_PUBLIC_WEBSOCKET_URL}
-        opts={{ query: { pageId } }}
-      >
-        <MockEditor />
-      </SocketProvider>
+      {pageId != null && (
+        <SocketProvider
+          uri={process.env.NEXT_PUBLIC_WEBSOCKET_URL}
+          opts={{ query: { pageId } }}
+        >
+          <MockEditor />
+        </SocketProvider>
+      )}
     </YDocProvider>
   );
 };

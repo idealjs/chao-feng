@@ -1,15 +1,13 @@
-import usePageId from "../../hooks/usePageId";
-import { useYDocSelector } from "../../lib/react-yjs";
+import { useSnapshot } from "valtio";
+
+import { state } from ".";
 import Block from "./Block";
 
 const Page = () => {
-  const blockOrder = useYDocSelector((root) => {
-    return root?.getArray<string>("blockOrder");
-  });
-  console.log("test test", blockOrder?.toJSON());
+  const snapshot = useSnapshot(state);
   return (
     <div>
-      {blockOrder?.map((blockId) => {
+      {snapshot.blockOrders?.map((blockId) => {
         return <Block key={blockId} blockId={blockId} />;
       })}
     </div>

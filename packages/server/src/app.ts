@@ -2,7 +2,7 @@ import { Server } from "socket.io";
 import { createAdapter } from "@socket.io/redis-adapter";
 import { createClient } from "redis";
 import prisma from "@idealjs/chao-feng-shared/lib/prisma";
-import { Doc, encodeStateAsUpdate } from "yjs";
+import { Array, Doc, encodeStateAsUpdate, Map } from "yjs";
 
 const io = new Server({
   cors: {
@@ -41,17 +41,23 @@ io.on("connection", async (socket) => {
     socket.emit("BLOCK_DOC_LOAD", {});
   });
 
-  const page = await prisma.page.findUnique({ where: { id: pageId } });
+  socket.on("PAGE_DOC_INIT", async () => {
+    const page = await prisma.page.findUnique({ where: { id: pageId } });
 
-  const doc = new Doc();
-  doc
-    .getArray("blockOrder")
-    .insert(0, (page?.blockOrder as string[] | undefined) ?? ["a", "b", "c"]);
-  const update = encodeStateAsUpdate(doc);
+    const doc = new Doc();
+    const valtioYMap = doc.getMap(pageId);
 
-  socket.emit("PAGE_DOC_INIT", {
-    pageId,
-    update: update,
+    valtioYMap.set(
+      "blockOrders",
+      Array.from((page?.blockOrder as string[] | undefined) ?? ["a", "b", "c"])
+    );
+
+    const update = encodeStateAsUpdate(doc);
+
+    socket.emit("PAGE_DOC_INIT", {
+      pageId,
+      update: update,
+    });
   });
 });
 
