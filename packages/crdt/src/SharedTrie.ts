@@ -2,11 +2,11 @@ import { nanoid } from "nanoid";
 import Lamport from "./Lamport";
 import objectHash from "object-hash";
 
-class SharedTrie<V = unknown> extends Map<string, SharedTrie> {
+class SharedTrie<V = unknown> extends Map<string, SharedTrie<V>> {
   id: string;
   timestamp = new Lamport();
   parent: SharedTrie | null = null;
-  activedChild: SharedTrie | null = null;
+  activedChild: SharedTrie<V> | null = null;
 
   value: V | undefined;
 
@@ -23,22 +23,26 @@ class SharedTrie<V = unknown> extends Map<string, SharedTrie> {
     };
   };
 
+  toList = (): (V | undefined)[] => {
+    return [this.value].concat(this.activedChild?.toList() ?? []);
+  };
+
   getHash = () => {
     return objectHash(this.toJSON());
   };
 
-  setChild = (value: SharedTrie<unknown>): this => {
+  setChild = (value: SharedTrie<V>): this => {
     super.set(value.id, value);
     this.activedChild = value;
     return this;
   };
 
-  merge = (income: SharedTrie | undefined): this => {
+  merge = (income: SharedTrie<V> | undefined): this => {
     if (this.activedChild?.getHash() === income?.activedChild?.getHash()) {
       return this;
     }
 
-    let merged: SharedTrie | null = null;
+    let merged: SharedTrie<V> | null = null;
 
     if (this.activedChild != null && income?.activedChild != null) {
       if (
