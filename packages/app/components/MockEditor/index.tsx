@@ -2,7 +2,7 @@ import type { Block } from "@prisma/client";
 import { useEffect } from "react";
 import { proxy, useSnapshot } from "valtio";
 import { bindProxyAndYMap } from "valtio-yjs";
-import { applyUpdate } from "yjs";
+import { applyUpdate, Doc } from "yjs";
 
 import { useSocket } from "../../features/SocketProvider";
 import usePageId from "../../hooks/usePageId";
@@ -10,9 +10,11 @@ import { useYDoc } from "../../lib/react-yjs/src/YDocProvider";
 import Page from "./Page";
 
 export const state = proxy<{
-  blockOrders?: string[];
-  blocks?: {
-    [blockId: string]: Block;
+  [key: string]: {
+    blockOrders?: string[];
+    blocks?: {
+      [blockId: string]: Block;
+    };
   };
 }>({});
 
@@ -20,11 +22,11 @@ const MockEditor = () => {
   const socket = useSocket();
   const yDoc = useYDoc();
   const pageId = usePageId();
+  const snapshot = useSnapshot(state);
 
   useEffect(() => {
     if (pageId != null && yDoc != null) {
-      const valtioYMap = yDoc?.getMap(pageId);
-      bindProxyAndYMap(state, valtioYMap);
+      bindProxyAndYMap(state, yDoc.getMap("pages"));
     }
   }, [pageId, yDoc]);
 
@@ -40,22 +42,36 @@ const MockEditor = () => {
   }, [socket, yDoc]);
 
   useEffect(() => {
-    const listener = ({ added, removed, loaded }: any) => {
-      console.log("test test subdocs");
+    const listener = ({
+      added,
+      removed,
+      loaded,
+    }: {
+      added: Set<Doc>;
+      removed: Set<Doc>;
+      loaded: Set<Doc>;
+    }) => {
+      added.forEach((doc) => {
+        socket?.emit("DOC_LOAD", { guid: doc.guid });
+      });
     };
     yDoc?.on("subdocs", listener);
 
     return () => {
       yDoc?.off("subdocs", listener);
     };
-  }, [yDoc]);
+  }, [socket, yDoc]);
 
   return (
     <div>
       <Page />
       <button
         onClick={() => {
-          console.log("test test", yDoc?.getMap(pageId).toJSON());
+          console.log(
+            "test test",
+            yDoc?.getMap("pages").toJSON(),
+            JSON.stringify(snapshot)
+          );
         }}
       >
         test
