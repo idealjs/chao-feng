@@ -1,5 +1,5 @@
-import { nanoid } from "nanoid";
 import objectHash from "object-hash";
+import nanoid from "./nanoid";
 
 interface ISharedTrieJSON<V = unknown> {
   id: string;
