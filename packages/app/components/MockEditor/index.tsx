@@ -22,45 +22,14 @@ const MockEditor = () => {
   const socket = useSocket();
   const yDoc = useYDoc();
   const pageId = usePageId();
-  const snapshot = useSnapshot(state);
 
   useEffect(() => {
-    if (pageId != null && yDoc != null) {
-      bindProxyAndYMap(state, yDoc.getMap("pages"));
-    }
-  }, [pageId, yDoc]);
-
-  useEffect(() => {
-    socket?.emit("PAGE_DOC_INIT");
-    const listener = (msg: { update: ArrayBuffer }) => {
-      yDoc && applyUpdate(yDoc, new Uint8Array(msg.update));
-    };
-    socket?.on("PAGE_DOC_INIT", listener);
+    const listener = (msg: { pageId: string; update: ArrayBuffer }) => {};
+    socket?.on("PAGE_DOC_UPDATE", listener);
     return () => {
-      socket?.off("PAGE_DOC_INIT", listener);
+      socket?.off("PAGE_DOC_UPDATE", listener);
     };
-  }, [socket, yDoc]);
-
-  useEffect(() => {
-    const listener = ({
-      added,
-      removed,
-      loaded,
-    }: {
-      added: Set<Doc>;
-      removed: Set<Doc>;
-      loaded: Set<Doc>;
-    }) => {
-      added.forEach((doc) => {
-        socket?.emit("DOC_LOAD", { guid: doc.guid });
-      });
-    };
-    yDoc?.on("subdocs", listener);
-
-    return () => {
-      yDoc?.off("subdocs", listener);
-    };
-  }, [socket, yDoc]);
+  }, [pageId, socket, yDoc]);
 
   return (
     <div>
@@ -69,8 +38,12 @@ const MockEditor = () => {
         onClick={() => {
           console.log(
             "test test",
-            yDoc?.getMap("pages").toJSON(),
-            JSON.stringify(snapshot)
+            yDoc?.getMap<Doc>("pages").toJSON(),
+            yDoc
+              ?.getMap<Doc>("pages")
+              .get(pageId!)
+              ?.getArray("blockOrder")
+              .toJSON()
           );
         }}
       >
