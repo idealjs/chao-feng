@@ -1,22 +1,12 @@
-import type { Block } from "@prisma/client";
 import { useEffect } from "react";
-import { proxy, useSnapshot } from "valtio";
 import { bindProxyAndYMap } from "valtio-yjs";
-import { applyUpdate, Doc } from "yjs";
+import { applyUpdate } from "yjs";
 
 import { useSocket } from "../../features/SocketProvider";
 import usePageId from "../../hooks/usePageId";
 import { useYDoc } from "../../lib/react-yjs/src/YDocProvider";
 import Page from "./Page";
-
-export const state = proxy<{
-  [key: string]: {
-    blockOrders?: string[];
-    blocks?: {
-      [blockId: string]: Block;
-    };
-  };
-}>({});
+import { blocStates, pageStates } from "./state";
 
 const MockEditor = () => {
   const socket = useSocket();
@@ -24,31 +14,42 @@ const MockEditor = () => {
   const pageId = usePageId();
 
   useEffect(() => {
-    const listener = (msg: { pageId: string; update: ArrayBuffer }) => {};
-    socket?.on("PAGE_DOC_UPDATE", listener);
+    if (socket == null) {
+      return;
+    }
+    socket.emit("ROOT_DOC_INIT");
+  }, [socket]);
+
+  useEffect(() => {
+    if (yDoc == null) {
+      return;
+    }
+    bindProxyAndYMap(pageStates, yDoc?.getMap("pages"));
+  }, [yDoc]);
+
+  useEffect(() => {
+    if (yDoc == null) {
+      return;
+    }
+    bindProxyAndYMap(blocStates, yDoc?.getMap("blocks"));
+  }, [yDoc]);
+
+  useEffect(() => {
+    const listener = (msg: { update: ArrayBuffer }) => {
+      if (yDoc != null) {
+        console.debug("[debug] DOC_UPDATE");
+        applyUpdate(yDoc, new Uint8Array(msg.update));
+      }
+    };
+    socket?.on("DOC_UPDATE", listener);
     return () => {
-      socket?.off("PAGE_DOC_UPDATE", listener);
+      socket?.off("DOC_UPDATE", listener);
     };
   }, [pageId, socket, yDoc]);
 
   return (
     <div>
       <Page />
-      <button
-        onClick={() => {
-          console.log(
-            "test test",
-            yDoc?.getMap<Doc>("pages").toJSON(),
-            yDoc
-              ?.getMap<Doc>("pages")
-              .get(pageId!)
-              ?.getArray("blockOrder")
-              .toJSON()
-          );
-        }}
-      >
-        test
-      </button>
     </div>
   );
 };

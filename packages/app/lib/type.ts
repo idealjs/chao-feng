@@ -1,5 +1,14 @@
 import type { Block, PermissionTag, Prisma } from "@prisma/client";
 
+export interface IPage {
+  id: string;
+  name: string | undefined;
+  childOrder: string[];
+  blockOrder: string[];
+  parentId: string | undefined;
+  workspaceId: string;
+}
+
 type PartialOmit<T, K extends string> = Pick<T, Exclude<keyof T, K>> &
   Partial<Pick<T, Extract<keyof T, K>>>;
 

@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { ySyncPlugin } from "y-prosemirror";
 import { Doc } from "yjs";
 
+import { useSocket } from "../../features/SocketProvider";
 import usePageId from "../../hooks/usePageId";
 import { useYDocSelector } from "../../lib/react-yjs";
 
@@ -16,13 +17,20 @@ const Block = (props: IProps) => {
   const { blockId } = props;
   const ref = useRef<HTMLDivElement>(null);
   const [editor, setEditor] = useState<EditorView | null>(null);
-
+  const socket = useSocket();
   const pageId = usePageId();
   const yXmlFragment = useYDocSelector((root) => {
     return (root?.getMap(pageId).get(blockId) as Doc | null)?.getXmlFragment(
       "prosemirror"
     );
   });
+
+  useEffect(() => {
+    if (socket == null) {
+      return;
+    }
+    socket.emit("BLOCK_DOC_INIT", { blockId });
+  }, [blockId, socket]);
 
   useEffect(() => {
     if (yXmlFragment) {

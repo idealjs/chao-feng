@@ -3,13 +3,7 @@ import { Doc } from "yjs";
 
 import { useYDoc } from "./YDocProvider";
 
-const useYSelector = <Result>(
-  selector: (store: Doc | null) => Result,
-  options?: {
-    // enableV2Update?: boolean;
-  }
-) => {
-  // const { enableV2Update } = options ?? {};
+const useYSelector = <Result>(selector: (store: Doc | null) => Result) => {
   const yDoc = useYDoc();
 
   return useSyncExternalStoreWithSelector(
