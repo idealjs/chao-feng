@@ -6,7 +6,7 @@ import { useSocket } from "../../features/SocketProvider";
 import usePageId from "../../hooks/usePageId";
 import { useYDoc } from "../../lib/react-yjs/src/YDocProvider";
 import Page from "./Page";
-import { blocStates, pageStates } from "./state";
+import { blockStates, pageStates } from "./state";
 
 const MockEditor = () => {
   const socket = useSocket();
@@ -31,7 +31,7 @@ const MockEditor = () => {
     if (yDoc == null) {
       return;
     }
-    bindProxyAndYMap(blocStates, yDoc?.getMap("blocks"));
+    bindProxyAndYMap(blockStates, yDoc?.getMap("blocks"));
   }, [yDoc]);
 
   useEffect(() => {

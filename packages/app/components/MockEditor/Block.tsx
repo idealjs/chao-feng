@@ -2,12 +2,14 @@ import { schema } from "@idealjs/chao-feng-shared/lib/prosemirror";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { useEffect, useRef, useState } from "react";
-import { ySyncPlugin } from "y-prosemirror";
+import { useSnapshot } from "valtio";
+import { prosemirrorJSONToYDoc, ySyncPlugin } from "y-prosemirror";
 import { Doc } from "yjs";
 
 import { useSocket } from "../../features/SocketProvider";
 import usePageId from "../../hooks/usePageId";
 import { useYDocSelector } from "../../lib/react-yjs";
+import { blockStates } from "./state";
 
 interface IProps {
   blockId: string;
@@ -19,11 +21,17 @@ const Block = (props: IProps) => {
   const [editor, setEditor] = useState<EditorView | null>(null);
   const socket = useSocket();
   const pageId = usePageId();
+  const blocks = useSnapshot(blockStates);
   const yXmlFragment = useYDocSelector((root) => {
     return (root?.getMap(pageId).get(blockId) as Doc | null)?.getXmlFragment(
       "prosemirror"
     );
   });
+
+  useEffect(() => {
+    console.log("test test", JSON.stringify(blockStates[blockId]));
+    // prosemirrorJSONToYDoc({})
+  }, [blockId]);
 
   useEffect(() => {
     if (socket == null) {
@@ -56,4 +64,5 @@ const Block = (props: IProps) => {
     </div>
   );
 };
+
 export default Block;
