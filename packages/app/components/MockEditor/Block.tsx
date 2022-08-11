@@ -45,9 +45,7 @@ const Block = (props: IProps) => {
       const editor = new EditorView(ref.current, {
         state: EditorState.create({
           schema,
-          plugins: [yXmlFragment && ySyncPlugin(yXmlFragment)].filter(
-            (p) => p != null
-          ),
+          plugins: [ySyncPlugin(yXmlFragment)],
         }),
       });
       setEditor(editor);
