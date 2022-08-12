@@ -1,7 +1,7 @@
 import { schema } from "@idealjs/chao-feng-shared/lib/prosemirror";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useSnapshot } from "valtio";
 import { prosemirrorJSONToYDoc, ySyncPlugin } from "y-prosemirror";
 import { Doc } from "yjs";
@@ -19,19 +19,23 @@ const Block = (props: IProps) => {
   const { blockId } = props;
   const ref = useRef<HTMLDivElement>(null);
   const [editor, setEditor] = useState<EditorView | null>(null);
+  const [blockDoc, setBlockDoc] = useState<Doc | null>(null);
   const socket = useSocket();
   const pageId = usePageId();
   const blocks = useSnapshot(blockStates);
-  const yXmlFragment = useYDocSelector((root) => {
-    return (root?.getMap(pageId).get(blockId) as Doc | null)?.getXmlFragment(
-      "prosemirror"
-    );
-  });
+
+  const yXmlFragment = useMemo(() => {
+    return blockDoc?.getXmlFragment("prosemirror");
+  }, [blockDoc]);
 
   useEffect(() => {
-    console.log("test test", JSON.stringify(blockStates[blockId]));
-    // prosemirrorJSONToYDoc({})
-  }, [blockId]);
+    console.log("test test", JSON.stringify(blocks[blockId]));
+    if (blocks[blockId]?.properties == null) {
+      return;
+    }
+    const doc = prosemirrorJSONToYDoc(schema, blocks[blockId]?.properties);
+    setBlockDoc(doc);
+  }, [blockId, blocks]);
 
   useEffect(() => {
     if (socket == null) {
