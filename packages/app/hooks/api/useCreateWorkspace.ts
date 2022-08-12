@@ -18,8 +18,8 @@ const useCreateWorkspace = () => {
       });
 
       const workspace = (await res.json()) as Workspace;
-      socket?.emit("updated", {
-        updatedUrl: "/api/v1/profile",
+      socket?.emit("RES_CREATED", {
+        resURL: "/api/v1/profile",
       });
       return workspace;
     },

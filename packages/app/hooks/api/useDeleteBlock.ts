@@ -13,8 +13,11 @@ const useDeleteBlock = () => {
         method: "DELETE",
       });
       const block = (await res.json()) as Block;
-      socket?.emit("updated", {
-        updatedUrl: `/api/v1/pages/${block.pageId}`,
+      socket?.emit("RES_DELETED", {
+        resURL: `/api/v1/blocks/${block.id}`,
+      });
+      socket?.emit("BLOCK_DELETED", {
+        blockId: block.id,
       });
     },
     [socket]
