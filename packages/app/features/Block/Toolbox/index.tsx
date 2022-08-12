@@ -1,6 +1,7 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { MenuIcon, PlusIcon } from "@heroicons/react/outline";
+import { schema } from "@idealjs/chao-feng-shared/lib/prosemirror";
 import clsx from "clsx";
 import { useRouter } from "next/router";
 import { PropsWithChildren, useState } from "react";
@@ -60,7 +61,12 @@ const Toolbox = (props: PropsWithChildren<IProps>) => {
             await createBlock({
               pageId,
               type: "text",
-              properties: {},
+              properties: schema
+                .node("doc", null, [
+                  schema.node("paragraph", null, [schema.text("hello ")]),
+                  schema.node("paragraph", null, [schema.text("world!")]),
+                ])
+                .toJSON(),
               nextTo: blockId,
             });
             mutate(`/api/v1/pages/${pageId}`);
