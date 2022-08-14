@@ -36,6 +36,12 @@ io.on("connection", async (socket) => {
   }
   socket.join(pageId);
 
+  socket.on("ROOT_DOC_INIT", async () => {
+    yDoc.on("update", (update) => {
+      socket.emit("DOC_UPDATE", { update });
+    });
+  });
+
   socket.on("PAGE_DOC_INIT", async (msg: { pageId: string }) => {
     console.debug("[debug] PAGE_DOC_INIT", msg.pageId);
 
@@ -80,11 +86,20 @@ io.on("connection", async (socket) => {
     }
   });
 
-  socket.on("ROOT_DOC_INIT", async () => {
-    yDoc.on("update", (update) => {
-      socket.emit("DOC_UPDATE", { update });
-    });
+  socket.on("PAGE_DOC_UPDATED", async (msg: { pageId: string }) => {
+    console.debug("[debug] PAGE_DOC_UPDATED", msg.pageId);
+
+    const page = await prisma.page.findUnique({ where: { id: msg.pageId } });
+
+    if (page == null) {
+      return;
+    }
+
+    const pageMap = new Map(Object.entries(page));
+    yDoc.getMap("pages").set(msg.pageId, pageMap);
   });
+
+  socket.on("BLOCK_DOC_UPDATED", async (msg: { blockId: string }) => {});
 });
 
 export default io;

@@ -26,11 +26,8 @@ const useCreateBlock = () => {
         }),
       });
       const block = (await res.json()) as Block;
-      socket?.emit("RES_CREATED", {
-        resURL: `/api/v1/blocks/${block.id}`,
-      });
-      socket?.emit("BLOCK_CREATED", {
-        blockId: block.id,
+      socket?.emit("PAGE_DOC_UPDATED", {
+        pageId: block.pageId,
       });
       return block;
     },
