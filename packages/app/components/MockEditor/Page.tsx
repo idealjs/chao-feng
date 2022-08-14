@@ -1,17 +1,22 @@
 import { useEffect } from "react";
-import { useSnapshot } from "valtio";
 
 import { useSocket } from "../../features/SocketProvider";
 import usePageId from "../../hooks/usePageId";
+import { useYDocSelector } from "../../lib/react-yjs";
+import { useYDoc } from "../../lib/react-yjs/src/YDocProvider";
+import { IPage } from "../../lib/type";
 import Block from "./Block";
-import { pageStates } from "./state";
 
 const Page = () => {
   const pageId = usePageId();
   const socket = useSocket();
-
-  const pageSnapShots = useSnapshot(pageStates);
-
+  const yDoc = useYDoc();
+  const blockOrder = useYDocSelector((yDoc) => {
+    if (pageId == null) {
+      return null;
+    }
+    return yDoc?.getMap<IPage>("pages").get(pageId)?.blockOrder;
+  });
   useEffect(() => {
     if (socket == null) {
       return;
@@ -22,13 +27,16 @@ const Page = () => {
 
   return (
     <div>
-      {pageId != null &&
-        pageSnapShots[pageId]?.blockOrder.map((blockId) => {
-          return <Block key={blockId} blockId={blockId} />;
-        })}
+      {blockOrder?.map((blockId) => {
+        return <Block key={blockId} blockId={blockId} />;
+      })}
       <button
         onClick={() => {
-          console.log("test test", JSON.stringify(pageSnapShots));
+          console.log(
+            "test test",
+            pageId,
+            JSON.stringify(yDoc?.getMap<IPage>("pages").toJSON(), null, 2)
+          );
         }}
       >
         test

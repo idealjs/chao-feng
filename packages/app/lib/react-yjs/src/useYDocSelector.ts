@@ -13,9 +13,9 @@ const useYSelector = <Result>(selector: (store: Doc | null) => Result) => {
         yDoc?.off("update", listener);
       };
     },
-    () => yDoc,
-    () => yDoc,
-    selector
+    () => ({ yDoc }),
+    () => ({ yDoc }),
+    (extStore) => selector(extStore.yDoc)
   );
 };
 

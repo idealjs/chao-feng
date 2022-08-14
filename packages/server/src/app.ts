@@ -5,6 +5,7 @@ import prisma from "@idealjs/chao-feng-shared/lib/prisma";
 import { Array, Doc, encodeStateAsUpdate, Map } from "yjs";
 import { schema } from "@idealjs/chao-feng-shared/lib/prosemirror";
 import { prosemirrorJSONToYDoc } from "y-prosemirror";
+import type { Page, Block } from "prisma/prisma-client";
 const io = new Server({
   cors: {
     origin: "*",
@@ -45,14 +46,13 @@ io.on("connection", async (socket) => {
   socket.on("PAGE_DOC_INIT", async (msg: { pageId: string }) => {
     console.debug("[debug] PAGE_DOC_INIT", msg.pageId);
 
-    let pageMap = yDoc.getMap<Map<unknown>>("pages").get(msg.pageId);
-    if (pageMap == null) {
-      const page = await prisma.page.findUnique({ where: { id: msg.pageId } });
+    let page = yDoc.getMap<Page>("pages").get(msg.pageId) ?? null;
+    if (page == null) {
+      page = await prisma.page.findUnique({ where: { id: msg.pageId } });
       if (page == null) {
         return;
       }
-      const pageMap = new Map(Object.entries(page));
-      yDoc.getMap("pages").set(msg.pageId, pageMap);
+      yDoc.getMap("pages").set(msg.pageId, page);
     } else {
       const update = encodeStateAsUpdate(yDoc);
 
@@ -65,18 +65,16 @@ io.on("connection", async (socket) => {
   socket.on("BLOCK_DOC_INIT", async (msg: { blockId: string }) => {
     console.debug("[debug] BLOCK_DOC_INIT", msg.blockId);
 
-    let blockMap = yDoc.getMap<Map<unknown>>("blocks").get(msg.blockId);
-    if (blockMap == null) {
-      const block = await prisma.block.findUnique({
+    let block = yDoc.getMap<Block>("blocks").get(msg.blockId) ?? null;
+    if (block == null) {
+      block = await prisma.block.findUnique({
         where: { id: msg.blockId },
       });
 
       if (block == null) {
         return;
       }
-      const { createdAt, updatedAt, ...mappable } = block;
-      const blockMap = new Map(Object.entries(mappable));
-      yDoc.getMap("blocks").set(msg.blockId, blockMap);
+      yDoc.getMap("blocks").set(msg.blockId, block);
     } else {
       const update = encodeStateAsUpdate(yDoc);
 
@@ -95,8 +93,7 @@ io.on("connection", async (socket) => {
       return;
     }
 
-    const pageMap = new Map(Object.entries(page));
-    yDoc.getMap("pages").set(msg.pageId, pageMap);
+    yDoc.getMap("pages").set(msg.pageId, page);
   });
 
   socket.on("BLOCK_DOC_UPDATED", async (msg: { blockId: string }) => {});
