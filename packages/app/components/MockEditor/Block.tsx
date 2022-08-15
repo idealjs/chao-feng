@@ -23,7 +23,7 @@ const Block = (props: IProps) => {
   const blockDoc = useYDocSelector((yDoc) => {
     return yDoc?.getMap<Doc>("blockDocs").get(blockId);
   });
-  
+
   const yXmlFragment = useMemo(() => {
     return blockDoc?.getXmlFragment("prosemirror");
   }, [blockDoc]);
@@ -35,10 +35,23 @@ const Block = (props: IProps) => {
       }
     };
 
-    socket?.on("BLOCK_DOC_UPDATE", listener);
+    socket?.on("BLOCK_DOC_UPDATED", listener);
 
     return () => {
-      socket?.off("BLOCK_DOC_UPDATE", listener);
+      socket?.off("BLOCK_DOC_UPDATED", listener);
+    };
+  }, [blockDoc, blockId, socket]);
+
+  useEffect(() => {
+    const listener = (update: Uint8Array) => {
+      socket?.emit("BLOCK_DOC_UPDATED", {
+        blockId,
+        update,
+      });
+    };
+    blockDoc?.on("update", listener);
+    return () => {
+      blockDoc?.off("update", listener);
     };
   }, [blockDoc, blockId, socket]);
 

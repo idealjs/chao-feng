@@ -83,7 +83,7 @@ io.on("connection", async (socket) => {
 
     const update = encodeStateAsUpdate(blockDoc);
 
-    socket.emit("BLOCK_DOC_UPDATE", {
+    socket.emit("BLOCK_DOC_UPDATED", {
       blockId: msg.blockId,
       update: update,
     });
@@ -101,7 +101,13 @@ io.on("connection", async (socket) => {
     yDoc.getMap("pages").set(msg.pageId, page);
   });
 
-  socket.on("BLOCK_DOC_UPDATED", async (msg: { blockId: string }) => {});
+  socket.on(
+    "BLOCK_DOC_UPDATED",
+    async (msg: { blockId: string; update: ArrayBuffer }) => {
+      console.debug("[debug] BLOCK_DOC_UPDATED");
+      socket.to(pageId).emit("BLOCK_DOC_UPDATED", msg);
+    }
+  );
 });
 
 export default io;
