@@ -65,23 +65,28 @@ io.on("connection", async (socket) => {
   socket.on("BLOCK_DOC_INIT", async (msg: { blockId: string }) => {
     console.debug("[debug] BLOCK_DOC_INIT", msg.blockId);
 
-    let block = yDoc.getMap<Block>("blocks").get(msg.blockId) ?? null;
-    if (block == null) {
-      block = await prisma.block.findUnique({
+    let blockDoc = yDoc.getMap<Doc>("blockDocs").get(msg.blockId) ?? null;
+
+    if (blockDoc == null) {
+      const block = await prisma.block.findUnique({
         where: { id: msg.blockId },
       });
 
       if (block == null) {
         return;
       }
-      yDoc.getMap("blocks").set(msg.blockId, block);
-    } else {
-      const update = encodeStateAsUpdate(yDoc);
-
-      socket.emit("DOC_UPDATE", {
-        update: update,
-      });
+      blockDoc = prosemirrorJSONToYDoc(schema, block.properties);
+      yDoc
+        .getMap("blockDocs")
+        .set(msg.blockId, prosemirrorJSONToYDoc(schema, block.properties));
     }
+
+    const update = encodeStateAsUpdate(blockDoc);
+
+    socket.emit("BLOCK_DOC_UPDATE", {
+      blockId: msg.blockId,
+      update: update,
+    });
   });
 
   socket.on("PAGE_DOC_UPDATED", async (msg: { pageId: string }) => {

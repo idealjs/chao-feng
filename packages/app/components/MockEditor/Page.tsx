@@ -35,7 +35,7 @@ const Page = () => {
           console.log(
             "test test",
             pageId,
-            JSON.stringify(yDoc?.getMap<IPage>("pages").toJSON(), null, 2)
+            JSON.stringify(yDoc?.getMap("blockDocs").toJSON(), null, 2)
           );
         }}
       >

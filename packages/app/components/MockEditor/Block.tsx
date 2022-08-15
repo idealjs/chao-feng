@@ -1,14 +1,9 @@
 import { schema } from "@idealjs/chao-feng-shared/lib/prosemirror";
-import { Block } from "@prisma/client";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  prosemirrorJSONToYDoc,
-  yDocToProsemirrorJSON,
-  ySyncPlugin,
-} from "y-prosemirror";
-import { Doc } from "yjs";
+import { prosemirrorJSONToYDoc, ySyncPlugin } from "y-prosemirror";
+import { applyUpdate, Doc } from "yjs";
 
 import { useSocket } from "../../features/SocketProvider";
 import usePageId from "../../hooks/usePageId";
@@ -24,39 +19,28 @@ const Block = (props: IProps) => {
   const { blockId } = props;
   const ref = useRef<HTMLDivElement>(null);
   const [editor, setEditor] = useState<EditorView | null>(null);
-  const [blockDoc, setBlockDoc] = useState<Doc | null>(null);
   const socket = useSocket();
-  const pageId = usePageId();
-  const block = useYDocSelector((yDoc) => {
-    return yDoc?.getMap<IBlock>("blocks").get(blockId);
+  const blockDoc = useYDocSelector((yDoc) => {
+    return yDoc?.getMap<Doc>("blockDocs").get(blockId);
   });
-  const yDoc = useYDoc();
-
+  
   const yXmlFragment = useMemo(() => {
     return blockDoc?.getXmlFragment("prosemirror");
   }, [blockDoc]);
 
   useEffect(() => {
-    if (block?.properties == null) {
-      return;
-    }
-    const doc = prosemirrorJSONToYDoc(schema, block?.properties);
-    const listener = () => {
-      console.log("test test block update");
-      const json = yDocToProsemirrorJSON(doc);
-      const yBlock = yDoc?.getMap<Block>("blocks").get(blockId);
-      if (yBlock != null) {
-        yDoc
-          ?.getMap<Block>("blocks")
-          .set(blockId, { ...yBlock, properties: json });
+    const listener = (msg: { blockId: string; update: ArrayBuffer }) => {
+      if (blockDoc != null && msg.blockId === blockId) {
+        applyUpdate(blockDoc, new Uint8Array(msg.update));
       }
     };
-    setBlockDoc(doc);
-    doc.on("update", listener);
+
+    socket?.on("BLOCK_DOC_UPDATE", listener);
+
     return () => {
-      doc.off("update", listener);
+      socket?.off("BLOCK_DOC_UPDATE", listener);
     };
-  }, [block?.properties, blockId, yDoc]);
+  }, [blockDoc, blockId, socket]);
 
   useEffect(() => {
     if (socket == null) {
