@@ -61,10 +61,11 @@ io.on("connection", async (socket) => {
   });
 
   socket.on("BLOCK_DOC_INIT", async (msg: { blockId: string }) => {
-    console.debug("[debug] BLOCK_DOC_INIT", msg.blockId);
+    console.group("[debug] BLOCK_DOC_INIT");
 
     let blockDoc = yDoc.getMap<Doc>("blockDocs").get(msg.blockId) ?? null;
-
+    console.debug("is blockDoc null?", blockDoc == null);
+    console.groupEnd();
     if (blockDoc == null) {
       const block = await prisma.block.findUnique({
         where: { id: msg.blockId },
@@ -74,9 +75,7 @@ io.on("connection", async (socket) => {
         return;
       }
       blockDoc = prosemirrorJSONToYDoc(schema, block.properties);
-      yDoc
-        .getMap("blockDocs")
-        .set(msg.blockId, prosemirrorJSONToYDoc(schema, block.properties));
+      yDoc.getMap("blockDocs").set(msg.blockId, blockDoc);
     }
 
     const update = encodeStateAsUpdate(blockDoc);
@@ -103,7 +102,7 @@ io.on("connection", async (socket) => {
     "BLOCK_DOC_UPDATED",
     async (msg: { blockId: string; update: ArrayBuffer }) => {
       const blockDoc = yDoc.getMap<Doc>("blockDocs").get(msg.blockId) ?? null;
-      console.debug("[debug] BLOCK_DOC_UPDATED", blockDoc == null);
+      console.debug("[debug] BLOCK_DOC_UPDATED");
 
       if (blockDoc != null) {
         applyUpdate(blockDoc, new Uint8Array(msg.update));
