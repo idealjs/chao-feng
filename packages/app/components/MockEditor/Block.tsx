@@ -30,11 +30,12 @@ const Block = (props: IProps) => {
 
   useEffect(() => {
     const listener = (msg: { blockId: string; update: ArrayBuffer }) => {
+      console.group("[debug] BLOCK_DOC_UPDATED");
       if (blockDoc != null && msg.blockId === blockId) {
-        applyUpdate(blockDoc, new Uint8Array(msg.update));
+        applyUpdate(blockDoc, new Uint8Array(msg.update), socket);
       }
+      console.groupEnd();
     };
-
     socket?.on("BLOCK_DOC_UPDATED", listener);
 
     return () => {
@@ -43,11 +44,15 @@ const Block = (props: IProps) => {
   }, [blockDoc, blockId, socket]);
 
   useEffect(() => {
-    const listener = (update: Uint8Array) => {
-      socket?.emit("BLOCK_DOC_UPDATED", {
-        blockId,
-        update,
-      });
+    const listener = (update: Uint8Array, origin?: any) => {
+      console.group("[debug] LOCAL_BLOCK_DOC_UPDATED");
+      if (origin !== socket) {
+        socket?.emit("BLOCK_DOC_UPDATED", {
+          blockId,
+          update,
+        });
+      }
+      console.groupEnd();
     };
     blockDoc?.on("update", listener);
     return () => {

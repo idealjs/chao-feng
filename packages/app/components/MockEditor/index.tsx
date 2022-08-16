@@ -12,16 +12,11 @@ const MockEditor = () => {
   const pageId = usePageId();
 
   useEffect(() => {
-    if (socket == null) {
-      return;
-    }
-    socket.emit("ROOT_DOC_INIT");
-  }, [socket]);
-
-  useEffect(() => {
     const listener = (msg: { update: ArrayBuffer }) => {
+      console.group("[debug] DOC_UPDATE");
+      console.debug("yDoc is null?", yDoc == null);
+      console.groupEnd();
       if (yDoc != null) {
-        console.debug("[debug] DOC_UPDATE");
         applyUpdate(yDoc, new Uint8Array(msg.update));
       }
     };

@@ -21,7 +21,7 @@ const Page = () => {
     if (socket == null) {
       return;
     }
-    console.log("test test", pageId);
+    console.debug("[debug] PAGE_DOC_INIT");
     socket.emit("PAGE_DOC_INIT", { pageId });
   }, [pageId, socket]);
 

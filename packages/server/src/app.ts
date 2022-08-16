@@ -2,7 +2,7 @@ import { Server } from "socket.io";
 import { createAdapter } from "@socket.io/redis-adapter";
 import { createClient } from "redis";
 import prisma from "@idealjs/chao-feng-shared/lib/prisma";
-import { Array, Doc, encodeStateAsUpdate, Map } from "yjs";
+import { applyUpdate, Doc, encodeStateAsUpdate } from "yjs";
 import { schema } from "@idealjs/chao-feng-shared/lib/prosemirror";
 import { prosemirrorJSONToYDoc } from "y-prosemirror";
 import type { Page, Block } from "prisma/prisma-client";
@@ -37,10 +37,8 @@ io.on("connection", async (socket) => {
   }
   socket.join(pageId);
 
-  socket.on("ROOT_DOC_INIT", async () => {
-    yDoc.on("update", (update) => {
-      socket.emit("DOC_UPDATE", { update });
-    });
+  yDoc.on("update", (update) => {
+    socket.emit("DOC_UPDATE", { update });
   });
 
   socket.on("PAGE_DOC_INIT", async (msg: { pageId: string }) => {
@@ -104,7 +102,13 @@ io.on("connection", async (socket) => {
   socket.on(
     "BLOCK_DOC_UPDATED",
     async (msg: { blockId: string; update: ArrayBuffer }) => {
-      console.debug("[debug] BLOCK_DOC_UPDATED");
+      const blockDoc = yDoc.getMap<Doc>("blockDocs").get(msg.blockId) ?? null;
+      console.debug("[debug] BLOCK_DOC_UPDATED", blockDoc == null);
+
+      if (blockDoc != null) {
+        applyUpdate(blockDoc, new Uint8Array(msg.update));
+      }
+
       socket.to(pageId).emit("BLOCK_DOC_UPDATED", msg);
     }
   );
