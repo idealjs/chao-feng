@@ -6,6 +6,7 @@ import { prosemirrorJSONToYDoc, ySyncPlugin } from "y-prosemirror";
 import { applyUpdate, Doc } from "yjs";
 
 import { useSocket } from "../../features/SocketProvider";
+import useInitBlockDoc from "../../hooks/useInitBlockDoc";
 import usePageId from "../../hooks/usePageId";
 import { useYDocSelector } from "../../lib/react-yjs";
 import { useYDoc } from "../../lib/react-yjs/src/YDocProvider";
@@ -60,12 +61,7 @@ const Block = (props: IProps) => {
     };
   }, [blockDoc, blockId, socket]);
 
-  useEffect(() => {
-    if (socket == null) {
-      return;
-    }
-    socket.emit("BLOCK_DOC_INIT", { blockId });
-  }, [blockId, socket]);
+  useInitBlockDoc(blockId);
 
   useEffect(() => {
     if (yXmlFragment) {
