@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Socket } from "socket.io-client";
+import { applyUpdate } from "yjs";
 
 import { useYDoc } from "./YDocProvider";
 
@@ -11,36 +12,21 @@ const useYDocSocket = (
   const yDoc = useYDoc();
 
   useEffect(() => {
-    if (enableV2Update) {
-      const listener = () => {};
-      yDoc?.on("update", listener);
-      return () => {
-        yDoc?.off("update", listener);
+    if (!enableV2Update) {
+      const listener = (msg: { update: ArrayBuffer }) => {
+        console.group("[debug] DOC_UPDATE");
+        console.debug("yDoc is null?", yDoc == null);
+        console.groupEnd();
+        if (yDoc != null) {
+          applyUpdate(yDoc, new Uint8Array(msg.update));
+        }
       };
-    } else {
-      const listener = () => {};
-      yDoc?.on("update", listener);
+      socket?.on("DOC_UPDATE", listener);
       return () => {
-        yDoc?.off("update", listener);
-      };
-    }
-  }, [enableV2Update, yDoc]);
-
-  useEffect(() => {
-    if (enableV2Update) {
-      const listener = () => {};
-      socket?.on("update", listener);
-      return () => {
-        socket?.off("update", listener);
-      };
-    } else {
-      const listener = () => {};
-      socket?.on("update", listener);
-      return () => {
-        socket?.off("update", listener);
+        socket?.off("DOC_UPDATE", listener);
       };
     }
-  }, [enableV2Update, socket]);
+  }, [enableV2Update, socket, yDoc]);
 };
 
 export default useYDocSocket;
