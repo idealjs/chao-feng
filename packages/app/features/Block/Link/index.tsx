@@ -1,5 +1,4 @@
 import { BookOpenIcon } from "@heroicons/react/outline";
-import { Block } from "@prisma/client";
 import { useRouter } from "next/router";
 
 import usePage from "../../../hooks/usePage";
@@ -37,7 +36,7 @@ const Link = (props: IProps) => {
 
 export default Link;
 
-export const isLinkBlock = (block?: Block): block is ILinkBlock => {
+export const isLinkBlock = (block?: { type: string }): block is ILinkBlock => {
   if (block?.type === "link") {
     return true;
   }
