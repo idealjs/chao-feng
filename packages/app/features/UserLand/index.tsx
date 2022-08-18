@@ -8,12 +8,14 @@ const UserLand = () => {
 
   return (
     <YDocProvider>
-      <SocketProvider
-        uri={process.env.NEXT_PUBLIC_WEBSOCKET_URL}
-        opts={{ query: { pageId } }}
-      >
-        <Editor />
-      </SocketProvider>
+      {pageId != null && (
+        <SocketProvider
+          uri={process.env.NEXT_PUBLIC_WEBSOCKET_URL}
+          opts={{ query: { pageId } }}
+        >
+          <Editor />
+        </SocketProvider>
+      )}
     </YDocProvider>
   );
 };
