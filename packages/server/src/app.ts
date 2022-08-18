@@ -4,7 +4,7 @@ import { createClient } from "redis";
 import prisma from "@idealjs/chao-feng-shared/lib/prisma";
 import { applyUpdate, Doc, encodeStateAsUpdate } from "yjs";
 import { schema } from "@idealjs/chao-feng-shared/lib/prosemirror";
-import { prosemirrorJSONToYDoc } from "y-prosemirror";
+import { prosemirrorJSONToYDoc, yDocToProsemirrorJSON } from "y-prosemirror";
 import type { Page, Block } from "prisma/prisma-client";
 const io = new Server({
   cors: {
@@ -76,6 +76,7 @@ io.on("connection", async (socket) => {
       }
       blockDoc = prosemirrorJSONToYDoc(schema, block.properties);
       yDoc.getMap("blockDocs").set(msg.blockId, blockDoc);
+      yDoc.getMap("blocks").set(msg.blockId, block);
     }
 
     const update = encodeStateAsUpdate(blockDoc);
@@ -106,6 +107,20 @@ io.on("connection", async (socket) => {
 
       if (blockDoc != null) {
         applyUpdate(blockDoc, new Uint8Array(msg.update));
+
+        const blockData = yDoc.getMap<Block>("blocks").get(msg.blockId);
+        if (blockData != null) {
+          yDoc.getMap<Block>("blocks").set(msg.blockId, {
+            ...blockData,
+            properties: yDocToProsemirrorJSON(blockDoc),
+          });
+
+          const update = encodeStateAsUpdate(yDoc);
+
+          socket.emit("DOC_UPDATE", {
+            update: update,
+          });
+        }
       }
 
       socket.to(pageId).emit("BLOCK_DOC_UPDATED", msg);
