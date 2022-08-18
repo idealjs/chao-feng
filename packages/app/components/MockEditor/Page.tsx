@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 
 import { useSocket } from "../../features/SocketProvider";
+import useInitPageDoc from "../../hooks/useInitPageDoc";
 import usePageId from "../../hooks/usePageId";
 import { useYDocSelector } from "../../lib/react-yjs";
 import { useYDoc } from "../../lib/react-yjs/src/YDocProvider";
@@ -9,7 +10,6 @@ import Block from "./Block";
 
 const Page = () => {
   const pageId = usePageId();
-  const socket = useSocket();
   const yDoc = useYDoc();
   const blockOrder = useYDocSelector((yDoc) => {
     if (pageId == null) {
@@ -17,13 +17,8 @@ const Page = () => {
     }
     return yDoc?.getMap<IPage>("pages").get(pageId)?.blockOrder;
   });
-  useEffect(() => {
-    if (socket == null) {
-      return;
-    }
-    console.debug("[debug] PAGE_DOC_INIT");
-    socket.emit("PAGE_DOC_INIT", { pageId });
-  }, [pageId, socket]);
+
+  useInitPageDoc(pageId);
 
   return (
     <div>
