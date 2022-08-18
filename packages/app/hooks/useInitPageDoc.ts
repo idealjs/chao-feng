@@ -9,10 +9,12 @@ const useInitPageDoc = (pageId: string | undefined) => {
     console.group("[debug] PAGE_DOC_INIT start");
     if (socket == null) {
       console.debug("PAGE_DOC_INIT socket is null");
+      console.groupEnd();
       return;
     }
     if (pageId == null) {
       console.debug("PAGE_DOC_INIT pageId is null");
+      console.groupEnd();
       return;
     }
     console.debug("[debug] PAGE_DOC_INIT end");
