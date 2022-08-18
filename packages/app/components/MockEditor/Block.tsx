@@ -8,6 +8,7 @@ import { applyUpdate, Doc } from "yjs";
 import { useSocket } from "../../features/SocketProvider";
 import useInitBlockDoc from "../../hooks/useInitBlockDoc";
 import usePageId from "../../hooks/usePageId";
+import useSyncBlockDoc from "../../hooks/useSyncBlockDoc";
 import { useYDocSelector } from "../../lib/react-yjs";
 import { useYDoc } from "../../lib/react-yjs/src/YDocProvider";
 import { IBlock } from "../../lib/type";
@@ -29,37 +30,7 @@ const Block = (props: IProps) => {
     return blockDoc?.getXmlFragment("prosemirror");
   }, [blockDoc]);
 
-  useEffect(() => {
-    const listener = (msg: { blockId: string; update: ArrayBuffer }) => {
-      console.group("[debug] BLOCK_DOC_UPDATED");
-      if (blockDoc != null && msg.blockId === blockId) {
-        applyUpdate(blockDoc, new Uint8Array(msg.update), socket);
-      }
-      console.groupEnd();
-    };
-    socket?.on("BLOCK_DOC_UPDATED", listener);
-
-    return () => {
-      socket?.off("BLOCK_DOC_UPDATED", listener);
-    };
-  }, [blockDoc, blockId, socket]);
-
-  useEffect(() => {
-    const listener = (update: Uint8Array, origin?: any) => {
-      console.group("[debug] LOCAL_BLOCK_DOC_UPDATED");
-      if (origin !== socket) {
-        socket?.emit("BLOCK_DOC_UPDATED", {
-          blockId,
-          update,
-        });
-      }
-      console.groupEnd();
-    };
-    blockDoc?.on("update", listener);
-    return () => {
-      blockDoc?.off("update", listener);
-    };
-  }, [blockDoc, blockId, socket]);
+  useSyncBlockDoc(blockId);
 
   useInitBlockDoc(blockId);
 
