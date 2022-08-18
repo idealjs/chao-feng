@@ -3,8 +3,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { MenuIcon, PlusIcon } from "@heroicons/react/outline";
 import { schema } from "@idealjs/chao-feng-shared/lib/prosemirror";
 import clsx from "clsx";
-import { useRouter } from "next/router";
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren } from "react";
 import { useSWRConfig } from "swr";
 
 import useCreateBlock from "../../../hooks/api/useCreateBlock";
