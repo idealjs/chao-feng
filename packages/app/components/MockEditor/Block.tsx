@@ -2,16 +2,13 @@ import { schema } from "@idealjs/chao-feng-shared/lib/prosemirror";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { prosemirrorJSONToYDoc, ySyncPlugin } from "y-prosemirror";
-import { applyUpdate, Doc } from "yjs";
+import { ySyncPlugin } from "y-prosemirror";
+import { Doc } from "yjs";
 
 import { useSocket } from "../../features/SocketProvider";
 import useInitBlockDoc from "../../hooks/useInitBlockDoc";
-import usePageId from "../../hooks/usePageId";
 import useSyncBlockDoc from "../../hooks/useSyncBlockDoc";
 import { useYDocSelector } from "../../lib/react-yjs";
-import { useYDoc } from "../../lib/react-yjs/src/YDocProvider";
-import { IBlock } from "../../lib/type";
 
 interface IProps {
   blockId: string;

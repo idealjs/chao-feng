@@ -1,6 +1,3 @@
-import { useEffect } from "react";
-
-import { useSocket } from "../../features/SocketProvider";
 import useInitPageDoc from "../../hooks/useInitPageDoc";
 import usePageId from "../../hooks/usePageId";
 import { useYDocSelector } from "../../lib/react-yjs";
