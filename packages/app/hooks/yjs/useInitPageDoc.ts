@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import { useSocket } from "../features/SocketProvider";
+import { useSocket } from "../../features/SocketProvider";
 
 const useInitPageDoc = (pageId: string | undefined) => {
   const socket = useSocket();

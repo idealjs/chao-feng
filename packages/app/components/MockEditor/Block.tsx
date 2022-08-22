@@ -6,8 +6,8 @@ import { ySyncPlugin } from "y-prosemirror";
 import { Doc } from "yjs";
 
 import { useSocket } from "../../features/SocketProvider";
-import useInitBlockDoc from "../../hooks/useInitBlockDoc";
-import useSyncBlockDoc from "../../hooks/useSyncBlockDoc";
+import useInitBlockDoc from "../../hooks/yjs/useInitBlockDoc";
+import useSyncBlockDoc from "../../hooks/yjs/useSyncBlockDoc";
 import { useYDocSelector } from "../../lib/react-yjs";
 
 interface IProps {

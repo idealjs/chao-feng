@@ -1,5 +1,5 @@
-import useInitPageDoc from "../../hooks/useInitPageDoc";
 import usePageId from "../../hooks/usePageId";
+import useInitPageDoc from "../../hooks/yjs/useInitPageDoc";
 import { useYDocSelector } from "../../lib/react-yjs";
 import { useYDoc } from "../../lib/react-yjs/src/YDocProvider";
 import { IPage } from "../../lib/type";

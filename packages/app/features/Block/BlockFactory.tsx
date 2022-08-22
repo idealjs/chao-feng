@@ -1,7 +1,7 @@
 import type { Block } from "@prisma/client";
 
-import useInitBlockDoc from "../../hooks/useInitBlockDoc";
-import useSyncBlockDoc from "../../hooks/useSyncBlockDoc";
+import useInitBlockDoc from "../../hooks/yjs/useInitBlockDoc";
+import useSyncBlockDoc from "../../hooks/yjs/useSyncBlockDoc";
 import { useYDocSelector } from "../../lib/react-yjs";
 import { useYDoc } from "../../lib/react-yjs/src/YDocProvider";
 import Link, { isLinkBlock } from "./Link";

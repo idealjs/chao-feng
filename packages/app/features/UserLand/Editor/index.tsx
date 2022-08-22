@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 
 import MockEditor from "../../../components/MockEditor";
-import useInitPageDoc from "../../../hooks/useInitPageDoc";
 import usePageId from "../../../hooks/usePageId";
+import useInitPageDoc from "../../../hooks/yjs/useInitPageDoc";
 import { useYDocSocket } from "../../../lib/react-yjs/";
 import Page from "../../Page";
 import SideDrawer from "../../SideDrawer";

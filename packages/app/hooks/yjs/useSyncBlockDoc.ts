@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { applyUpdate, Doc } from "yjs";
 
-import { useSocket } from "../features/SocketProvider";
-import { useYDocSelector } from "../lib/react-yjs";
+import { useSocket } from "../../features/SocketProvider";
+import { useYDocSelector } from "../../lib/react-yjs";
 
 const useSyncBlockDoc = (blockId: string) => {
   const socket = useSocket();
