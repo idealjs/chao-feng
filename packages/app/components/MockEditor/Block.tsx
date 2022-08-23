@@ -3,12 +3,11 @@ import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ySyncPlugin } from "y-prosemirror";
-import { Doc } from "yjs";
 
 import { useSocket } from "../../features/SocketProvider";
+import useBlockDoc from "../../hooks/yjs/useBlockDoc";
 import useInitBlockDoc from "../../hooks/yjs/useInitBlockDoc";
 import useSyncBlockDoc from "../../hooks/yjs/useSyncBlockDoc";
-import { useYDocSelector } from "../../lib/react-yjs";
 
 interface IProps {
   blockId: string;
@@ -19,10 +18,7 @@ const Block = (props: IProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [editor, setEditor] = useState<EditorView | null>(null);
   const socket = useSocket();
-  const blockDoc = useYDocSelector((yDoc) => {
-    return yDoc?.getMap<Doc>("blockDocs").get(blockId);
-  });
-
+  const blockDoc = useBlockDoc(blockId);
   const yXmlFragment = useMemo(() => {
     return blockDoc?.getXmlFragment("prosemirror");
   }, [blockDoc]);

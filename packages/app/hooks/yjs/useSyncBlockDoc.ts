@@ -1,15 +1,13 @@
 import { useEffect } from "react";
-import { applyUpdate, Doc } from "yjs";
+import { applyUpdate } from "yjs";
 
 import { useSocket } from "../../features/SocketProvider";
-import { useYDocSelector } from "../../lib/react-yjs";
+import useBlockDoc from "./useBlockDoc";
 
 const useSyncBlockDoc = (blockId: string) => {
   const socket = useSocket();
 
-  const blockDoc = useYDocSelector((yDoc) => {
-    return yDoc?.getMap<Doc>("blockDocs").get(blockId);
-  });
+  const blockDoc = useBlockDoc(blockId);
 
   useEffect(() => {
     const listener = (msg: { blockId: string; update: ArrayBuffer }) => {
