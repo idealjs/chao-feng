@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { ySyncPlugin } from "y-prosemirror";
 import { Doc } from "yjs";
 
+import useBlockDoc from "../../../hooks/yjs/useBlockDoc";
 import { useYDocSelector } from "../../../lib/react-yjs";
 import { IBaseTextBlock } from "../../../lib/type";
 
@@ -20,9 +21,7 @@ const Text = (props: IProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [editor, setEditor] = useState<EditorView | null>(null);
 
-  const blockDoc = useYDocSelector((yDoc) => {
-    return yDoc?.getMap<Doc>("blockDocs").get(blockId);
-  });
+  const blockDoc = useBlockDoc(blockId);
 
   const yXmlFragment = useMemo(() => {
     return blockDoc?.getXmlFragment("prosemirror");
