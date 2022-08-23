@@ -7,8 +7,8 @@ import Block from "./Block";
 
 const Page = () => {
   const pageId = usePageId();
-  const yDoc = useYDoc();
-  const blockOrder = useYDocSelector((yDoc) => {
+  const rootDoc = useYDoc();
+  const blockOrder = useYDocSelector(rootDoc, (yDoc) => {
     if (pageId == null) {
       return null;
     }
@@ -27,7 +27,7 @@ const Page = () => {
           console.log(
             "test test",
             pageId,
-            JSON.stringify(yDoc?.getMap("blockDocs").toJSON(), null, 2)
+            JSON.stringify(rootDoc?.getMap("blockDocs").toJSON(), null, 2)
           );
         }}
       >

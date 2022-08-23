@@ -1,11 +1,10 @@
 import { useSyncExternalStoreWithSelector } from "use-sync-external-store/with-selector";
 import { Doc } from "yjs";
 
-import { useYDoc } from "./YDocProvider";
-
-const useYSelector = <Result>(selector: (yDoc: Doc) => Result) => {
-  const yDoc = useYDoc();
-
+const useYDocSelector = <Result>(
+  yDoc: Doc,
+  selector: (yDoc: Doc) => Result
+) => {
   return useSyncExternalStoreWithSelector(
     (listener) => {
       yDoc?.on("update", listener);
@@ -19,4 +18,4 @@ const useYSelector = <Result>(selector: (yDoc: Doc) => Result) => {
   );
 };
 
-export default useYSelector;
+export default useYDocSelector;

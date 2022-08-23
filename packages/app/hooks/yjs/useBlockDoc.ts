@@ -1,9 +1,11 @@
 import { Doc } from "yjs";
 
 import { useYDocSelector } from "../../lib/react-yjs";
+import { useYDoc } from "../../lib/react-yjs/src/YDocProvider";
 
 const useBlockDoc = (blockId: string) => {
-  return useYDocSelector((yDoc) => {
+  const rootDoc = useYDoc();
+  return useYDocSelector(rootDoc, (yDoc) => {
     return yDoc.getMap<Doc>("blockDocs").get(blockId);
   });
 };

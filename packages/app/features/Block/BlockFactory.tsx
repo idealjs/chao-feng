@@ -15,8 +15,8 @@ interface IProps {
 const BlockFactory = (props: IProps) => {
   const { blockId } = props;
 
-  const yDoc = useYDoc();
-  const block = useYDocSelector((yDoc) => {
+  const rootDoc = useYDoc();
+  const block = useYDocSelector(rootDoc, (yDoc) => {
     return yDoc?.getMap<Omit<Block, "properties">>("blocks").get(blockId);
   });
 
@@ -44,7 +44,7 @@ const BlockFactory = (props: IProps) => {
   ) : (
     <div
       onClick={() => {
-        console.log("test test", yDoc?.getMap<Block>("blocks").get(blockId));
+        console.log("test test", rootDoc?.getMap<Block>("blocks").get(blockId));
       }}
     >
       no block data
