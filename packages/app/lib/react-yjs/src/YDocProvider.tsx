@@ -17,5 +17,8 @@ export default YDocProvider;
 
 export const useYDoc = () => {
   const yDoc = useContext(context);
+  if (yDoc == null) {
+    throw new Error("yDoc is null");
+  }
   return yDoc;
 };

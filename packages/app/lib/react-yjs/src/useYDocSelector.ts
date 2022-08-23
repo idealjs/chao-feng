@@ -3,7 +3,7 @@ import { Doc } from "yjs";
 
 import { useYDoc } from "./YDocProvider";
 
-const useYSelector = <Result>(selector: (store: Doc | null) => Result) => {
+const useYSelector = <Result>(selector: (yDoc: Doc) => Result) => {
   const yDoc = useYDoc();
 
   return useSyncExternalStoreWithSelector(
