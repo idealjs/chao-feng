@@ -1,3 +1,4 @@
+import { schema } from "@idealjs/chao-feng-shared/lib/prosemirror";
 import clsx from "clsx";
 import { useRouter } from "next/router";
 import { useSWRConfig } from "swr";
@@ -36,11 +37,17 @@ const Menu = (props: IProps) => {
             if (pageId == null) {
               return;
             }
+
             await createBlock({
               pageId: pageId,
               type: "text",
               nextTo: blockId,
-              properties: {},
+              properties: schema
+                .node("doc", null, [
+                  schema.node("paragraph", null, [schema.text("hello ")]),
+                  schema.node("paragraph", null, [schema.text("world!")]),
+                ])
+                .toJSON(),
             });
             mutate(`/api/v1/pages/${pageId}`);
             currentTarget.blur();

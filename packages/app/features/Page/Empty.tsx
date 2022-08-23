@@ -1,3 +1,4 @@
+import { schema } from "@idealjs/chao-feng-shared/lib/prosemirror";
 import { useSWRConfig } from "swr";
 
 import useCreateBlock from "../../hooks/api/useCreateBlock";
@@ -14,7 +15,16 @@ const Empty = (props: IProps) => {
   return (
     <div
       onClick={async () => {
-        await createBlock({ pageId, type: "text", properties: {} });
+        await createBlock({
+          pageId,
+          type: "text",
+          properties: schema
+            .node("doc", null, [
+              schema.node("paragraph", null, [schema.text("hello ")]),
+              schema.node("paragraph", null, [schema.text("world!")]),
+            ])
+            .toJSON(),
+        });
         mutate(`/api/v1/pages/${pageId}`);
       }}
     >
