@@ -1,10 +1,16 @@
+import { useEffect, useRef } from "react";
 import { useSyncExternalStoreWithSelector } from "use-sync-external-store/with-selector";
 import { Doc } from "yjs";
 
 const useYDocSelector = <Result>(
-  yDoc: Doc,
-  selector: (yDoc: Doc) => Result
+  yDoc: Doc | undefined,
+  selector: (yDoc: Doc | undefined) => Result
 ) => {
+  const selectorRef = useRef(selector);
+  useEffect(() => {
+    selectorRef.current = selector;
+  }, [selector]);
+
   return useSyncExternalStoreWithSelector(
     (listener) => {
       yDoc?.on("update", listener);
@@ -14,7 +20,7 @@ const useYDocSelector = <Result>(
     },
     () => ({ yDoc }),
     () => ({ yDoc }),
-    (extStore) => selector(extStore.yDoc)
+    (extStore) => selectorRef.current(extStore.yDoc)
   );
 };
 

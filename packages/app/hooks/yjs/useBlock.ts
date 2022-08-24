@@ -1,13 +1,13 @@
-import { Doc } from "yjs";
+import type { Block } from "@prisma/client";
 
 import { useYDocSelector } from "../../lib/react-yjs";
 import { useYDoc } from "../../lib/react-yjs/src/YDocProvider";
 
-const useBlockDoc = (blockId: string) => {
+const useBlock = (blockId: string) => {
   const rootDoc = useYDoc();
   return useYDocSelector(rootDoc, (yDoc) => {
-    return yDoc?.getMap<Doc>("blockDocs").get(blockId);
+    return yDoc?.getMap<Block>("blocks").get(blockId);
   });
 };
 
-export default useBlockDoc;
+export default useBlock;
