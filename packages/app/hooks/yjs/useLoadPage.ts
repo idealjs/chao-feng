@@ -2,25 +2,25 @@ import { useEffect } from "react";
 
 import { useSocket } from "../../features/SocketProvider";
 
-const useInitPageDoc = (pageId: string | undefined) => {
+const useLoadPageDoc = (pageId: string | undefined) => {
   const socket = useSocket();
 
   useEffect(() => {
-    console.group("[debug] ROOT_DOC_INIT start");
+    console.group("[debug] LOAD_PAGE start");
     if (socket == null) {
-      console.debug("ROOT_DOC_INIT socket is null");
+      console.debug("LOAD_PAGE socket is null");
       console.groupEnd();
       return;
     }
     if (pageId == null) {
-      console.debug("ROOT_DOC_INIT pageId is null");
+      console.debug("LOAD_PAGE pageId is null");
       console.groupEnd();
       return;
     }
-    console.debug("[debug] ROOT_DOC_INIT end");
+    console.debug("[debug] LOAD_PAGE end");
     console.groupEnd();
-    socket.emit("ROOT_DOC_INIT", { pageId });
+    socket.emit("LOAD_PAGE", { pageId });
   }, [pageId, socket]);
 };
 
-export default useInitPageDoc;
+export default useLoadPageDoc;

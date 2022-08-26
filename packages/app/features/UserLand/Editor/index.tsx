@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 
 import MockEditor from "../../../components/MockEditor";
 import usePageId from "../../../hooks/usePageId";
-import useInitPageDoc from "../../../hooks/yjs/useInitPageDoc";
+import useLoadPageDoc from "../../../hooks/yjs/useLoadPage";
 import { useYDocSocket } from "../../../lib/react-yjs/";
 import Page from "../../Page";
 import SideDrawer from "../../SideDrawer";
@@ -12,7 +12,7 @@ const Editor = () => {
   const pageId = usePageId();
   const socket = useSocket();
   useYDocSocket(socket);
-  useInitPageDoc(pageId);
+  useLoadPageDoc(pageId);
 
   return (
     <div className="drawer drawer-mobile">

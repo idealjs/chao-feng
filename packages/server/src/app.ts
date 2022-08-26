@@ -41,8 +41,8 @@ io.on("connection", async (socket) => {
     socket.emit("DOC_UPDATE", { update });
   });
 
-  socket.on("ROOT_DOC_INIT", async (msg: { pageId: string }) => {
-    console.debug("[debug] ROOT_DOC_INIT", msg.pageId);
+  socket.on("LOAD_PAGE", async (msg: { pageId: string }) => {
+    console.debug("[debug] LOAD_PAGE", msg.pageId);
 
     let page = yDoc.getMap<Page>("pages").get(msg.pageId) ?? null;
     if (page == null) {

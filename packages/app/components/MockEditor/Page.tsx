@@ -1,5 +1,5 @@
 import usePageId from "../../hooks/usePageId";
-import useInitPageDoc from "../../hooks/yjs/useInitPageDoc";
+import useLoadPageDoc from "../../hooks/yjs/useLoadPage";
 import { useYDocSelector } from "../../lib/react-yjs";
 import { useYDoc } from "../../lib/react-yjs/src/YDocProvider";
 import { IPage } from "../../lib/type";
@@ -15,7 +15,7 @@ const Page = () => {
     return yDoc?.getMap<IPage>("pages").get(pageId)?.blockOrder;
   });
 
-  useInitPageDoc(pageId);
+  useLoadPageDoc(pageId);
 
   return (
     <div>
@@ -27,7 +27,11 @@ const Page = () => {
           console.log(
             "test test",
             pageId,
-            JSON.stringify(rootDoc?.getMap("docMapOfBlockProperties").toJSON(), null, 2)
+            JSON.stringify(
+              rootDoc?.getMap("docMapOfBlockProperties").toJSON(),
+              null,
+              2
+            )
           );
         }}
       >
