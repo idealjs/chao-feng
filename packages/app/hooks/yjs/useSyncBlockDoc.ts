@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import { applyUpdate } from "yjs";
 
 import { useSocket } from "../../features/SocketProvider";
-import useBlockDoc from "./useBlockDoc";
+import usePropertiesDoc from "./usePropertiesDoc";
 
 const useSyncBlockDoc = (blockId: string) => {
   const socket = useSocket();
 
-  const propertiesDoc = useBlockDoc(blockId);
+  const propertiesDoc = usePropertiesDoc(blockId);
 
   useEffect(() => {
     const listener = (msg: { blockId: string; update: ArrayBuffer }) => {

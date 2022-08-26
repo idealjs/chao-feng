@@ -5,8 +5,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { ySyncPlugin } from "y-prosemirror";
 
 import { useSocket } from "../../features/SocketProvider";
-import useBlockDoc from "../../hooks/yjs/useBlockDoc";
 import useInitBlockDoc from "../../hooks/yjs/useInitBlockDoc";
+import usePropertiesDoc from "../../hooks/yjs/usePropertiesDoc";
 import useSyncBlockDoc from "../../hooks/yjs/useSyncBlockDoc";
 
 interface IProps {
@@ -18,7 +18,7 @@ const Block = (props: IProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [editor, setEditor] = useState<EditorView | null>(null);
   const socket = useSocket();
-  const propertiesDoc = useBlockDoc(blockId);
+  const propertiesDoc = usePropertiesDoc(blockId);
   const yXmlFragment = useMemo(() => {
     return propertiesDoc?.getXmlFragment("prosemirror");
   }, [propertiesDoc]);
