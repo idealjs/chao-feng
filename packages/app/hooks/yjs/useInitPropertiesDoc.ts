@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 import { useSocket } from "../../features/SocketProvider";
 
-const useInitBlockDoc = (blockId: string) => {
+const useInitPropertiesDoc = (blockId: string) => {
   const socket = useSocket();
   useEffect(() => {
     if (socket == null) {
@@ -12,4 +12,4 @@ const useInitBlockDoc = (blockId: string) => {
   }, [blockId, socket]);
 };
 
-export default useInitBlockDoc;
+export default useInitPropertiesDoc;

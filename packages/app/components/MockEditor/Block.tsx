@@ -5,7 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { ySyncPlugin } from "y-prosemirror";
 
 import { useSocket } from "../../features/SocketProvider";
-import useInitBlockDoc from "../../hooks/yjs/useInitBlockDoc";
+import useInitPropertiesDoc from "../../hooks/yjs/useInitPropertiesDoc";
 import usePropertiesDoc from "../../hooks/yjs/usePropertiesDoc";
 import useSyncBlockDoc from "../../hooks/yjs/useSyncBlockDoc";
 
@@ -25,7 +25,7 @@ const Block = (props: IProps) => {
 
   useSyncBlockDoc(blockId);
 
-  useInitBlockDoc(blockId);
+  useInitPropertiesDoc(blockId);
 
   useEffect(() => {
     if (yXmlFragment) {
