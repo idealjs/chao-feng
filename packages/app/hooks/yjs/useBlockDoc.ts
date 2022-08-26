@@ -6,7 +6,7 @@ import { useYDoc } from "../../lib/react-yjs/src/YDocProvider";
 const useBlockDoc = (blockId: string) => {
   const rootDoc = useYDoc();
   return useYDocSelector(rootDoc, (yDoc) => {
-    return yDoc?.getMap<Doc>("blockDocs").get(blockId);
+    return yDoc?.getMap<Doc>("docMapOfBlockProperties").get(blockId);
   });
 };
 

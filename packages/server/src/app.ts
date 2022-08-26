@@ -63,7 +63,7 @@ io.on("connection", async (socket) => {
   socket.on("BLOCK_DOC_INIT", async (msg: { blockId: string }) => {
     console.group("[debug] BLOCK_DOC_INIT");
 
-    let blockDoc = yDoc.getMap<Doc>("blockDocs").get(msg.blockId) ?? null;
+    let blockDoc = yDoc.getMap<Doc>("docMapOfBlockProperties").get(msg.blockId) ?? null;
     console.debug("is blockDoc null?", blockDoc == null);
     console.groupEnd();
     if (blockDoc == null) {
@@ -76,7 +76,7 @@ io.on("connection", async (socket) => {
       }
       try {
         blockDoc = prosemirrorJSONToYDoc(schema, block.properties);
-        yDoc.getMap("blockDocs").set(msg.blockId, blockDoc);
+        yDoc.getMap("docMapOfBlockProperties").set(msg.blockId, blockDoc);
         yDoc.getMap("blocks").set(msg.blockId, block);
       } catch (error) {
         console.error(error);
@@ -108,7 +108,7 @@ io.on("connection", async (socket) => {
   socket.on(
     "BLOCK_DOC_UPDATED",
     async (msg: { blockId: string; update: ArrayBuffer }) => {
-      const blockDoc = yDoc.getMap<Doc>("blockDocs").get(msg.blockId) ?? null;
+      const blockDoc = yDoc.getMap<Doc>("docMapOfBlockProperties").get(msg.blockId) ?? null;
       console.debug("[debug] BLOCK_DOC_UPDATED");
 
       if (blockDoc != null) {

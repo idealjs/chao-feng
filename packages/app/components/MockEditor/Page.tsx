@@ -27,7 +27,7 @@ const Page = () => {
           console.log(
             "test test",
             pageId,
-            JSON.stringify(rootDoc?.getMap("blockDocs").toJSON(), null, 2)
+            JSON.stringify(rootDoc?.getMap("docMapOfBlockProperties").toJSON(), null, 2)
           );
         }}
       >
