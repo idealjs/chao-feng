@@ -1,7 +1,7 @@
 import type { Block } from "@prisma/client";
 
 import useBlock from "../../hooks/yjs/useBlock";
-import useInitPropertiesDoc from "../../hooks/yjs/useInitPropertiesDoc";
+import useLoadPropertiesDoc from "../../hooks/yjs/useLoadPropertiesDoc";
 import useSyncBlockDoc from "../../hooks/yjs/useSyncBlockDoc";
 import { useYDoc } from "../../lib/react-yjs/src/YDocProvider";
 import Link, { isLinkBlock } from "./Link";
@@ -19,7 +19,7 @@ const BlockFactory = (props: IProps) => {
   const block = useBlock(blockId);
 
   useSyncBlockDoc(blockId);
-  useInitPropertiesDoc(blockId);
+  useLoadPropertiesDoc(blockId);
 
   if (isTextBlock(block)) {
     return (

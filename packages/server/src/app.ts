@@ -60,8 +60,8 @@ io.on("connection", async (socket) => {
     }
   });
 
-  socket.on("PROPERTIES_DOC_INIT", async (msg: { blockId: string }) => {
-    console.group("[debug] PROPERTIES_DOC_INIT");
+  socket.on("LOAD_PROPERTIES_DOC", async (msg: { blockId: string }) => {
+    console.group("[debug] LOAD_PROPERTIES_DOC");
 
     let propertiesDoc = yDoc.getMap<Doc>("docMapOfBlockProperties").get(msg.blockId) ?? null;
     console.debug("is propertiesDoc null?", propertiesDoc == null);
