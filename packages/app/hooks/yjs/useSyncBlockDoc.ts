@@ -7,13 +7,13 @@ import useBlockDoc from "./useBlockDoc";
 const useSyncBlockDoc = (blockId: string) => {
   const socket = useSocket();
 
-  const blockDoc = useBlockDoc(blockId);
+  const propertiesDoc = useBlockDoc(blockId);
 
   useEffect(() => {
     const listener = (msg: { blockId: string; update: ArrayBuffer }) => {
       console.group("[debug] BLOCK_DOC_UPDATED");
-      if (blockDoc != null && msg.blockId === blockId) {
-        applyUpdate(blockDoc, new Uint8Array(msg.update), socket);
+      if (propertiesDoc != null && msg.blockId === blockId) {
+        applyUpdate(propertiesDoc, new Uint8Array(msg.update), socket);
       }
       console.groupEnd();
     };
@@ -22,7 +22,7 @@ const useSyncBlockDoc = (blockId: string) => {
     return () => {
       socket?.off("BLOCK_DOC_UPDATED", listener);
     };
-  }, [blockDoc, blockId, socket]);
+  }, [propertiesDoc, blockId, socket]);
 
   useEffect(() => {
     const listener = (update: Uint8Array, origin?: any) => {
@@ -35,11 +35,11 @@ const useSyncBlockDoc = (blockId: string) => {
       }
       console.groupEnd();
     };
-    blockDoc?.on("update", listener);
+    propertiesDoc?.on("update", listener);
     return () => {
-      blockDoc?.off("update", listener);
+      propertiesDoc?.off("update", listener);
     };
-  }, [blockDoc, blockId, socket]);
+  }, [propertiesDoc, blockId, socket]);
 };
 
 export default useSyncBlockDoc;

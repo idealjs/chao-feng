@@ -63,10 +63,10 @@ io.on("connection", async (socket) => {
   socket.on("BLOCK_DOC_INIT", async (msg: { blockId: string }) => {
     console.group("[debug] BLOCK_DOC_INIT");
 
-    let blockDoc = yDoc.getMap<Doc>("docMapOfBlockProperties").get(msg.blockId) ?? null;
-    console.debug("is blockDoc null?", blockDoc == null);
+    let propertiesDoc = yDoc.getMap<Doc>("docMapOfBlockProperties").get(msg.blockId) ?? null;
+    console.debug("is propertiesDoc null?", propertiesDoc == null);
     console.groupEnd();
-    if (blockDoc == null) {
+    if (propertiesDoc == null) {
       const block = await prisma.block.findUnique({
         where: { id: msg.blockId },
       });
@@ -75,16 +75,16 @@ io.on("connection", async (socket) => {
         return;
       }
       try {
-        blockDoc = prosemirrorJSONToYDoc(schema, block.properties);
-        yDoc.getMap("docMapOfBlockProperties").set(msg.blockId, blockDoc);
+        propertiesDoc = prosemirrorJSONToYDoc(schema, block.properties);
+        yDoc.getMap("docMapOfBlockProperties").set(msg.blockId, propertiesDoc);
         yDoc.getMap("blocks").set(msg.blockId, block);
       } catch (error) {
         console.error(error);
       }
     }
 
-    if (blockDoc != null) {
-      const update = encodeStateAsUpdate(blockDoc);
+    if (propertiesDoc != null) {
+      const update = encodeStateAsUpdate(propertiesDoc);
 
       socket.emit("BLOCK_DOC_UPDATED", {
         blockId: msg.blockId,
@@ -108,17 +108,17 @@ io.on("connection", async (socket) => {
   socket.on(
     "BLOCK_DOC_UPDATED",
     async (msg: { blockId: string; update: ArrayBuffer }) => {
-      const blockDoc = yDoc.getMap<Doc>("docMapOfBlockProperties").get(msg.blockId) ?? null;
+      const propertiesDoc = yDoc.getMap<Doc>("docMapOfBlockProperties").get(msg.blockId) ?? null;
       console.debug("[debug] BLOCK_DOC_UPDATED");
 
-      if (blockDoc != null) {
-        applyUpdate(blockDoc, new Uint8Array(msg.update));
+      if (propertiesDoc != null) {
+        applyUpdate(propertiesDoc, new Uint8Array(msg.update));
 
         const blockData = yDoc.getMap<Block>("blocks").get(msg.blockId);
         if (blockData != null) {
           yDoc.getMap<Block>("blocks").set(msg.blockId, {
             ...blockData,
-            properties: yDocToProsemirrorJSON(blockDoc),
+            properties: yDocToProsemirrorJSON(propertiesDoc),
           });
 
           const update = encodeStateAsUpdate(yDoc);

@@ -21,11 +21,11 @@ const Text = (props: IProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [editor, setEditor] = useState<EditorView | null>(null);
 
-  const blockDoc = useBlockDoc(blockId);
+  const propertiesDoc = useBlockDoc(blockId);
 
   const yXmlFragment = useMemo(() => {
-    return blockDoc?.getXmlFragment("prosemirror");
-  }, [blockDoc]);
+    return propertiesDoc?.getXmlFragment("prosemirror");
+  }, [propertiesDoc]);
 
   useEffect(() => {
     if (yXmlFragment) {
