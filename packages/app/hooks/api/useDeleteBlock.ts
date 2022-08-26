@@ -13,7 +13,7 @@ const useDeleteBlock = () => {
         method: "DELETE",
       });
       const block = (await res.json()) as Block;
-      socket?.emit("PAGE_DOC_UPDATED", {
+      socket?.emit("ROOT_DOC_UPDATED", {
         pageId: block.pageId,
       });
     },
