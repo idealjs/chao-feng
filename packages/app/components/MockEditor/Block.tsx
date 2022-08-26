@@ -4,7 +4,6 @@ import { EditorView } from "prosemirror-view";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ySyncPlugin } from "y-prosemirror";
 
-import { useSocket } from "../../features/SocketProvider";
 import useLoadPropertiesDoc from "../../hooks/yjs/useLoadPropertiesDoc";
 import usePropertiesDoc from "../../hooks/yjs/usePropertiesDoc";
 import useSyncBlockDoc from "../../hooks/yjs/useSyncBlockDoc";
@@ -17,7 +16,6 @@ const Block = (props: IProps) => {
   const { blockId } = props;
   const ref = useRef<HTMLDivElement>(null);
   const [editor, setEditor] = useState<EditorView | null>(null);
-  const socket = useSocket();
   const propertiesDoc = usePropertiesDoc(blockId);
   const yXmlFragment = useMemo(() => {
     return propertiesDoc?.getXmlFragment("prosemirror");

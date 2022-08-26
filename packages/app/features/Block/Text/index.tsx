@@ -3,10 +3,8 @@ import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ySyncPlugin } from "y-prosemirror";
-import { Doc } from "yjs";
 
 import usePropertiesDoc from "../../../hooks/yjs/usePropertiesDoc";
-import { useYDocSelector } from "../../../lib/react-yjs";
 import { IBaseTextBlock } from "../../../lib/type";
 
 export interface ITextBlock extends IBaseTextBlock {

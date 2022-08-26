@@ -1,4 +1,4 @@
-import { Block } from "@prisma/client";
+import type { Block } from "@prisma/client";
 import { useCallback } from "react";
 
 import { useSocket } from "../../features/SocketProvider";

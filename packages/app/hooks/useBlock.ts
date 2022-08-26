@@ -1,4 +1,4 @@
-import type { Block, Prisma } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
 import useSWR from "swr";
 
 import fetcher from "../lib/fetcher";

@@ -1,6 +1,3 @@
-import { useRouter } from "next/router";
-
-import MockEditor from "../../../components/MockEditor";
 import usePageId from "../../../hooks/usePageId";
 import useLoadPageDoc from "../../../hooks/yjs/useLoadPage";
 import { useYDocSocket } from "../../../lib/react-yjs/";
