@@ -1,8 +1,8 @@
 import { BookOpenIcon } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
 
-import usePage from "../../../../../../hooks/usePage";
-import { IBaseTextBlock } from "../../../../../../lib/type";
+import usePage from "../../../hooks/usePage";
+import { IBaseTextBlock } from "../../../lib/type";
 
 export interface ILinkBlock extends IBaseTextBlock {
   type: "text";

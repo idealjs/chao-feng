@@ -6,8 +6,8 @@ import clsx from "clsx";
 import { PropsWithChildren } from "react";
 import { useSWRConfig } from "swr";
 
-import useCreateBlock from "../../../../../../hooks/api/useCreateBlock";
-import usePageId from "../../../../../../hooks/usePageId";
+import useCreateBlock from "../../../hooks/api/useCreateBlock";
+import usePageId from "../../../hooks/usePageId";
 import Menu from "./Menu";
 
 interface IProps {

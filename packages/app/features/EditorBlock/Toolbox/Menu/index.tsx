@@ -3,9 +3,9 @@ import clsx from "clsx";
 import { useRouter } from "next/router";
 import { useSWRConfig } from "swr";
 
-import useCreateBlock from "../../../../../../../hooks/api/useCreateBlock";
-import useDeleteBlock from "../../../../../../../hooks/api/useDeleteBlock";
-import usePageId from "../../../../../../../hooks/usePageId";
+import useCreateBlock from "../../../../hooks/api/useCreateBlock";
+import useDeleteBlock from "../../../../hooks/api/useDeleteBlock";
+import usePageId from "../../../../hooks/usePageId";
 import { ILinkBlock } from "../../Link";
 
 interface IProps {

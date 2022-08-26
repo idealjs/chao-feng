@@ -1,7 +1,7 @@
 import { schema } from "@idealjs/chao-feng-shared/lib/prosemirror";
 import { useSWRConfig } from "swr";
 
-import useCreateBlock from "../../../../hooks/api/useCreateBlock";
+import useCreateBlock from "../../hooks/api/useCreateBlock";
 
 interface IProps {
   pageId: string;

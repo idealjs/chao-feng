@@ -8,9 +8,9 @@ import {
 import { useSensor } from "@dnd-kit/core";
 import { rectSortingStrategy, SortableContext } from "@dnd-kit/sortable";
 
-import useBlockOrder from "../../../../hooks/yjs/useBlockOrder";
-import usePage from "../../../../hooks/yjs/usePage";
-import Block from "./Block";
+import useBlockOrder from "../../hooks/yjs/useBlockOrder";
+import usePage from "../../hooks/yjs/usePage";
+import EditorBlock from "../EditorBlock";
 import Empty from "./Empty";
 import Head from "./Head";
 
@@ -18,7 +18,7 @@ interface IProps {
   pageId: string;
 }
 
-const Page = (props: IProps) => {
+const EditorPage = (props: IProps) => {
   const { pageId } = props;
   const page = usePage(pageId);
   const blockOrder = useBlockOrder(pageId);
@@ -54,7 +54,7 @@ const Page = (props: IProps) => {
                 >
                   <div ref={setNodeRef} style={{ background: "#e2dfdf" }}>
                     {blockOrder?.map((blockId) => {
-                      return <Block key={blockId} blockId={blockId} />;
+                      return <EditorBlock key={blockId} blockId={blockId} />;
                     })}
                   </div>
                 </SortableContext>
@@ -67,4 +67,4 @@ const Page = (props: IProps) => {
   );
 };
 
-export default Page;
+export default EditorPage;

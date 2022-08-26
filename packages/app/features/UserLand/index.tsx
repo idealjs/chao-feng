@@ -1,7 +1,7 @@
 import usePageId from "../../hooks/usePageId";
 import YDocProvider from "../../lib/react-yjs/src/YDocProvider";
+import Editor from "../Editor";
 import SocketProvider from "../SocketProvider";
-import Editor from "./Editor";
 
 const UserLand = () => {
   const pageId = usePageId();

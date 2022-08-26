@@ -4,8 +4,8 @@ import { EditorView } from "prosemirror-view";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ySyncPlugin } from "y-prosemirror";
 
-import usePropertiesDoc from "../../../../../../hooks/yjs/usePropertiesDoc";
-import { IBaseTextBlock } from "../../../../../../lib/type";
+import usePropertiesDoc from "../../../hooks/yjs/usePropertiesDoc";
+import { IBaseTextBlock } from "../../../lib/type";
 
 export interface ITextBlock extends IBaseTextBlock {
   type: "text";

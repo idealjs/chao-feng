@@ -4,10 +4,10 @@ interface IProps {
   blockId: string;
 }
 
-const Block = (props: IProps) => {
+const EditorBlock = (props: IProps) => {
   const { blockId } = props;
 
   return <BlockFactory blockId={blockId} />;
 };
 
-export default Block;
+export default EditorBlock;
