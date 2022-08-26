@@ -8,9 +8,9 @@ import {
 import { useSensor } from "@dnd-kit/core";
 import { rectSortingStrategy, SortableContext } from "@dnd-kit/sortable";
 
-import useBlockOrder from "../../hooks/yjs/useBlockOrder";
-import usePage from "../../hooks/yjs/usePage";
-import Block from "../Block";
+import useBlockOrder from "../../../../hooks/yjs/useBlockOrder";
+import usePage from "../../../../hooks/yjs/usePage";
+import Block from "./Block";
 import Empty from "./Empty";
 import Head from "./Head";
 

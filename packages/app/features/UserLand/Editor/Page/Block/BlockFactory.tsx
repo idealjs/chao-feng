@@ -1,9 +1,9 @@
 import type { Block } from "@prisma/client";
 
-import useBlock from "../../hooks/yjs/useBlock";
-import useLoadPropertiesDoc from "../../hooks/yjs/useLoadPropertiesDoc";
-import useSyncBlockDoc from "../../hooks/yjs/useSyncBlockDoc";
-import { useYDoc } from "../../lib/react-yjs/src/YDocProvider";
+import useBlock from "../../../../../hooks/yjs/useBlock";
+import useLoadPropertiesDoc from "../../../../../hooks/yjs/useLoadPropertiesDoc";
+import useSyncBlockDoc from "../../../../../hooks/yjs/useSyncBlockDoc";
+import { useYDoc } from "../../../../../lib/react-yjs/src/YDocProvider";
 import Link, { isLinkBlock } from "./Link";
 import Text, { isTextBlock } from "./Text";
 import Toolbox from "./Toolbox";

@@ -1,9 +1,9 @@
 import usePageId from "../../../hooks/usePageId";
 import useLoadPageDoc from "../../../hooks/yjs/useLoadPage";
 import { useYDocSocket } from "../../../lib/react-yjs/";
-import Page from "../../Page";
 import SideDrawer from "../../SideDrawer";
 import { useSocket } from "../../SocketProvider";
+import Page from "./Page";
 
 const Editor = () => {
   const pageId = usePageId();

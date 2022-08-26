@@ -1,7 +1,7 @@
 import Link from "next/link";
 
-import usePageId from "../../../hooks/usePageId";
-import useParents from "../../../hooks/useParents";
+import usePageId from "../../../../../hooks/usePageId";
+import useParents from "../../../../../hooks/useParents";
 
 const Router = () => {
   const pageId = usePageId();
