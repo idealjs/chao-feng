@@ -74,17 +74,23 @@ io.on("connection", async (socket) => {
       if (block == null) {
         return;
       }
-      blockDoc = prosemirrorJSONToYDoc(schema, block.properties);
-      yDoc.getMap("blockDocs").set(msg.blockId, blockDoc);
-      yDoc.getMap("blocks").set(msg.blockId, block);
+      try {
+        blockDoc = prosemirrorJSONToYDoc(schema, block.properties);
+        yDoc.getMap("blockDocs").set(msg.blockId, blockDoc);
+        yDoc.getMap("blocks").set(msg.blockId, block);
+      } catch (error) {
+        console.error(error);
+      }
     }
 
-    const update = encodeStateAsUpdate(blockDoc);
+    if (blockDoc != null) {
+      const update = encodeStateAsUpdate(blockDoc);
 
-    socket.emit("BLOCK_DOC_UPDATED", {
-      blockId: msg.blockId,
-      update: update,
-    });
+      socket.emit("BLOCK_DOC_UPDATED", {
+        blockId: msg.blockId,
+        update: update,
+      });
+    }
   });
 
   socket.on("PAGE_DOC_UPDATED", async (msg: { pageId: string }) => {
