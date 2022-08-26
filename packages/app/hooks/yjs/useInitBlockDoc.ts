@@ -8,7 +8,7 @@ const useInitBlockDoc = (blockId: string) => {
     if (socket == null) {
       return;
     }
-    socket.emit("BLOCK_DOC_INIT", { blockId });
+    socket.emit("PROPERTIES_DOC_INIT", { blockId });
   }, [blockId, socket]);
 };
 

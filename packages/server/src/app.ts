@@ -60,8 +60,8 @@ io.on("connection", async (socket) => {
     }
   });
 
-  socket.on("BLOCK_DOC_INIT", async (msg: { blockId: string }) => {
-    console.group("[debug] BLOCK_DOC_INIT");
+  socket.on("PROPERTIES_DOC_INIT", async (msg: { blockId: string }) => {
+    console.group("[debug] PROPERTIES_DOC_INIT");
 
     let propertiesDoc = yDoc.getMap<Doc>("docMapOfBlockProperties").get(msg.blockId) ?? null;
     console.debug("is propertiesDoc null?", propertiesDoc == null);
@@ -86,7 +86,7 @@ io.on("connection", async (socket) => {
     if (propertiesDoc != null) {
       const update = encodeStateAsUpdate(propertiesDoc);
 
-      socket.emit("BLOCK_DOC_UPDATED", {
+      socket.emit("PROPERTIES_DOC_UPDATED", {
         blockId: msg.blockId,
         update: update,
       });
@@ -106,10 +106,10 @@ io.on("connection", async (socket) => {
   });
 
   socket.on(
-    "BLOCK_DOC_UPDATED",
+    "PROPERTIES_DOC_UPDATED",
     async (msg: { blockId: string; update: ArrayBuffer }) => {
       const propertiesDoc = yDoc.getMap<Doc>("docMapOfBlockProperties").get(msg.blockId) ?? null;
-      console.debug("[debug] BLOCK_DOC_UPDATED");
+      console.debug("[debug] PROPERTIES_DOC_UPDATED");
 
       if (propertiesDoc != null) {
         applyUpdate(propertiesDoc, new Uint8Array(msg.update));
@@ -129,7 +129,7 @@ io.on("connection", async (socket) => {
         }
       }
 
-      socket.to(pageId).emit("BLOCK_DOC_UPDATED", msg);
+      socket.to(pageId).emit("PROPERTIES_DOC_UPDATED", msg);
     }
   );
 });
