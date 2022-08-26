@@ -1,5 +1,5 @@
 import prisma from "@idealjs/chao-feng-shared/lib/prisma";
-import { Prisma } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 const blocksHandler = async (req: NextApiRequest, res: NextApiResponse) => {

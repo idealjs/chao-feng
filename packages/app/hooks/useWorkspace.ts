@@ -1,4 +1,4 @@
-import { Workspace } from "@prisma/client";
+import type { Workspace } from "@prisma/client";
 import useSWR from "swr";
 
 import fetcher from "../lib/fetcher";

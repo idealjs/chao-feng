@@ -1,4 +1,4 @@
-import { Page } from "@prisma/client";
+import type { Page } from "@prisma/client";
 import { useCallback } from "react";
 
 const useDeletePage = () => {

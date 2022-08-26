@@ -1,4 +1,4 @@
-import { PermissionTag, Profile, Workspace } from "@prisma/client";
+import type { PermissionTag, Profile, Workspace } from "@prisma/client";
 import useSWR from "swr";
 
 import fetcher from "../lib/fetcher";

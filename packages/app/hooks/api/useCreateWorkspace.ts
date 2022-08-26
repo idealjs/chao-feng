@@ -1,4 +1,4 @@
-import { Workspace } from "@prisma/client";
+import type { Workspace } from "@prisma/client";
 import { useCallback } from "react";
 
 import { useSocket } from "../../features/SocketProvider";

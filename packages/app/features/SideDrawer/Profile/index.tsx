@@ -1,4 +1,4 @@
-import { Workspace } from "@prisma/client";
+import type { Workspace } from "@prisma/client";
 import { useRouter } from "next/router";
 import { Fragment } from "react";
 
