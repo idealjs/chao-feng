@@ -33,7 +33,7 @@ const EditorPage = (props: IProps) => {
 
   return (
     <div className="h-full w-full">
-      <div className="h-full">
+      <div className="h-full bg-base-200">
         <Head />
         <div className="flex justify-center">
           <h1 className="w-4/5 xl:px-24 max-w-5xl">
@@ -52,7 +52,7 @@ const EditorPage = (props: IProps) => {
                   items={blockOrder}
                   strategy={rectSortingStrategy}
                 >
-                  <div ref={setNodeRef} style={{ background: "#e2dfdf" }}>
+                  <div ref={setNodeRef} className="bg-white">
                     {blockOrder?.map((blockId) => {
                       return <EditorBlock key={blockId} blockId={blockId} />;
                     })}
