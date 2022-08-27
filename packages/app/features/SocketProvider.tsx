@@ -7,8 +7,6 @@ import {
 } from "react";
 import { io, ManagerOptions, Socket, SocketOptions } from "socket.io-client";
 
-import usePageId from "../hooks/usePageId";
-
 const context = createContext<Socket | null>(null);
 
 interface IProps {
