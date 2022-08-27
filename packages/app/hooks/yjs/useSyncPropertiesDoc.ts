@@ -4,7 +4,7 @@ import { applyUpdate } from "yjs";
 import { useSocket } from "../../features/SocketProvider";
 import usePropertiesDoc from "./usePropertiesDoc";
 
-const useSyncBlockDoc = (blockId: string) => {
+const useSyncPropertiesDoc = (blockId: string) => {
   const socket = useSocket();
 
   const propertiesDoc = usePropertiesDoc(blockId);
@@ -42,4 +42,4 @@ const useSyncBlockDoc = (blockId: string) => {
   }, [propertiesDoc, blockId, socket]);
 };
 
-export default useSyncBlockDoc;
+export default useSyncPropertiesDoc;
