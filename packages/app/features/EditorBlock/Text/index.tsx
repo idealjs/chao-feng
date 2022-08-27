@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { ySyncPlugin } from "y-prosemirror";
 
 import usePropertiesDoc from "../../../hooks/yjs/usePropertiesDoc";
+import { syncSuspenseProxy } from "../../../hooks/yjs/useSyncPropertiesDoc";
 import { IBaseTextBlock } from "../../../lib/type";
 
 export interface ITextBlock extends IBaseTextBlock {
@@ -40,6 +41,24 @@ const Text = (props: IProps) => {
       };
     }
   }, [yXmlFragment]);
+
+  useEffect(() => {
+    const startListener = () => {
+      syncSuspenseProxy[blockId] = true;
+    };
+
+    const endListener = () => {
+      syncSuspenseProxy[blockId] = false;
+    };
+
+    editor?.dom.addEventListener("compositionstart", startListener);
+    editor?.dom.addEventListener("compositionend", endListener);
+
+    return () => {
+      editor?.dom.removeEventListener("compositionstart", startListener);
+      editor?.dom.removeEventListener("compositionend", endListener);
+    };
+  }, [blockId, editor?.dom]);
 
   return <div ref={ref}></div>;
 };
