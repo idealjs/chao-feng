@@ -3,10 +3,12 @@ import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ySyncPlugin } from "y-prosemirror";
+import { encodeStateAsUpdate } from "yjs";
 
 import usePropertiesDoc from "../../../hooks/yjs/usePropertiesDoc";
 import { syncSuspenseProxy } from "../../../hooks/yjs/useSyncPropertiesDoc";
 import { IBaseTextBlock } from "../../../lib/type";
+import { useSocket } from "../../SocketProvider";
 
 export interface ITextBlock extends IBaseTextBlock {
   type: "text";
@@ -19,6 +21,7 @@ const Text = (props: IProps) => {
   const { blockId } = props;
   const ref = useRef<HTMLDivElement>(null);
   const [editor, setEditor] = useState<EditorView | null>(null);
+  const socket = useSocket();
 
   const propertiesDoc = usePropertiesDoc(blockId);
 
@@ -49,6 +52,14 @@ const Text = (props: IProps) => {
 
     const endListener = () => {
       syncSuspenseProxy[blockId] = false;
+      if (propertiesDoc != null) {
+        const update = encodeStateAsUpdate(propertiesDoc);
+        socket?.emit("PROPERTIES_DOC_UPDATED", {
+          blockId,
+          update,
+        });
+        socket?.emit("LOAD_PROPERTIES_DOC", { blockId });
+      }
     };
 
     editor?.dom.addEventListener("compositionstart", startListener);
@@ -58,7 +69,7 @@ const Text = (props: IProps) => {
       editor?.dom.removeEventListener("compositionstart", startListener);
       editor?.dom.removeEventListener("compositionend", endListener);
     };
-  }, [blockId, editor?.dom]);
+  }, [blockId, editor?.dom, propertiesDoc, socket]);
 
   return <div ref={ref}></div>;
 };
