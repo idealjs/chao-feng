@@ -12,15 +12,17 @@ const SideDrawer = () => {
   const workspace = useWorkspaceRouter(page?.workspaceId);
 
   return (
-    <div className="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content sm:border-r-2 sm:border-gray-300">
-      <div>{workspace && <Profile currentWorkspace={workspace} />}</div>
+    <div className="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content sm:border-r-2 sm:border-gray-300 flex justify-between	">
+      {/* <div>{workspace && <Profile currentWorkspace={workspace} />}</div> */}
       <ul>
-        <li>
+        {/* <li>
           <a>sidebar pid:{pid}</a>
-        </li>
+        </li> */}
         <li>
           <a>workspace name:{workspace?.name}</a>
         </li>
+      </ul>
+      <ul>
         <li
           onClick={async () => {
             await signOut({ callbackUrl: "/" });
