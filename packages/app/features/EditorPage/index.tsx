@@ -33,7 +33,7 @@ const EditorPage = (props: IProps) => {
 
   return (
     <div className="h-full w-full">
-      <div className="h-full bg-base-200">
+      <div className="h-full">
         <Head />
         <div className="flex justify-center">
           <h1 className="w-4/5 xl:px-24 max-w-5xl">
