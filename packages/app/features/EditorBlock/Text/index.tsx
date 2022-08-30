@@ -1,13 +1,15 @@
 import { schema } from "@idealjs/chao-feng-shared/lib/prosemirror";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { ReactPortal, useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { ySyncPlugin } from "y-prosemirror";
 import { encodeStateAsUpdate } from "yjs";
 
 import usePropertiesDoc from "../../../hooks/yjs/usePropertiesDoc";
 import { syncSuspenseProxy } from "../../../hooks/yjs/useSyncPropertiesDoc";
 import { IBaseTextBlock } from "../../../lib/type";
+import useStateRef from "../../../lib/useStateRef";
 import { useSocket } from "../../SocketProvider";
 
 export interface ITextBlock extends IBaseTextBlock {
@@ -20,7 +22,11 @@ interface IProps {
 const Text = (props: IProps) => {
   const { blockId } = props;
   const ref = useRef<HTMLDivElement>(null);
+  const [target, setTarget] = useState<HTMLDivElement | null>(null);
+  const [portal, setPortal] = useState<ReactPortal | null>(null);
+  const portalRef = useStateRef(portal);
   const [editor, setEditor] = useState<EditorView | null>(null);
+  const [text, setText] = useState<string>();
   const socket = useSocket();
 
   const propertiesDoc = usePropertiesDoc(blockId);
@@ -36,6 +42,37 @@ const Text = (props: IProps) => {
           schema,
           plugins: [ySyncPlugin(yXmlFragment)],
         }),
+        nodeViews: {
+          paragraph: (node, view, getPos, decorations) => {
+            const dom = document.createElement("div");
+            dom.classList.add("ProseMirror__dom");
+
+            let contentDOM;
+            if (!node.isLeaf) {
+              contentDOM = document.createElement("span");
+              contentDOM.classList.add("ProseMirror__contentDOM");
+              dom.appendChild(contentDOM);
+            }
+            setTarget(dom);
+
+            if (portalRef.current == null) {
+              const portal = createPortal(
+                <div className="ProseMirror__reactComponent"></div>,
+                dom
+              );
+              setPortal(portal);
+            }
+            setText(node.text);
+            return {
+              dom,
+              contentDOM,
+              destroy: () => {
+                dom.remove();
+                setPortal(null);
+              },
+            };
+          },
+        },
       });
       setEditor(editor);
       return () => {
@@ -43,7 +80,7 @@ const Text = (props: IProps) => {
         setEditor(null);
       };
     }
-  }, [yXmlFragment]);
+  }, [portalRef, yXmlFragment]);
 
   useEffect(() => {
     const startListener = () => {
@@ -71,7 +108,7 @@ const Text = (props: IProps) => {
     };
   }, [blockId, editor?.dom, propertiesDoc, socket]);
 
-  return <div ref={ref}></div>;
+  return <div ref={ref}>{portal}</div>;
 };
 
 export default Text;
