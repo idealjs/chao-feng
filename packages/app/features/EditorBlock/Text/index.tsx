@@ -16,6 +16,16 @@ interface IProps {
   blockId: string;
 }
 
+import { Plugin } from "prosemirror-state";
+
+import SelectionSizeTooltip from "../SelectionSizeTooltip";
+
+let selectionSizePlugin = new Plugin({
+  view(editorView) {
+    return new SelectionSizeTooltip(editorView);
+  },
+});
+
 const Text = (props: IProps) => {
   const { blockId } = props;
 
@@ -34,7 +44,7 @@ const Text = (props: IProps) => {
       setEditorProps({
         state: EditorState.create({
           schema,
-          plugins: [ySyncPlugin(yXmlFragment)],
+          plugins: [ySyncPlugin(yXmlFragment), selectionSizePlugin],
         }),
       });
     }
