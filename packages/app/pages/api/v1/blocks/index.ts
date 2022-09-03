@@ -69,17 +69,16 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
             },
           });
           properties = schema
-            .node(
-              "doc",
-              null,
-              [schema.node("paragraph", null, [schema.text("hello link!")])],
-              [
-                schema.mark("link", {
-                  title: "undefined",
-                  href: linkPage?.id,
-                }),
-              ]
-            )
+            .node("doc", null, [
+              schema.node("paragraph", null, [
+                schema.text("hello link!", [
+                  schema.mark("link", {
+                    title: "undefined",
+                    href: linkPage?.id,
+                  }),
+                ]),
+              ]),
+            ])
             .toJSON();
         }
 
