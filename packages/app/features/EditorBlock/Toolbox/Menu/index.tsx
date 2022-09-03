@@ -42,11 +42,6 @@ const Menu = (props: IProps) => {
               pageId: pageId,
               type: "text",
               nextTo: blockId,
-              properties: schema
-                .node("doc", null, [
-                  schema.node("paragraph", null, [schema.text("hello world!")]),
-                ])
-                .toJSON(),
             });
             mutate(`/api/v1/pages/${pageId}`);
             currentTarget.blur();
@@ -57,7 +52,8 @@ const Menu = (props: IProps) => {
       </li>
       <li>
         <button
-          onClick={async () => {
+          onClick={async (e) => {
+            const currentTarget = e.currentTarget;
             if (pageId == null) {
               return;
             }
@@ -65,8 +61,9 @@ const Menu = (props: IProps) => {
               pageId: pageId,
               type: "link",
               nextTo: blockId,
-              properties: {},
             })) as ILinkBlock;
+            currentTarget.blur();
+
             // router.push(block.properties.linkId);
           }}
         >

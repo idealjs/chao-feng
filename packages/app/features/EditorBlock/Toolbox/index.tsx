@@ -57,14 +57,10 @@ const Toolbox = (props: PropsWithChildren<IProps>) => {
             if (pageId == null) {
               return;
             }
+            console.log("test test createBlock");
             await createBlock({
               pageId,
               type: "text",
-              properties: schema
-                .node("doc", null, [
-                  schema.node("paragraph", null, [schema.text("hello world!")]),
-                ])
-                .toJSON(),
               nextTo: blockId,
             });
             mutate(`/api/v1/pages/${pageId}`);

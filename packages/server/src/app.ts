@@ -63,7 +63,8 @@ io.on("connection", async (socket) => {
   socket.on("LOAD_PROPERTIES_DOC", async (msg: { blockId: string }) => {
     console.group("[debug] LOAD_PROPERTIES_DOC");
 
-    let propertiesDoc = yDoc.getMap<Doc>("docMapOfBlockProperties").get(msg.blockId) ?? null;
+    let propertiesDoc =
+      yDoc.getMap<Doc>("docMapOfBlockProperties").get(msg.blockId) ?? null;
     console.debug("is propertiesDoc null?", propertiesDoc == null);
     console.groupEnd();
     if (propertiesDoc == null) {
@@ -108,7 +109,8 @@ io.on("connection", async (socket) => {
   socket.on(
     "PROPERTIES_DOC_UPDATED",
     async (msg: { blockId: string; update: ArrayBuffer }) => {
-      const propertiesDoc = yDoc.getMap<Doc>("docMapOfBlockProperties").get(msg.blockId) ?? null;
+      const propertiesDoc =
+        yDoc.getMap<Doc>("docMapOfBlockProperties").get(msg.blockId) ?? null;
       console.debug("[debug] PROPERTIES_DOC_UPDATED");
 
       if (propertiesDoc != null) {

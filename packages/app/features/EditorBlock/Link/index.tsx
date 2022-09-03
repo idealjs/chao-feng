@@ -1,4 +1,4 @@
-import { linkSchema } from "@idealjs/chao-feng-shared/lib/prosemirror";
+import { schema } from "@idealjs/chao-feng-shared/lib/prosemirror";
 
 import { IBaseTextBlock } from "../../../lib/type";
 import useComposistion from "../useComposition";
@@ -18,7 +18,7 @@ interface IProps {
 const Link = (props: IProps) => {
   const { blockId } = props;
 
-  const [ref, editor] = useProseMirror<HTMLDivElement>(blockId, linkSchema);
+  const [ref, editor] = useProseMirror<HTMLDivElement>(blockId, schema);
   useComposistion(editor, blockId);
 
   return <div ref={ref}></div>;

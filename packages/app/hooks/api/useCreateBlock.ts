@@ -6,13 +6,8 @@ import { useSocket } from "../../features/SocketProvider";
 const useCreateBlock = () => {
   const socket = useSocket();
   return useCallback(
-    async (params: {
-      pageId: string;
-      type: string;
-      properties: Prisma.InputJsonValue;
-      nextTo?: string;
-    }) => {
-      const { pageId, type, properties, nextTo } = params;
+    async (params: { pageId: string; type: string; nextTo?: string }) => {
+      const { pageId, type, nextTo } = params;
       const res = await fetch("/api/v1/blocks", {
         method: "POST",
         headers: {
@@ -21,7 +16,6 @@ const useCreateBlock = () => {
         body: JSON.stringify({
           pageId,
           type,
-          properties,
           nextTo: nextTo,
         }),
       });

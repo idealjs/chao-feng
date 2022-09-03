@@ -11,17 +11,6 @@ export const schema = new Schema({
     },
     text: { inline: true },
   },
-});
-
-export const linkSchema = new Schema({
-  nodes: {
-    doc: {
-      content: "text*",
-    },
-    text: {
-      group: "inline",
-    },
-  },
   marks: {
     link: {
       attrs: {
@@ -33,7 +22,7 @@ export const linkSchema = new Schema({
         {
           tag: "a[href]",
           getAttrs(dom: HTMLElement | string) {
-            if (dom instanceof HTMLElement) {
+            if (typeof dom != "string") {
               return {
                 href: dom.getAttribute("href"),
                 title: dom.getAttribute("title"),

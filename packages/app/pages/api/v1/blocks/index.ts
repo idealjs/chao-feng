@@ -1,4 +1,5 @@
 import prisma from "@idealjs/chao-feng-shared/lib/prisma";
+import { schema } from "@idealjs/chao-feng-shared/lib/prosemirror";
 import type { Prisma } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -18,10 +19,9 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       break;
     }
     case "POST": {
-      const { pageId, type, properties, nextTo } = body as {
+      const { pageId, type, nextTo } = body as {
         pageId: string;
         type: string;
-        properties?: Prisma.InputJsonObject;
         nextTo?: string;
       };
       if (pageId == null) {
@@ -36,12 +36,12 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         });
         return;
       }
-      if (properties == null) {
-        res.status(422).json({
-          msg: "missing properties",
-        });
-        return;
-      }
+
+      let properties: Record<string, any> = schema
+        .node("doc", null, [
+          schema.node("paragraph", null, [schema.text("hello world!")]),
+        ])
+        .toJSON();
 
       const transactionRes = await prisma.$transaction(async (prisma) => {
         let linkPage;
@@ -68,7 +68,21 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
               },
             },
           });
+          properties = schema
+            .node(
+              "doc",
+              null,
+              [schema.node("paragraph", null, [schema.text("hello link!")])],
+              [
+                schema.mark("link", {
+                  title: "undefined",
+                  href: linkPage?.id,
+                }),
+              ]
+            )
+            .toJSON();
         }
+
         const block = await prisma.block.create({
           data: {
             page: {
@@ -77,10 +91,7 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
               },
             },
             type,
-            properties: {
-              ...properties,
-              linkId: linkPage?.id,
-            },
+            properties: properties,
           },
           include: {
             page: true,
