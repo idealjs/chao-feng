@@ -5,6 +5,21 @@ import { encodeStateAsUpdate } from "yjs";
 import usePropertiesDoc from "../../hooks/yjs/usePropertiesDoc";
 import { syncSuspenseProxy } from "../../hooks/yjs/useSyncPropertiesDoc";
 import { useSocket } from "../SocketProvider";
+import { useEditorView } from "./PMEditor";
+
+interface IProps {
+  blockId: string;
+}
+
+const Composistion = (props: IProps) => {
+  const { blockId } = props;
+  const editor = useEditorView();
+
+  useComposistion(editor, blockId);
+
+  return null;
+};
+export default Composistion;
 
 const useComposistion = (editor: EditorView | null, blockId: string) => {
   const propertiesDoc = usePropertiesDoc(blockId);
@@ -36,5 +51,3 @@ const useComposistion = (editor: EditorView | null, blockId: string) => {
     };
   }, [blockId, editor?.dom, propertiesDoc, socket]);
 };
-
-export default useComposistion;
