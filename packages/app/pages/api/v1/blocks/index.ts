@@ -73,7 +73,7 @@ const pagesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
               schema.node("paragraph", null, [
                 schema.text("hello link!", [
                   schema.mark("link", {
-                    title: "undefined",
+                    title: "untitled",
                     href: linkPage?.id,
                   }),
                 ]),
