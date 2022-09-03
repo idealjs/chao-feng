@@ -62,8 +62,7 @@ const Toolbox = (props: PropsWithChildren<IProps>) => {
               type: "text",
               properties: schema
                 .node("doc", null, [
-                  schema.node("paragraph", null, [schema.text("hello ")]),
-                  schema.node("paragraph", null, [schema.text("world!")]),
+                  schema.node("paragraph", null, [schema.text("hello world!")]),
                 ])
                 .toJSON(),
               nextTo: blockId,

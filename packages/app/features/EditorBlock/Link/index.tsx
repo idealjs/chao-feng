@@ -1,9 +1,8 @@
-import { BookOpenIcon } from "@heroicons/react/outline";
-import { useRouter } from "next/router";
+import { linkSchema } from "@idealjs/chao-feng-shared/lib/prosemirror";
 
-import usePage from "../../../hooks/usePage";
 import { IBaseTextBlock } from "../../../lib/type";
-
+import useComposistion from "../useComposition";
+import useProseMirror from "../useProseMirror";
 export interface ILinkBlock extends IBaseTextBlock {
   type: "text";
   properties: {
@@ -13,25 +12,16 @@ export interface ILinkBlock extends IBaseTextBlock {
 }
 
 interface IProps {
-  block: ILinkBlock;
+  blockId: string;
 }
 
 const Link = (props: IProps) => {
-  const { block } = props;
-  const router = useRouter();
-  const page = usePage(block.properties.linkId);
+  const { blockId } = props;
 
-  return (
-    <div
-      className="cursor-pointer flex items-center"
-      onClick={() => {
-        router.push(block.properties.linkId);
-      }}
-    >
-      <BookOpenIcon className="h-5" />
-      <div>Link {page?.name ?? "untitled"}</div>
-    </div>
-  );
+  const [ref, editor] = useProseMirror<HTMLDivElement>(blockId, linkSchema);
+  useComposistion(editor, blockId);
+
+  return <div ref={ref}></div>;
 };
 
 export default Link;

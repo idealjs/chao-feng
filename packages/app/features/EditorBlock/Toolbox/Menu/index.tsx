@@ -44,8 +44,7 @@ const Menu = (props: IProps) => {
               nextTo: blockId,
               properties: schema
                 .node("doc", null, [
-                  schema.node("paragraph", null, [schema.text("hello ")]),
-                  schema.node("paragraph", null, [schema.text("world!")]),
+                  schema.node("paragraph", null, [schema.text("hello world!")]),
                 ])
                 .toJSON(),
             });
@@ -68,7 +67,7 @@ const Menu = (props: IProps) => {
               nextTo: blockId,
               properties: {},
             })) as ILinkBlock;
-            router.push(block.properties.linkId);
+            // router.push(block.properties.linkId);
           }}
         >
           create sub page

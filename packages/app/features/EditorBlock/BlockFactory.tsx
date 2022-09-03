@@ -32,22 +32,12 @@ const BlockFactory = (props: IProps) => {
   if (isLinkBlock(block)) {
     return (
       <Toolbox blockId={block.id}>
-        <Link block={block} />
+        <Link blockId={block.id} />
       </Toolbox>
     );
   }
 
-  return block ? (
-    <Toolbox blockId={block.id}>unknown block {block.type}</Toolbox>
-  ) : (
-    <div
-      onClick={() => {
-        console.log("test test", rootDoc?.getMap<Block>("blocks").get(blockId));
-      }}
-    >
-      no block data
-    </div>
-  );
+  return <Toolbox blockId={blockId}>unknown block {block?.type}</Toolbox>;
 };
 
 export default BlockFactory;
