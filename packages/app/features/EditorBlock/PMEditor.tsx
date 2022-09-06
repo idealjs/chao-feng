@@ -29,7 +29,7 @@ const PMEditor = (props: PropsWithChildren<IProps>) => {
   }, [editorProps]);
 
   return (
-    <div ref={ref}>
+    <div ref={ref} className={"relative"}>
       {editor && <context.Provider value={editor}>{children}</context.Provider>}
     </div>
   );

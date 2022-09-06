@@ -1,4 +1,5 @@
 import { schema } from "@idealjs/chao-feng-shared/lib/prosemirror";
+import Link from "next/link";
 
 import usePluginKey, { StoredPluginKey } from "../plugins/usePluginKey";
 import { useEditorView } from "../PMEditor";
@@ -21,7 +22,11 @@ const PMLink = (props: IProps) => {
     return mark;
   });
 
-  return <a href={mark?.attrs.href}>{mark?.attrs?.title}</a>;
+  return mark?.attrs.href != null ? (
+    <Link href={mark?.attrs.href}>
+      <a>{mark?.attrs?.title}</a>
+    </Link>
+  ) : null;
 };
 
 export default PMLink;

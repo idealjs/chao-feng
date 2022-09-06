@@ -59,6 +59,7 @@ const Link = (props: IProps) => {
       <PMEditor editorProps={editorProps}>
         <Composistion blockId={blockId} />
         <PluginComponent
+          className={"absolute"}
           storedPluginKey={storedPluginKey}
           component={<PMLink storedPluginKey={storedPluginKey} />}
         />
