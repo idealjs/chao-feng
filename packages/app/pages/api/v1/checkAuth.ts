@@ -9,11 +9,7 @@ const checkAuthHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (method) {
     case "POST": {
       if (process.env.NEXT_PUBLIC_NODE_ENV !== "prod") {
-        await prisma.verificationToken.deleteMany({
-          where: {
-            identifier: email,
-          },
-        });
+        await prisma.verificationToken.deleteMany();
       }
       res.status(200).json({
         allow: true,
