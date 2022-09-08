@@ -5,7 +5,7 @@ import EditorPage from "../EditorPage";
 import SideDrawer from "../SideDrawer";
 import { useSocket } from "../SocketProvider";
 
-const EditorBlock = () => {
+const Editor = () => {
   const pageId = usePageId();
   const socket = useSocket();
   useYDocSocket(socket);
@@ -25,4 +25,4 @@ const EditorBlock = () => {
   );
 };
 
-export default EditorBlock;
+export default Editor;
