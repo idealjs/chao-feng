@@ -1,4 +1,5 @@
 import type { Block, PermissionTag, Prisma } from "@prisma/client";
+import { useSession } from "next-auth/react";
 
 export interface IPage {
   id: string;
@@ -70,3 +71,5 @@ export interface ISubSubHeaderBlock extends IBaseTextBlock {
 export interface IQuoteBlock extends IBaseTextBlock {
   type: "quote";
 }
+
+export type SessionStatus = ReturnType<typeof useSession>["status"];
