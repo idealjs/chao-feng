@@ -1,9 +1,6 @@
-import type { Block } from "@prisma/client";
-
 import useBlock from "../../hooks/yjs/useBlock";
 import useLoadPropertiesDoc from "../../hooks/yjs/useLoadPropertiesDoc";
 import useSyncPropertiesDoc from "../../hooks/yjs/useSyncPropertiesDoc";
-import { useYDoc } from "../../lib/react-yjs/src/YDocProvider";
 import Link, { isLinkBlock } from "./Link";
 import Text, { isTextBlock } from "./Text";
 import Toolbox from "./Toolbox";
@@ -15,7 +12,6 @@ interface IProps {
 const BlockFactory = (props: IProps) => {
   const { blockId } = props;
 
-  const rootDoc = useYDoc();
   const block = useBlock(blockId);
 
   useSyncPropertiesDoc(blockId);
@@ -23,16 +19,16 @@ const BlockFactory = (props: IProps) => {
 
   if (isTextBlock(block)) {
     return (
-      <Toolbox blockId={block.id}>
-        <Text blockId={block.id} />
+      <Toolbox blockId={blockId}>
+        <Text blockId={blockId} />
       </Toolbox>
     );
   }
 
   if (isLinkBlock(block)) {
     return (
-      <Toolbox blockId={block.id}>
-        <Link blockId={block.id} />
+      <Toolbox blockId={blockId}>
+        <Link blockId={blockId} />
       </Toolbox>
     );
   }
