@@ -14,8 +14,8 @@
     "dev:deps": "docker-compose up"
   },
   "devDependencies": {
-    "concurrently": "^7.2.2",
+    "concurrently": "^7.4.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
-    "lerna": "^4.0.0"
+    "lerna": "^5.5.0"
   }
 }
