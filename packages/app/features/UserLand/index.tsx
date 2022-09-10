@@ -14,7 +14,7 @@ const UserLand = () => {
 
   useEffect(() => {
     if (status === "unauthenticated") {
-      router.push("/");
+      router.push("/notfound");
     }
   }, [router, status]);
 
@@ -24,7 +24,6 @@ const UserLand = () => {
 
   return (
     <YDocProvider>
-      {status}
       {pageId != null && (
         <SocketProvider
           uri={process.env.NEXT_PUBLIC_WEBSOCKET_URL}
