@@ -26,8 +26,8 @@ const HeroInput = (props: IProps) => {
   const { title, content, input, nextInput, button, check, next } = props;
 
   const [checked, setChecked] = useState(check == null);
-  const emailRef = useRef<HTMLInputElement>(null);
-  const verCodeRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const nextInputRef = useRef<HTMLInputElement>(null);
 
   return (
     <div className="hero min-h-screen bg-base-200">
@@ -48,7 +48,7 @@ const HeroInput = (props: IProps) => {
                 placeholder={input?.placeholder}
                 className="input input-bordered"
                 autoComplete={"on"}
-                ref={emailRef}
+                ref={inputRef}
               />
             </div>
             {checked && (
@@ -60,7 +60,7 @@ const HeroInput = (props: IProps) => {
                   type="text"
                   placeholder={nextInput?.placeholder}
                   className="input input-bordered"
-                  ref={verCodeRef}
+                  ref={nextInputRef}
                 />
               </div>
             )}
@@ -70,14 +70,14 @@ const HeroInput = (props: IProps) => {
                 className="btn btn-primary"
                 onClick={async () => {
                   if (!checked) {
-                    if (await check?.(emailRef.current?.value)) {
+                    if (await check?.(inputRef.current?.value)) {
                       setChecked(true);
                     }
                   }
                   if (checked) {
                     await next?.(
-                      emailRef.current?.value,
-                      verCodeRef.current?.value
+                      inputRef.current?.value,
+                      nextInputRef.current?.value
                     );
                   }
                 }}
