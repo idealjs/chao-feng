@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 import usePageId from "../../hooks/usePageId";
 import YDocProvider from "../../lib/react-yjs/src/YDocProvider";
@@ -11,6 +11,10 @@ const UserLand = () => {
   const pageId = usePageId();
   const { data: session, status } = useSession();
   const router = useRouter();
+
+  const opts = useMemo(() => {
+    return { query: { pageId } };
+  }, [pageId]);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -25,10 +29,7 @@ const UserLand = () => {
   return (
     <YDocProvider>
       {pageId != null && (
-        <SocketProvider
-          uri={process.env.NEXT_PUBLIC_WEBSOCKET_URL}
-          opts={{ query: { pageId } }}
-        >
+        <SocketProvider uri={process.env.NEXT_PUBLIC_WEBSOCKET_URL} opts={opts}>
           <Editor />
         </SocketProvider>
       )}
