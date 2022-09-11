@@ -3,8 +3,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
 
-import usePage from "../../hooks/usePage";
 import useWorkspaceRouter from "../../hooks/useWorkspaceRouter";
+import usePage from "../../hooks/yjs/usePage";
 
 const SideDrawer = () => {
   const router = useRouter();

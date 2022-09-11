@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import {
   createContext,
   PropsWithChildren,
@@ -17,18 +18,22 @@ interface IProps {
 const SocketProvider = (props: PropsWithChildren<IProps>) => {
   const { children, uri, opts } = props;
   const [socket, setSocket] = useState<Socket | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
-    let socket: Socket | null = null;
     if (uri != null) {
-      socket = io(uri, opts);
+      const socket = io(uri, opts);
+      socket.on("error", (msg) => {
+        router.push("/notfound");
+      });
       setSocket(socket);
+
+      return () => {
+        socket?.close();
+        setSocket(null);
+      };
     }
-    return () => {
-      socket?.close();
-      setSocket(null);
-    };
-  }, [opts, uri]);
+  }, [opts, router, uri]);
 
   return <context.Provider value={socket}>{children}</context.Provider>;
 };
