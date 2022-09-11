@@ -1,3 +1,4 @@
+import prisma from "@idealjs/chao-feng-shared/lib/prisma";
 import { createAdapter } from "@socket.io/redis-adapter";
 import { createClient } from "redis";
 import { Server } from "socket.io";
@@ -25,10 +26,20 @@ subClient.connect();
 io.adapter(createAdapter(pubClient, subClient));
 
 io.on("connection", async (socket) => {
-  const { pageId } = socket.handshake.query as {
+  const { pageId, session } = socket.handshake.query as {
     pageId: string | undefined;
+    session: string | undefined;
   };
   // verify token
+  console.log("test test", session);
+
+  if (session == null) {
+    socket.emit("error", {
+      msg: "missing session",
+    });
+    socket.disconnect(true);
+    return;
+  }
 
   if (pageId == null) {
     socket.emit("error", {
@@ -37,6 +48,24 @@ io.on("connection", async (socket) => {
     socket.disconnect(true);
     return;
   }
+
+  // prisma.page.findUnique({
+  //   where: {
+  //     id: pageId,
+  //   },
+  //   include:{
+  //     workspace:{
+  //       select:{
+  //         profiles:{
+  //           where:{
+
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // });
+
   socket.join(pageId);
 
   yDoc.on("update", (update) => {

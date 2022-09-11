@@ -13,8 +13,8 @@ const UserLand = () => {
   const router = useRouter();
 
   const opts = useMemo(() => {
-    return { query: { pageId } };
-  }, [pageId]);
+    return { query: { pageId, session: session } };
+  }, [pageId, session]);
 
   useEffect(() => {
     if (status === "unauthenticated") {
