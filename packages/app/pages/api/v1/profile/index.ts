@@ -1,13 +1,12 @@
 import prisma from "@idealjs/chao-feng-shared/lib/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { unstable_getServerSession } from "next-auth";
-
-import { authOptions } from "../../auth/[...nextauth]";
+import { getToken } from "next-auth/jwt";
 
 const profileHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { query, body, method } = req;
-  const session = await unstable_getServerSession(req, res, authOptions);
-  if (session == null) {
+  const token = await getToken({ req });
+
+  if (token == null) {
     res.status(401).json(null);
     return;
   }
@@ -16,7 +15,7 @@ const profileHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       res.status(200).json(
         await prisma.profile.findUnique({
           where: {
-            userId: session?.user.id,
+            userId: token.sub,
           },
           include: {
             workspaces: true,

@@ -1,14 +1,13 @@
 import prisma from "@idealjs/chao-feng-shared/lib/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { unstable_getServerSession } from "next-auth";
+import { getToken } from "next-auth/jwt";
 
 import { SCRUD, TAG_TYPE } from "../../../../lib/type";
-import { authOptions } from "../../auth/[...nextauth]";
 
 const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { query, body, method } = req;
-  const session = await unstable_getServerSession(req, res, authOptions);
-  if (session == null) {
+  const token = await getToken({ req });
+  if (token == null) {
     res.status(401).json(null);
     return;
   }
@@ -22,19 +21,16 @@ const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       break;
     }
     case "POST": {
-      if (session.user.id == null) {
+      if (token.sub) {
         res.status(422).json({ error: "Missing subject in token" });
         return;
       }
-      if (name == null || session.user == null) {
+      if (name == null) {
         res.status(422).json({ error: "Missing name" });
         return;
       }
 
       const transactionRes = await prisma.$transaction(async (prisma) => {
-        if (session.user == null) {
-          return;
-        }
         const tag = await prisma.permissionTag.create({
           data: {
             name: `workspace:${name}`,
@@ -66,7 +62,7 @@ const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         await prisma.user.update({
           where: {
-            id: session.user.id,
+            id: token.sub,
           },
           data: {
             profile: {

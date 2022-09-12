@@ -58,13 +58,8 @@ const mockProvider: Provider[] = [
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
-  callbacks: {
-    session: ({ session, user, token }) => {
-      return {
-        ...session,
-        user: user,
-      };
-    },
+  session: {
+    strategy: "jwt",
   },
   providers:
     process.env.NEXT_PUBLIC_NODE_ENV === "prod" ? providers : mockProvider,
