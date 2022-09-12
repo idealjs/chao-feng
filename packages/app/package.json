@@ -17,6 +17,7 @@
     "clsx": "^1.1.1",
     "daisyui": "^2.24.0",
     "events": "^3.3.0",
+    "jsonwebtoken": "^8.5.1",
     "nanoid": "^4.0.0",
     "next": "12.2.5",
     "next-auth": "^4.10.3",
@@ -38,6 +39,7 @@
     "yjs": "^13.5.41"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^8.5.9",
     "@types/node": "18.7.13",
     "@types/react": "18.0.17",
     "@types/react-dom": "18.0.6",

@@ -1,5 +1,6 @@
 import prisma from "@idealjs/chao-feng-shared/lib/prisma";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import jwt from "jsonwebtoken";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import { Provider } from "next-auth/providers";
 import EmailProvider from "next-auth/providers/email";
@@ -60,6 +61,30 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   session: {
     strategy: "jwt",
+  },
+  callbacks: {
+    jwt: ({ token, user }) => {
+      if (user) {
+        return {
+          ...token,
+          externalJwt: jwt.sign(
+            {
+              sub: token.sub,
+              email: token.email,
+            },
+            process.env.EXTERNAL_SECRET ?? "",
+            { expiresIn: "30d" }
+          ),
+        };
+      }
+      return token;
+    },
+    session: ({ session, user, token }) => {
+      return {
+        ...session,
+        externalJwt: token.externalJwt,
+      };
+    },
   },
   providers:
     process.env.NEXT_PUBLIC_NODE_ENV === "prod" ? providers : mockProvider,

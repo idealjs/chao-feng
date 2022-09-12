@@ -26,16 +26,15 @@ subClient.connect();
 io.adapter(createAdapter(pubClient, subClient));
 
 io.on("connection", async (socket) => {
-  const { pageId, session } = socket.handshake.query as {
+  const { pageId, externalJwt } = socket.handshake.query as {
     pageId: string | undefined;
-    session: string | undefined;
+    externalJwt: string | undefined;
   };
   // verify token
-  console.log("test test", session);
 
-  if (session == null) {
+  if (externalJwt == null) {
     socket.emit("error", {
-      msg: "missing session",
+      msg: "missing externalJwt",
     });
     socket.disconnect(true);
     return;
