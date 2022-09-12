@@ -57,7 +57,6 @@ const Toolbox = (props: PropsWithChildren<IProps>) => {
             if (pageId == null) {
               return;
             }
-            console.log("test test createBlock");
             await createBlock({
               pageId,
               type: "text",
