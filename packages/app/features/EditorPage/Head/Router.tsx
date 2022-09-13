@@ -8,7 +8,7 @@ const Router = () => {
   const parents = useParents(pageId);
 
   return (
-    <div className="invisible lg:visible text-sm breadcrumbs">
+    <div className="invisible lg:visible text-sm breadcrumbs ml-2">
       <ul>
         {parents?.map((page) => {
           return (
