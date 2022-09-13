@@ -21,7 +21,7 @@ const workspacesHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       break;
     }
     case "POST": {
-      if (token.sub) {
+      if (token.sub == null) {
         res.status(400).json({ error: "Missing subject in token" });
         return;
       }
