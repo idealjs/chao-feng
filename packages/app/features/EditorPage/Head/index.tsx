@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import Router from "./Router";
 
 const Head = () => {
@@ -7,7 +9,9 @@ const Head = () => {
         <label htmlFor="chaofeng-drawer" className="lg:hidden">
           Open drawer
         </label>
-        <Router />
+        <Suspense fallback={<div className="h-9" />}>
+          <Router />
+        </Suspense>
       </div>
 
       <div></div>

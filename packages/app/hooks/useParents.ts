@@ -11,7 +11,8 @@ interface IPage {
 const useParents = (pageId: string | undefined) => {
   const { data } = useSWR<IPage[]>(
     pageId != null ? `/api/v1/pages/parent?pageId=${pageId}` : null,
-    fetcher
+    fetcher,
+    { suspense: true }
   );
 
   return [...(data ?? [])].reverse();
