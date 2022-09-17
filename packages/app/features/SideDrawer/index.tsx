@@ -1,17 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
 
-import useWorkspaceRouter from "../../hooks/useWorkspaceRouter";
-import usePage from "../../hooks/yjs/usePage";
+import WorkspaceMenu from "./WorkspaceMenu";
 
 const SideDrawer = () => {
-  const router = useRouter();
-  const { pid } = router.query as { pid: string | undefined };
-  const page = usePage(pid);
-  const workspace = useWorkspaceRouter(page?.workspaceId);
-
   return (
     <aside className="bg-base-200 w-80 sm:border-r-2 sm:border-gray-300 flex flex-col">
       <div className="sticky flex items-baseline px-4 py-2 gap-2">
@@ -26,8 +18,8 @@ const SideDrawer = () => {
       </div>
       <div className="flex-1 flex flex-col justify-between">
         <ul className="menu menu-compact lg:menu-normal rounded-box p-0 px-4">
-          <li>
-            <span>{workspace?.name}</span>
+          <li className="dropdown">
+            <WorkspaceMenu />
           </li>
         </ul>
         <ul className="menu menu-compact lg:menu-normal rounded-box p-4">
