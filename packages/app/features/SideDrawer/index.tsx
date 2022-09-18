@@ -17,11 +17,15 @@ const SideDrawer = () => {
         </div>
       </div>
       <div className="flex-1 flex flex-col justify-between">
-        <ul className="menu menu-compact lg:menu-normal rounded-box p-0 px-4">
-          <li className="dropdown">
-            <WorkspaceMenu />
-          </li>
-        </ul>
+        <div>
+          <WorkspaceMenu />
+          <ul className="menu menu-compact lg:menu-normal rounded-box p-0 px-4">
+            <li>
+              <a>sign out</a>
+            </li>
+          </ul>
+        </div>
+
         <ul className="menu menu-compact lg:menu-normal rounded-box p-4">
           <li
             onClick={async () => {

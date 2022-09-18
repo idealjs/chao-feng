@@ -1,28 +1,31 @@
 import React from "react";
 
 import usePageId from "../../../hooks/usePageId";
+import useProfile from "../../../hooks/useProfile";
 import useWorkspaceRouter from "../../../hooks/useWorkspaceRouter";
 import usePage from "../../../hooks/yjs/usePage";
 
 const WorkspaceMenu = () => {
+  const { profile } = useProfile();
   const pageId = usePageId();
   const page = usePage(pageId);
   const workspace = useWorkspaceRouter(page?.workspaceId);
 
   return (
-    <div tabIndex={0} className={"block"}>
-      {workspace?.name}
-      <ul
-        tabIndex={0}
-        className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 flex"
-      >
-        <li>
-          <a>Item 1</a>
-        </li>
-        <li>
-          <a>Item 2</a>
-        </li>
-      </ul>
+    <div className="collapse hover:bg-base-content hover:bg-opacity-10 overflow-visible rounded-box ">
+      <input type="checkbox" />
+      <div className="collapse-title">{workspace?.name}</div>
+      <div className="collapse-content absolute">
+        <ul className="menu bg-base-100 w-full rounded-box z-10">
+          {profile?.workspaces.map((workspace) => {
+            return (
+              <li key={workspace.id}>
+                <a>{workspace.name}</a>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </div>
   );
 };
