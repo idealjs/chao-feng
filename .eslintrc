@@ -12,6 +12,7 @@
       {
         "enableDangerousAutofixThisMayCauseInfiniteLoops": true
       }
-    ]
+    ],
+    "react/display-name": "warn"
   }
 }

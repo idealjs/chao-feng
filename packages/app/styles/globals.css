@@ -7,3 +7,5 @@
     outline: none;
   }
 }
+
+@import "../components/DropdownMenu/DropdownMenu.css";

@@ -1,0 +1,7 @@
+.dropdown-menu .dropdown-menu-content {
+  @apply invisible opacity-0;
+}
+.dropdown-menu.dropdown-menu-open .dropdown-menu-content,
+.dropdown-menu.dropdown-menu-hover:hover .dropdown-menu-content {
+  @apply visible opacity-100;
+}
