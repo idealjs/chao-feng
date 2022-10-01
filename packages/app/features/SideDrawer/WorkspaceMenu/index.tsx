@@ -17,7 +17,7 @@ const WorkspaceMenu = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuButton className="cursor-pointer py-3 px-4 hover:bg-base-content hover:bg-opacity-10">
+      <DropdownMenuButton className="dropdown-menu-arrow">
         {workspace?.name}
       </DropdownMenuButton>
       <DropdownMenuItems className="menu">
