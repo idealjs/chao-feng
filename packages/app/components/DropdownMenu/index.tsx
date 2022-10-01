@@ -6,9 +6,11 @@ interface IProps extends IPropsWithClassName {}
 const DropdownMenu = (props: PropsWithChildren<IProps>) => {
   const { className, children } = props;
   const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   return (
     <div
+      ref={ref}
       tabIndex={0}
       className={clsx(
         "dropdown-menu",
@@ -19,6 +21,9 @@ const DropdownMenu = (props: PropsWithChildren<IProps>) => {
       )}
       onClick={(e) => {
         setOpen((o) => {
+          if (o === true) {
+            ref.current?.blur();
+          }
           return !o;
         });
       }}

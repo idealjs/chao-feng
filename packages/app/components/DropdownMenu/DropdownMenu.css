@@ -1,7 +1,38 @@
-.dropdown-menu .dropdown-menu-content {
-  @apply invisible opacity-0;
+/* unstyled */
+.dropdown-menu {
+  user-select: none;
+  position: relative;
 }
+
+.dropdown-menu .dropdown-menu-content {
+  @apply invisible opacity-0 absolute;
+}
+
 .dropdown-menu.dropdown-menu-open .dropdown-menu-content,
 .dropdown-menu.dropdown-menu-hover:hover .dropdown-menu-content {
   @apply visible opacity-100;
+}
+
+.dropdown-menu-arrow::after {
+  @apply absolute block h-2 w-2 transition-all ease-in-out rotate-[45deg] translate-y-[-100%];
+  transition-duration: 0.2s;
+  top: 50%;
+  right: 1.4rem;
+  content: "";
+  transform-origin: 75% 75%;
+  box-shadow: 2px 2px;
+  pointer-events: none;
+}
+
+.dropdown-menu:focus .dropdown-menu-arrow:after {
+  @apply rotate-[225deg] translate-y-[-50%];
+}
+
+/* styled */
+.dropdown-menu-button {
+  @apply cursor-pointer py-3 px-4 hover:bg-base-content hover:bg-opacity-10;
+}
+
+.dropdown-menu .dropdown-menu-content {
+  @apply w-full;
 }
