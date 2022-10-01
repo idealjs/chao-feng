@@ -4,6 +4,7 @@ import { DirectEditorProps } from "prosemirror-view";
 import { useEffect, useMemo, useState } from "react";
 import { ySyncPlugin } from "y-prosemirror";
 
+import useBlockXmlFragment from "../../../hooks/yjs/useBlockXmlFragment";
 import usePropertiesDoc from "../../../hooks/yjs/usePropertiesDoc";
 import { IBaseTextBlock } from "../../../lib/type";
 import Composistion from "../Composistion";
@@ -33,9 +34,7 @@ const Text = (props: IProps) => {
 
   const propertiesDoc = usePropertiesDoc(blockId);
 
-  const yXmlFragment = useMemo(() => {
-    return propertiesDoc?.getXmlFragment("prosemirror");
-  }, [propertiesDoc]);
+  const yXmlFragment = useBlockXmlFragment(blockId);
 
   const createPlugin = useCreatePlugin();
 
@@ -65,7 +64,9 @@ const Text = (props: IProps) => {
 
 export default Text;
 
-export const isTextBlock = (block?: { type: string }): block is ITextBlock => {
+export const isTextBlock = (
+  block: { type: string } | undefined | null
+): block is ITextBlock => {
   if (block?.type === "text") {
     return true;
   }

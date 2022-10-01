@@ -6,14 +6,24 @@ import { YXmlFragment } from "yjs/dist/src/internals";
 import { IBlock, IPage } from "../lib/type";
 
 const yDoc = new Doc();
-const yMapPages = yDoc.getMap<IPage | null>("pages");
+const yMapPages = yDoc.getMap<IPage[keyof IPage]>("pageData");
 const yMapBlocks = yDoc.getMap<IBlock | null>("blocks");
 const yMapBlockYXmlFragment = yDoc.getMap<YXmlFragment>("blockYXmlFragment");
 
-const proxyPages = proxy<Record<string, IPage | null>>({});
+const proxyPage = proxy<IPage>();
 const proxyBlocks = proxy<Record<string, IBlock | null>>({});
 
-bindProxyAndYMap(proxyPages, yMapPages);
+bindProxyAndYMap(
+  proxyPage as unknown as Record<string, IPage[keyof IPage]>,
+  yMapPages
+);
 bindProxyAndYMap(proxyBlocks, yMapBlocks);
 
-export { proxyBlocks, proxyPages, yDoc, yMapBlockYXmlFragment };
+export {
+  proxyBlocks,
+  proxyPage,
+  yDoc,
+  yMapBlocks,
+  yMapBlockYXmlFragment,
+  yMapPages,
+};

@@ -1,13 +1,14 @@
-import type { Block } from "@prisma/client";
+import { useMemo } from "react";
+import { useSnapshot } from "valtio";
 
-import { useYDocSelector } from "../../lib/react-yjs";
-import { useYDoc } from "../../lib/react-yjs/src/YDocProvider";
+import { proxyBlocks } from "../../features/state";
 
 const useBlock = (blockId: string) => {
-  const rootDoc = useYDoc();
-  return useYDocSelector(rootDoc, (yDoc) => {
-    return yDoc?.getMap<Block>("blocks").get(blockId);
-  });
+  const blocks = useSnapshot(proxyBlocks);
+
+  return useMemo(() => {
+    return blocks[blockId];
+  }, [blockId, blocks]);
 };
 
 export default useBlock;

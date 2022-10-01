@@ -1,21 +1,16 @@
-import prisma from "@idealjs/chao-feng-shared/lib/prisma";
 import { createAdapter } from "@socket.io/redis-adapter";
 import { createClient } from "redis";
 import { Server } from "socket.io";
-import { Doc } from "yjs";
+import { encodeStateAsUpdate } from "yjs";
 
 import onLoadPage from "./lib/onLoadPage";
-import onLoadPropertiesDoc from "./lib/onLoadPropertiesDoc";
-import onPropertiesDocUpdated from "./lib/onPropertiesDocUpdated";
-import onRootDocUpdated from "./lib/onRootDocUpdated";
+import { getPageDoc } from "./proxyDocs";
 
 const io = new Server({
   cors: {
     origin: "*",
   },
 });
-
-const yDoc = new Doc();
 
 const pubClient = createClient({ url: "redis://localhost:6379" });
 const subClient = pubClient.duplicate();
@@ -48,39 +43,19 @@ io.on("connection", async (socket) => {
     return;
   }
 
-  // prisma.page.findUnique({
-  //   where: {
-  //     id: pageId,
-  //   },
-  //   include:{
-  //     workspace:{
-  //       select:{
-  //         profiles:{
-  //           where:{
-
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  // });
+  const yDocPage = await getPageDoc(pageId, (yDoc) => {
+    const update = encodeStateAsUpdate(yDoc);
+    console.debug("[debug] DOC_UPDATE getPageDoc");
+    socket.emit("DOC_UPDATE", {
+      update: update,
+    });
+  });
 
   socket.join(pageId);
 
-  yDoc.on("update", (update) => {
+  yDocPage.on("update", (update) => {
     socket.emit("DOC_UPDATE", { update });
   });
-
-  socket.on("LOAD_PAGE", onLoadPage({ socket, yDoc }));
-
-  socket.on("LOAD_PROPERTIES_DOC", onLoadPropertiesDoc({ socket, yDoc }));
-
-  socket.on(
-    "PROPERTIES_DOC_UPDATED",
-    onPropertiesDocUpdated({ socket, yDoc, pageId })
-  );
-
-  socket.on("ROOT_DOC_UPDATED", onRootDocUpdated({ socket, yDoc }));
 });
 
 export default io;

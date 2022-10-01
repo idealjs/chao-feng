@@ -14,8 +14,8 @@ const BlockFactory = (props: IProps) => {
 
   const block = useBlock(blockId);
 
-  useSyncPropertiesDoc(blockId);
-  useLoadPropertiesDoc(blockId);
+  // useSyncPropertiesDoc(blockId);
+  // useLoadPropertiesDoc(blockId);
 
   if (isTextBlock(block)) {
     return (

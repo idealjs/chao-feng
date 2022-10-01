@@ -70,7 +70,9 @@ const Link = (props: IProps) => {
 
 export default Link;
 
-export const isLinkBlock = (block?: { type: string }): block is ILinkBlock => {
+export const isLinkBlock = (
+  block: { type: string } | undefined | null
+): block is ILinkBlock => {
   if (block?.type === "link") {
     return true;
   }

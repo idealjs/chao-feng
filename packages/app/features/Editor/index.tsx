@@ -9,7 +9,6 @@ const Editor = () => {
   const pageId = usePageId();
   const socket = useSocket();
   useYDocSocket(socket);
-  useLoadPageDoc(pageId);
 
   return (
     <div className="drawer drawer-mobile">
