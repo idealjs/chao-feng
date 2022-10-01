@@ -6,6 +6,7 @@ import usePageId from "../../hooks/usePageId";
 import YDocProvider from "../../lib/react-yjs/src/YDocProvider";
 import Editor from "../Editor";
 import SocketProvider from "../SocketProvider";
+import { yDoc } from "../state";
 
 const UserLand = () => {
   const pageId = usePageId();
@@ -27,7 +28,7 @@ const UserLand = () => {
   }
 
   return (
-    <YDocProvider>
+    <YDocProvider yDoc={yDoc}>
       {pageId != null && (
         <SocketProvider uri={process.env.NEXT_PUBLIC_WEBSOCKET_URL} opts={opts}>
           <Editor />

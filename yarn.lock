@@ -6485,10 +6485,17 @@ validate-npm-package-name@^4.0.0:
   dependencies:
     builtins "^5.0.0"
 
-valtio@^1.6.4:
-  version "1.6.4"
-  resolved "https://registry.npmmirror.com/valtio/-/valtio-1.6.4.tgz#ddab600cf58b54a76339ef1cc3e931f9fe6070ce"
-  integrity sha512-wEslN1bO1ihuv2Xj4jIxkGaDgsnwSvZdcaYcJ6aSwaNYU0ZMe+eZipfEzbTqd4CwnMu7ihDBNes0ZP5CIl1NqA==
+valtio-yjs@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.npmmirror.com/valtio-yjs/-/valtio-yjs-0.3.1.tgz#39962a8cbe6fd1f6e0246d4ff8c74914b18b3fff"
+  integrity sha512-g4Tx+MVWMlQz1O2amYDDFE97/f4HEGF/KAnMNXF0BGeSQDImnI4lGAK5L8jlKWZf8fI7SeANiVVWbL0PzoOW5g==
+  dependencies:
+    fast-deep-equal "^3.1.3"
+
+valtio@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.npmmirror.com/valtio/-/valtio-1.7.0.tgz#2105716db440402f7d0402073f938bdda7207acd"
+  integrity sha512-3Tnix66EERwMcrl1rfB3ylcewOcL5L/GiPmC3FlVNreQzqf2jufEeqlNmgnLgSGchkEmH3WYVtS+x6Qw4r+yzQ==
   dependencies:
     proxy-compare "2.3.0"
     use-sync-external-store "1.2.0"

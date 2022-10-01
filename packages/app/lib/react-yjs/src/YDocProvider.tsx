@@ -4,12 +4,11 @@ import { Doc } from "yjs";
 const context = createContext<Doc | null>(null);
 
 interface IProps {
-  initVector?: Uint8Array;
+  yDoc: Doc;
 }
 
 const YDocProvider = (props: PropsWithChildren<IProps>) => {
-  const { children } = props;
-  const yDoc = useMemo(() => new Doc(), []);
+  const { children, yDoc } = props;
   return <context.Provider value={yDoc}>{children}</context.Provider>;
 };
 

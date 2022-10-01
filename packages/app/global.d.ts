@@ -1,4 +1,5 @@
 import "next-auth";
+import "valtio";
 
 declare module "next-auth" {
   interface Session {
@@ -25,4 +26,8 @@ declare global {
     className?: string;
   }
   type PropsWithClassName<P = unknown> = P & { className?: string };
+}
+
+declare module "valtio" {
+  function useSnapshot<T extends object>(p: T): T;
 }
