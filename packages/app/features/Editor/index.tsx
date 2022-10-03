@@ -1,6 +1,5 @@
 import usePageId from "../../hooks/usePageId";
-import useLoadPageDoc from "../../hooks/yjs/useLoadPage";
-import { useYDocSocket } from "../../lib/react-yjs";
+import useYDocSocket from "../../hooks/yjs/useYDocSocket";
 import EditorPage from "../EditorPage";
 import SideDrawer from "../SideDrawer";
 import { useSocket } from "../SocketProvider";

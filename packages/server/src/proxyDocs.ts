@@ -50,6 +50,7 @@ const getPageDoc = async (
   let yDocPage = proxyDocs.get(pageId);
   if (yDocPage == null) {
     yDocPage = await createPageDoc(pageId);
+    proxyDocs.set(pageId, yDocPage);
   }
 
   sendUpdate(yDocPage);

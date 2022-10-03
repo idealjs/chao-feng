@@ -1,9 +1,8 @@
 import { createAdapter } from "@socket.io/redis-adapter";
 import { createClient } from "redis";
 import { Server } from "socket.io";
-import { encodeStateAsUpdate } from "yjs";
+import { applyUpdate, encodeStateAsUpdate } from "yjs";
 
-import onLoadPage from "./lib/onLoadPage";
 import { getPageDoc } from "./proxyDocs";
 
 const io = new Server({
@@ -45,13 +44,23 @@ io.on("connection", async (socket) => {
 
   const yDocPage = await getPageDoc(pageId, (yDoc) => {
     const update = encodeStateAsUpdate(yDoc);
-    console.debug("[debug] DOC_UPDATE getPageDoc");
+    console.debug(
+      "[debug] DOC_UPDATE getPageDoc",
+      yDoc.getMap("prosemirror").toJSON()
+    );
     socket.emit("DOC_UPDATE", {
       update: update,
     });
   });
 
   socket.join(pageId);
+
+  socket.on("DOC_UPDATE", (msg: { pageId: string; update: ArrayBuffer }) => {
+    console.debug("[debug] REMOTE DOC_UPDATE");
+    if (msg.pageId === pageId) {
+      applyUpdate(yDocPage, new Uint8Array(msg.update));
+    }
+  });
 
   yDocPage.on("update", (update) => {
     socket.emit("DOC_UPDATE", { update });

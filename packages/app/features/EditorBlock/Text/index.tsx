@@ -4,8 +4,8 @@ import { DirectEditorProps } from "prosemirror-view";
 import { useEffect, useMemo, useState } from "react";
 import { ySyncPlugin } from "y-prosemirror";
 
+import usePageId from "../../../hooks/usePageId";
 import useBlockXmlFragment from "../../../hooks/yjs/useBlockXmlFragment";
-import usePropertiesDoc from "../../../hooks/yjs/usePropertiesDoc";
 import { IBaseTextBlock } from "../../../lib/type";
 import Composistion from "../Composistion";
 import PluginComponent from "../plugins/PluginComponent";
@@ -32,7 +32,7 @@ const Text = (props: IProps) => {
     [blockId]
   );
 
-  const propertiesDoc = usePropertiesDoc(blockId);
+  const pageId = usePageId();
 
   const yXmlFragment = useBlockXmlFragment(blockId);
 
@@ -52,7 +52,7 @@ const Text = (props: IProps) => {
   return (
     editorProps && (
       <PMEditor editorProps={editorProps}>
-        <Composistion blockId={blockId} />
+        {pageId != null && <Composistion pageId={pageId} />}
         <PluginComponent
           storedPluginKey={storedPluginKey}
           component={<div>text plugin</div>}
