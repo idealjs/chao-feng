@@ -2,7 +2,7 @@ import prisma from "@idealjs/chao-feng-shared/lib/prisma";
 import { schema } from "@idealjs/chao-feng-shared/lib/prosemirror";
 import type { Block, Page } from "prisma/prisma-client";
 import { proxy } from "valtio/vanilla";
-import { bindProxyAndYMap } from "valtio-yjs";
+import { bind } from "valtio-yjs";
 import { prosemirrorJSONToYDoc } from "y-prosemirror";
 import { Doc, XmlFragment } from "yjs";
 
@@ -22,8 +22,8 @@ const getPageDoc = async (
 
     const page = await prisma.page.findUnique({ where: { id: pageId } });
     proxyPages[pageId] = page;
-    bindProxyAndYMap(proxyPages[pageId]!, yMapPageData);
-    bindProxyAndYMap(proxyBlocks, yDocPage.getMap<Block | null>("blocks"));
+    bind(proxyPages[pageId]!, yMapPageData);
+    bind(proxyBlocks, yDocPage.getMap<Block | null>("blocks"));
 
     const blocks = await prisma.block.findMany({
       where: {

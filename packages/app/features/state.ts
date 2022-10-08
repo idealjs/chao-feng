@@ -1,5 +1,5 @@
 import { proxy } from "valtio/vanilla";
-import { bindProxyAndYMap } from "valtio-yjs";
+import { bind } from "valtio-yjs";
 import { Doc } from "yjs";
 import { YXmlFragment } from "yjs/dist/src/internals";
 
@@ -13,11 +13,11 @@ const yMapBlockYXmlFragment = yDoc.getMap<YXmlFragment>("blockYXmlFragment");
 const proxyPage = proxy<IPage>();
 const proxyBlocks = proxy<Record<string, IBlock | null>>({});
 
-bindProxyAndYMap(
+bind(
   proxyPage as unknown as Record<string, IPage[keyof IPage]>,
   yMapPages
 );
-bindProxyAndYMap(proxyBlocks, yMapBlocks);
+bind(proxyBlocks, yMapBlocks);
 
 export {
   proxyBlocks,

@@ -39,6 +39,6 @@ const UserLand = () => {
 };
 
 export default UserLand;
-function bindProxyAndYMap(proxyPages: any, yMapPages: any) {
+function bind(proxyPages: any, yMapPages: any) {
   throw new Error("Function not implemented.");
 }
