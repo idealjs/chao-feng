@@ -63,7 +63,7 @@ io.on("connection", async (socket) => {
   });
 
   yDocPage.on("update", (update) => {
-    socket.emit("DOC_UPDATE", { update });
+    socket.broadcast.to(pageId).emit("DOC_UPDATE", { update });
   });
 });
 
