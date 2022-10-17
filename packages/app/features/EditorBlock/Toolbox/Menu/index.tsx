@@ -3,9 +3,9 @@ import clsx from "clsx";
 import { useRouter } from "next/router";
 import { useSWRConfig } from "swr";
 
-import useCreateBlock from "../../../../hooks/api/useCreateBlock";
 import useDeleteBlock from "../../../../hooks/api/useDeleteBlock";
 import usePageId from "../../../../hooks/usePageId";
+import useCreateBlock from "../../../../hooks/yjs/useCreateBlock";
 import { ILinkBlock } from "../../Link";
 
 interface IProps {
@@ -37,13 +37,9 @@ const Menu = (props: IProps) => {
             if (pageId == null) {
               return;
             }
-
-            await createBlock({
-              pageId: pageId,
+            createBlock({
               type: "text",
-              nextTo: blockId,
             });
-            mutate(`/api/v1/pages/${pageId}`);
             currentTarget.blur();
           }}
         >
@@ -57,11 +53,10 @@ const Menu = (props: IProps) => {
             if (pageId == null) {
               return;
             }
-            const block = (await createBlock({
-              pageId: pageId,
+            createBlock({
               type: "link",
-              nextTo: blockId,
-            })) as ILinkBlock;
+            });
+
             currentTarget.blur();
 
             // router.push(block.properties.linkId);

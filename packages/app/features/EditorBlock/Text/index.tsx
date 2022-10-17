@@ -53,10 +53,6 @@ const Text = (props: IProps) => {
     editorProps && (
       <PMEditor editorProps={editorProps}>
         {pageId != null && <Composistion pageId={pageId} />}
-        <PluginComponent
-          storedPluginKey={storedPluginKey}
-          component={<div>text plugin</div>}
-        />
       </PMEditor>
     )
   );

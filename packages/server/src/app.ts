@@ -59,11 +59,8 @@ io.on("connection", async (socket) => {
     console.debug("[debug] REMOTE DOC_UPDATE");
     if (msg.pageId === pageId) {
       applyUpdate(yDocPage, new Uint8Array(msg.update));
+      socket.to(pageId).emit("DOC_UPDATE", { update: msg.update });
     }
-  });
-
-  yDocPage.on("update", (update) => {
-    socket.broadcast.to(pageId).emit("DOC_UPDATE", { update });
   });
 });
 

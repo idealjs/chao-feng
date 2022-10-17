@@ -9,7 +9,7 @@ interface IProps {
 
 const BlockFactory = (props: IProps) => {
   const { blockId } = props;
-
+  
   const block = useBlock(blockId);
 
   if (isTextBlock(block)) {
