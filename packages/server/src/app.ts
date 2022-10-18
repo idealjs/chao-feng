@@ -3,7 +3,7 @@ import { createClient } from "redis";
 import { Server } from "socket.io";
 import { applyUpdate, encodeStateAsUpdate } from "yjs";
 
-import { getPageDoc } from "./proxyDocs";
+import { syncPage } from "./proxyDocs";
 
 const io = new Server({
   cors: {
@@ -42,7 +42,7 @@ io.on("connection", async (socket) => {
     return;
   }
 
-  const yDocPage = await getPageDoc(pageId, (yDoc) => {
+  const yDocPage = await syncPage(pageId, (yDoc) => {
     const update = encodeStateAsUpdate(yDoc);
     console.debug(
       "[debug] DOC_UPDATE getPageDoc",

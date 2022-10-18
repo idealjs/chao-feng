@@ -12,7 +12,7 @@ const proxyBlocks = proxy<Record<string, Block | null>>({});
 
 export default proxyDocs;
 
-const getPageDoc = async (
+const syncPage = async (
   pageId: string,
   sendUpdate: (yDoc: Doc) => void,
   createPageDoc = async (pageId: string) => {
@@ -58,4 +58,4 @@ const getPageDoc = async (
   return yDocPage;
 };
 
-export { getPageDoc, proxyPages };
+export { proxyPages,syncPage };
