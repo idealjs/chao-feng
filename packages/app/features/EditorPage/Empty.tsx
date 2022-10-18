@@ -1,30 +1,18 @@
-import { schema } from "@idealjs/chao-feng-shared/lib/prosemirror";
-import { useSWRConfig } from "swr";
-
-import useCreateBlock from "../../hooks/api/useCreateBlock";
+import useCreateBlock from "../../hooks/yjs/useCreateBlock";
 
 interface IProps {
   pageId: string;
 }
 
 const Empty = (props: IProps) => {
-  const { pageId } = props;
   const createBlock = useCreateBlock();
-  const { mutate } = useSWRConfig();
 
   return (
     <div
       onClick={async () => {
-        await createBlock({
-          pageId,
+        createBlock({
           type: "text",
-          properties: schema
-            .node("doc", null, [
-              schema.node("paragraph", null, [schema.text("hello world!")]),
-            ])
-            .toJSON(),
         });
-        mutate(`/api/v1/pages/${pageId}`);
       }}
     >
       click create block
