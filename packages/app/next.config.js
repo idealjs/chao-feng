@@ -2,6 +2,9 @@ const { PHASE_DEVELOPMENT_SERVER } = require("next/constants");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const { i18n } = require("./next-i18next.config");
 const withTM = require("next-transpile-modules")(["../shared"]); // pass the modules you would like to see transpiled
+const withPWA = require("next-pwa")({
+  dest: "public",
+});
 
 /** @type {import('next').NextConfig} */
 const nextConfig = (phase) => ({
@@ -14,7 +17,6 @@ const nextConfig = (phase) => ({
     }
     return config;
   },
-  swcMinify: true,
 });
 
-module.exports = withTM(nextConfig);
+module.exports = withTM(withPWA(nextConfig));
