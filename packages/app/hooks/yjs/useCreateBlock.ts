@@ -22,6 +22,22 @@ const useCreateBlock = () => {
           schema.node("paragraph", null, [schema.text("hello world!")]),
         ])
         .toJSON();
+
+      if (type === "link") {
+        properties = schema
+          .node("doc", null, [
+            schema.node("paragraph", null, [
+              schema.text("hello link!", [
+                schema.mark("link", {
+                  title: "untitled",
+                  href: "hello",
+                }),
+              ]),
+            ]),
+          ])
+          .toJSON();
+      }
+
       const key = "prosemirror";
 
       const doc = prosemirrorJSONToYDoc(schema, properties, key);
